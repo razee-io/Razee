@@ -1,0 +1,22 @@
+apiVersion: v1
+kind: List
+metadata:
+  name: Razee
+  namespace: razee
+items:
+#mongo
+- apiVersion: "kapitan.razee.io/v1alpha1"
+  kind: RemoteResource
+  metadata:
+    name: razeedash
+    namespace: razee
+    annotations:
+      razee.io/git-repo: "{{{GIT_REMOTE}}}"
+      razee.io/commit-sha: "{{TRAVIS_COMMIT}}"
+  spec:
+    requests:
+      - options:
+          url: https://github.com/razee-io/Razeedash-api/releases/latest/download/resource.yaml
+      - options:
+          url: https://github.com/razee-io/Razeedash/releases/latest/download/resource.yaml
+#ALB
