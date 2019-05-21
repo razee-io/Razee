@@ -3,8 +3,77 @@ kind: List
 metadata:
   name: Razee
   namespace: razee
+  annotations:
+    razee.io/git-repo: "{{{GIT_REMOTE}}}"
+    razee.io/commit-sha: "{{TRAVIS_COMMIT}}"
 items:
-#mongo
+# MongoDB Service resources
+- apiVersion: v1
+  kind: Secret
+  metadata:
+    name: razeedash-secret
+    namespace: razee
+    annotations:
+      razee.io/git-repo: "{{{GIT_REMOTE}}}"
+      razee.io/commit-sha: "{{TRAVIS_COMMIT}}"
+  type: Opaque
+  data:
+    mongo_url: bW9uZ29kYjovL21vbmdv4oCRMC5tb25nbzoyNzAxNy9yYXplZWRhc2g=
+- apiVersion: v1
+  kind: Service
+  metadata:
+    name: mongo
+    namespace: razee
+    labels:
+      app: mongo
+    annotations:
+      razee.io/git-repo: "{{{GIT_REMOTE}}}"
+      razee.io/commit-sha: "{{TRAVIS_COMMIT}}"
+  spec:
+    ports:
+    - name: mongo
+      port: 27017
+      targetPort: 27017
+    clusterIP: None
+    selector:
+      app: mongo
+- apiVersion: apps/v1
+  kind: StatefulSet
+  metadata:
+    name: mongo
+    namespace: razee
+    annotations:
+      razee.io/git-repo: "{{{GIT_REMOTE}}}"
+      razee.io/commit-sha: "{{TRAVIS_COMMIT}}"
+  spec:
+    selector:
+      matchLabels:
+        app: mongo
+    serviceName: "mongo"
+    replicas: 1
+    template:
+      metadata:
+        labels:
+          app: mongo
+      spec:
+        containers:
+        - name: mongo
+          image: mongo
+          ports:
+          - containerPort: 27017
+          volumeMounts:
+          - name: mongo-data
+            mountPath: /data/db
+    volumeClaimTemplates:
+    - metadata:
+        name: mongo-data
+      spec:
+        accessModes: [ "ReadWriteOnce" ]
+        storageClassName: ibmc-file-bronze
+        resources:
+          requests:
+            storage: 10Gi
+# Razeedash resources
 - apiVersion: "kapitan.razee.io/v1alpha1"
   kind: RemoteResource
   metadata:
@@ -19,4 +88,43 @@ items:
           url: https://github.com/razee-io/Razeedash-api/releases/latest/download/resource.yaml
       - options:
           url: https://github.com/razee-io/Razeedash/releases/latest/download/resource.yaml
-#ALB
+#ALB Resources
+- apiVersion: v1
+  kind: Service
+  metadata:
+    labels:
+      app: razeedash
+    name: razeedash-lb
+    namespace: razee
+    annotations:
+      razee.io/git-repo: "{{{GIT_REMOTE}}}"
+      razee.io/commit-sha: "{{TRAVIS_COMMIT}}"
+  spec:
+    externalTrafficPolicy: Cluster
+    ports:
+    - port: 8080
+      protocol: TCP
+      targetPort: 80
+    selector:
+      app: razeedash
+    sessionAffinity: ClientIP
+    type: LoadBalancer
+- apiVersion: v1
+  kind: Service
+  metadata:
+    labels:
+      app: razeedash-api
+    name: razeedash-api-lb
+    namespace: razee
+    annotations:
+      razee.io/git-repo: "{{{GIT_REMOTE}}}"
+      razee.io/commit-sha: "{{TRAVIS_COMMIT}}"
+  spec:
+    externalTrafficPolicy: Cluster
+    ports:
+    - port: 8081
+      protocol: TCP
+      targetPort: 3333
+    selector:
+      app: razeedash-api
+    type: LoadBalancer
