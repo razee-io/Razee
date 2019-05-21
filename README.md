@@ -7,7 +7,6 @@ See the following links to get started with Razee:
 - [Architecture overview](#architecture-overview)
   - [RazeeDash components](#razeedash-components)
   - [Kapitan components](#kapitan-components)
-- [Contribution guidelines](#contribution-guidelines)
 - [Prerequisites](#prerequisites)
 - [Step 1: Install Razee](#step-1-install-razee)
 - [Step 2: Visualize deployment information in RazeeDash](#step-2-visualize-deployment-information-in-razeedash)
@@ -87,10 +86,6 @@ Take a look at the Razee architecture to see how Razee components interact, and 
       </tr>
    </tbody>
 </table>
-
-## Contribution guidelines
-
-???
 
 ## Prerequisites
 
