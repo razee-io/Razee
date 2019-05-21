@@ -1,0 +1,29 @@
+language: node_js
+
+node_js:
+  - "11"
+
+script:
+  - ./build/process-template.sh kubernetes/RemoteResource/resource.yaml > /tmp/resource.yaml
+
+deploy:
+  # Deploy alpha builds
+  - provider: releases
+    file: /tmp/resource.yaml
+    skip_cleanup: true
+    draft: true
+    api_key:
+      secure: "${GITHUB_TOKEN}"
+    on:
+      tags: true
+      condition: ${TRAVIS_TAG} =~ [0-9]+\.[0-9]+\.[0-9]+_[0-9]{3}
+
+  # Deploy released builds
+  - provider: releases
+    file: /tmp/resource.yaml
+    skip_cleanup: true
+    api_key:
+      secure: "${GITHUB_TOKEN}"
+    on:
+      tags: true
+      condition: ${TRAVIS_TAG} =~ [0-9]+\.[0-9]+\.[0-9]+
