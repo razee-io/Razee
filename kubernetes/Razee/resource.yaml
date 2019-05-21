@@ -7,18 +7,67 @@ metadata:
     razee.io/git-repo: "{{{GIT_REMOTE}}}"
     razee.io/commit-sha: "{{TRAVIS_COMMIT}}"
 items:
+
 # MongoDB Service resources
-- apiVersion: v1
-  kind: Secret
+- kind: PersistentVolume
+  apiVersion: v1
   metadata:
-    name: razeedash-secret
+    name: mongo-pv-volume
     namespace: razee
-    annotations:
-      razee.io/git-repo: "{{{GIT_REMOTE}}}"
-      razee.io/commit-sha: "{{TRAVIS_COMMIT}}"
-  type: Opaque
-  data:
-    mongo_url: bW9uZ29kYjovL21vbmdv4oCRMC5tb25nbzoyNzAxNy9yYXplZWRhc2g=
+    labels:
+      type: local
+  spec:
+    storageClassName: manual
+    capacity:
+      storage: 10Gi
+    volumeMode: Filesystem
+    accessModes:
+      - ReadWriteOnce
+    persistentVolumeReclaimPolicy: Retain
+    hostPath:
+      path: "/mnt/data/mongo"
+- kind: PersistentVolumeClaim
+  apiVersion: v1
+  metadata:
+    name: mongo-pv-claim
+    namespace: razee
+  spec:
+    accessModes:
+      - ReadWriteOnce
+    resources:
+      requests:
+        storage: 3Gi
+- apiVersion: apps/v1 # for versions before 1.9.0 use apps/v1beta2
+  kind: Deployment
+  metadata:
+    name: mongo
+    namespace: razee
+  spec:
+    selector:
+      matchLabels:
+        app: mongo
+        role: master
+        tier: backend
+    replicas: 1
+    template:
+      metadata:
+        labels:
+          app: mongo
+          role: master
+          tier: backend
+      spec:
+        containers:
+          - name: mongo
+            image: mongo
+            ports:
+              - containerPort: 27017
+            volumeMounts:
+              - name: data
+                mountPath: /data/db
+        volumes:
+          - name: data
+            persistentVolumeClaim:
+              claimName: mongo-pv-claim
 - apiVersion: v1
   kind: Service
   metadata:
@@ -26,9 +75,6 @@ items:
     namespace: razee
     labels:
       app: mongo
-    annotations:
-      razee.io/git-repo: "{{{GIT_REMOTE}}}"
-      razee.io/commit-sha: "{{TRAVIS_COMMIT}}"
   spec:
     ports:
     - name: mongo
@@ -37,42 +83,15 @@ items:
     clusterIP: None
     selector:
       app: mongo
-- apiVersion: apps/v1
-  kind: StatefulSet
+- apiVersion: v1
+  kind: Secret
   metadata:
-    name: mongo
+    name: razeedash-secret
     namespace: razee
-    annotations:
-      razee.io/git-repo: "{{{GIT_REMOTE}}}"
-      razee.io/commit-sha: "{{TRAVIS_COMMIT}}"
-  spec:
-    selector:
-      matchLabels:
-        app: mongo
-    serviceName: "mongo"
-    replicas: 1
-    template:
-      metadata:
-        labels:
-          app: mongo
-      spec:
-        containers:
-        - name: mongo
-          image: mongo
-          ports:
-          - containerPort: 27017
-          volumeMounts:
-          - name: mongo-data
-            mountPath: /data/db
-    volumeClaimTemplates:
-    - metadata:
-        name: mongo-data
-      spec:
-        accessModes: [ "ReadWriteOnce" ]
-        storageClassName: ibmc-file-bronze
-        resources:
-          requests:
-            storage: 10Gi
+  type: Opaque
+  data:
+    mongo_url: bW9uZ29kYjovL21vbmdvLm1vbmdvOjI3MDE3L3JhemVlZGFzaA==
+
 # Razeedash resources
 - apiVersion: "kapitan.razee.io/v1alpha1"
   kind: RemoteResource
