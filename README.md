@@ -447,23 +447,24 @@ Razee FeatureFlagSetLD is a custom resource definition and controller that are d
    spec:
      sdk-key: "<launch_darkly_sdk_key>"
    ```
+
    <table>
    <thead>
    <th colspan=2>Understanding the YAML file components</th>
    </thead>
    <tbody>
-      <tr>
-        <td><code>metadata.name</code></td>
-         <td>Enter a name for your feature flag set. </td>
-      </tr>
-      <tr>
-         <td><code>metadata.namespace</code></td>
-         <td>Enter the namespace where you want to deploy your feature flag set. The feature flag set must be deployed in the same namespace as your mustache template so that the mustache template can retrieve information from Launch Darkly.  </td>
-      </tr>
-      <tr>
-         <td><code>spec.sdk-key</code></td>
-         <td>Enter the Launch Darkly SDK key for your production project that you retrieved earlier. </td>
-      </tr>
+   <tr>
+   <td><code>metadata.name</code></td>
+   <td>Enter a name for your feature flag set. </td>
+   </tr>
+   <tr>
+   <td><code>metadata.namespace</code></td>
+   <td>Enter the namespace where you want to deploy your feature flag set. The feature flag set must be deployed in the same namespace as your mustache template so that the mustache template can retrieve information from Launch Darkly.  </td>
+   </tr>
+   <tr>
+   <td><code>spec.sdk-key</code></td>
+   <td>Enter the Launch Darkly SDK key for your production project that you retrieved earlier. </td>
+   </tr>
    </tbody>
    </table>
 
