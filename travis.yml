@@ -4,7 +4,7 @@ node_js:
   - "11"
 
 script:
-  - ./build/process-template.sh kubernetes/RemoteResource/resource.yaml > /tmp/resource.yaml
+  - ./build/process-template.sh kubernetes/Razee/resource.yaml > /tmp/resource.yaml
 
 deploy:
   # Deploy alpha builds
