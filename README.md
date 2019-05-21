@@ -12,10 +12,10 @@ See the following quick links to get started with Razee:
 - [Prerequisites](#prerequisites)
 - [Step 1: Install Razee](#step-1-install-razee)
 - [Step 2: Visualize deployment information in RazeeDash](#step-2-visualize-deployment-information-in-razeedash)
-- [Step 3: Automatically deploy Kubernetes resources with RemoteResources](#automatically-deploy-kubernetes-resources-with-remoteresources)
+- [Step 3: Automatically deploy Kubernetes resources with RemoteResources](#step3-automatically-deploy-kubernetes-resources-with-remoteresources)
 - [Step 4: Add version control or replace YAML file variables with MustacheTemplates](#step-4-add-version-control-or-replace-yaml-file-variables-with-mustachtemplates)
-- [Step 5: Control deployments with FeatureFlagSetsLD](#control-deployments-with-featureflagsetsld)
-- [Step 6: Organizing resources in a ManagedSet](#organizing-resources-in-a-managedset)
+- [Step 5: Control deployments with FeatureFlagSetsLD](#step-5-control-deployments-with-featureflagsetsld)
+- [Step 6: Organizing resources in a ManagedSet](#step-6-organizing-resources-in-a-managedset)
 - [Stay connected](#stay-connected)
 - [License](#license)
 
