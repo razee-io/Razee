@@ -90,7 +90,7 @@ items:
     namespace: razee
   type: Opaque
   data:
-    mongo_url: bW9uZ29kYjovL21vbmdvLm1vbmdvOjI3MDE3L3JhemVlZGFzaA==
+    mongo_url: bW9uZ29kYjovL21vbmdvOjI3MDE3L3JhemVlZGFzaA==
 
 # Razeedash resources
 - apiVersion: "kapitan.razee.io/v1alpha1"
