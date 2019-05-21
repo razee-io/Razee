@@ -4,6 +4,7 @@ node_js:
   - "11"
 
 script:
+  - npm run lint
   - ./build/process-template.sh kubernetes/Razee/resource.yaml > /tmp/resource.yaml
 
 deploy:
