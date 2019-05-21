@@ -447,7 +447,6 @@ Razee FeatureFlagSetLD is a custom resource definition and controller that are d
    spec:
      sdk-key: "<launch_darkly_sdk_key>"
    ```
- 
    <table>
    <thead>
    <th colspan=2>Understanding the YAML file components</th>
