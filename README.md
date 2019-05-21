@@ -83,7 +83,7 @@ Take a look at the Razee architecture to see how Razee components interact, and 
       </tr>
       <tr>
          <td>[Kubernetes utilities](https://github.com/razee-io/Kubernetes-util)</td>
-         <td>Kubernetes utilities is an `npm` package that you can use to simplify the communication with Kubernetes. </td>
+        <td>Kubernetes utilities is an <code>npm</code> package that you can use to simplify the communication with Kubernetes. </td>
       </tr>
    </tbody>
 </table>
@@ -453,7 +453,7 @@ Razee FeatureFlagSetLD is a custom resource definition and controller that are d
    </thead>
    <tbody>
       <tr>
-         <td><code>metadata.name</td></td>
+        <td><code>metadata.name</code></td>
          <td>Enter a name for your feature flag set. </td>
       </tr>
       <tr>
