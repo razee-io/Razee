@@ -3,7 +3,24 @@
 
 [Razee](http://www.razee.io/) is an open-source project that was developed by IBM to automate and manage the deployment of Kubernetes resources across clusters, environments, and cloud providers, and to visualize deployment information for your resources so that you can monitor the rollout process and find deployment issues more quickly. 
 
+See the following quick links to get started with Razee: 
+
+- [Architecture overview](#architecture-overview)
+  - [RazeeDash components](#razeedash-components)
+  - [Kapitan components](#kapitan-components)
+- [Contribution guidelines](#contribution-guidelines)
+- [Prerequisites](#prerequisites)
+- [Step 1: Install Razee](#step-1-install-razee)
+- [Step 2: Visualize deployment information in RazeeDash](#step-2-visualize-deployment-information-in-razeedash)
+- [Step 3: Automatically deploy Kubernetes resources with RemoteResources](#automatically-deploy-kubernetes-resources-with-remoteresources)
+- [Step 4: Add version control or replace YAML file variables with MustacheTemplates](#step-4-add-version-control-or-replace-yaml-file-variables-with-mustachtemplates)
+- [Step 5: Control deployments with FeatureFlagSetsLD](#control-deployments-with-featureflagsetsld)
+- [Step 6: Organizing resources in a ManagedSet](#organizing-resources-in-a-managedset)
+- [Stay connected](#stay-connected)
+- [License](#license)
+
 ## Architecture overview
+{: #overview}
 
 Razee consists of two modules, RazeeDash and Kapitan, that are loosly coupled and that can be used independently. With RazeeDash, you can dynamically create a live inventory of your Kubernetes resources and use the powerful filter and alerting capabilities to visualize configuration information and troubleshoot issues in your deployment process more quickly. Kapitan components are designed to simplify multi-cluster deployments by templatizing Kubernetes resources, grouping resources and clusters, and defining rules for these groupings so that you can create a flexible configuration that is enforced across clusters, environments, and clouds. 
 
@@ -128,9 +145,9 @@ Razee consists of two packages: the visibility package that you can use to visua
    remoteresources3-controller-69d4f5f7d-bxngs    1/1     Running   0          24h
    ```
 
-## Step 2: Visualize deployment information in Razeedash
+## Step 2: Visualize deployment information in RazeeDash
 
-Use the Razee Watch Keeper to scan Kubernetes resources in your cluster and retrieve deployment information for the resources that you want to monitor. Data is automatically sent to the Razeedash API and you can access, monitor, and analyze this data with Razeedash. 
+Use the Razee Watch Keeper to scan Kubernetes resources in your cluster and retrieve deployment information for the resources that you want to monitor. Data is automatically sent to the RazeeDash API and you can access, monitor, and analyze this data with Razeedash. 
 
 1. Add the `razee/watch-resource` label to the **labels** section of all Kubernetes resources that you want to monitor. For example, if you want to monitor a Kubernetes deployment, use the following command. Decide what information you want the Watch Keeper to retrieve by choosing between the following information detail levels: <ul><li><code>Lite</code>: Retrieves the <code>metadata</code> and <code>status</code> section of your Kubernetes resource configuration. </li><li><code>Detail</code>: Retrieves all configuration data of a Kubernetes resource, but leaves out environment variables and the <code>data</code> section of config maps and secrets.</li><li><code>Debug</code>: Retrieves all configuration data of a Kubernetes resource, including environment variables and the <code>data</code> section of config maps and secrets. This information might include sensitive information so use this option with care. </li></ul>After you add the label to your resource, the Watch Keeper automatically scans your resource and sends data to the Razeedash API. Then, your resource is scanned once every hour. In addition, the Watch Keeper adds a Kubernetes event watcher to your resource so that the Watch Keeper is notified by Kubernetes when the configuration of your resource changes. 
    ```
