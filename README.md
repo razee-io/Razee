@@ -1,6 +1,6 @@
 <img src="images/razee_icon.png">
 
-[Razee](http://www.razee.io/) is an open-source project that was developed by IBM to automate and manage the deployment of Kubernetes resources across clusters, environments, and cloud providers, and to visualize deployment information for your resources so that you can monitor the rollout process and find deployment issues more quickly.
+[Razee](http://www.razee.io/) is an open-source project that was developed by IBM to automate and manage the deployment of Kubernetes resources across clusters, environments, and cloud providers, and to visualize deployment information for your aggregate resources so that you can monitor the rollout process and find possible deployment issues.
 
 See the following links to get started with Razee:
 
@@ -19,7 +19,11 @@ See the following links to get started with Razee:
 
 ## Architecture overview
 
-Razee consists of two modules, RazeeDash and Kapitan, that are loosly coupled and that can be used independently. With RazeeDash, you can dynamically create a live inventory of your Kubernetes resources and use the powerful filter and alerting capabilities to visualize configuration information and troubleshoot issues in your deployment process more quickly. Kapitan components are designed to simplify multi-cluster deployments by templatizing Kubernetes resources, grouping resources and clusters, and defining rules for these groupings so that you can create a flexible configuration that is enforced across clusters, environments, and clouds.
+Razee consists of two modules, RazeeDash and Kapitan, that are loosly coupled and that can be used independently. With RazeeDash,
+you can create a live inventory of your real time resources; and use the powerful filter and alerting capabilities to visualize 
+configuration information and, if needed, troubleshoot issues in your deployments. Kapitan components simplify 
+multi-cluster deployments by templatizing Kubernetes resources, grouping resources and clusters, and defining rules for these 
+groupings so that you can create a flexible configurations that can be enforced across clusters, environments, and clouds.
 
 Take a look at the Razee architecture to see how Razee components interact, and how you can visualize and control your deployment process.
 
