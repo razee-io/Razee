@@ -98,13 +98,13 @@ To deploy Razee in your cluster, your cluster must meet the following requiremen
 ## Step 1: Install Razee
 
 1. Install Kapitan in your cluster. Kapitan automatically creates the Kubernetes `CustomResourceDefinitions` (CRD) and controllers for each Kapitan component, the `razee` namespace, service account, and RBAC roles and role bindings in your cluster.
-
+   
    ```bash
    kubectl apply -f https://github.com/razee-io/Kapitan-delta/releases/latest/download/resource.yaml
    ```
-   
-   Example output: 
-   
+
+   Example output:
+
    ```
    namespace/razee configured
    serviceaccount/kapitan-sa configured
@@ -115,13 +115,13 @@ To deploy Razee in your cluster, your cluster must meet the following requiremen
    ```
    
 2. Verify that the Kapitan components are deployed successfully. You must see one pod per component and each pod must be in a `Running` state before you proceed with the next step.
- 
+   
    ```bash
    kubectl get pods -n razee
    ```
 
    Example output:
-   
+
    ```
    NAME                                           READY   STATUS    RESTARTS   AGE
    featureflagsetld-controller-86d8785864-x84ld   1/1     Running   0          34s
@@ -137,9 +137,9 @@ To deploy Razee in your cluster, your cluster must meet the following requiremen
    ```bash
    kubectl apply -f https://github.com/razee-io/Razee/releases/latest/download/resource.yaml
    ```
-   
-   Example output: 
-   
+
+   Example output:
+
    ```
    persistentvolume/mongo-pv-volume created
    persistentvolumeclaim/mongo-pv-claim created
@@ -152,11 +152,13 @@ To deploy Razee in your cluster, your cluster must meet the following requiremen
    ```
    
 4. Wait for the `razeedash-api` deployment to complete. As part of the RazeeDash API setup, an instance of MongoDB is created in your cluster and connected to your RazeeDash API instance. The set up of MongoDB takes a couple of minutes to complete and might lead to intermittent `MongoNetworkError` errors in your RazeeDash API deployment. When MongoDB is fully set up, Kubernetes automatically finishes the setup of your RazeeDash API instance. 
+
    ```bash
    kubectl logs deploy/razeedash-api -n razee
    ```
-   
-   Example output if MongoDB is not yet setup: 
+
+   Example output if MongoDB is not yet setup:
+
    ```
    > razeedash-api@0.0.1 start /usr/src
    > node app/index.js
@@ -187,6 +189,7 @@ To deploy Razee in your cluster, your cluster must meet the following requiremen
    ```
    
 5. Retrieve the **EXTERNAL-IP** of your `razeedash-lb` and `razeedash-api-lb` load balancer services. The two load balancer services are automatically created during the setup of your RazeeDash API instance and assigned a public IP address. `razeedash-lb` serves as the public endpoint for your RazeeDash instance, and `razeedash-api-lb` serves as the public endpoint for your RazeeDash API instance.  
+
    ```bash
    kubectl get service razeedash-lb -n razee
    ```
@@ -194,8 +197,9 @@ To deploy Razee in your cluster, your cluster must meet the following requiremen
    ```bash
    kubectl get service razeedash-api-lb -n razee
    ```
-   
-   Example output: 
+
+   Example output:
+
    ```
    NAME               TYPE           CLUSTER-IP      EXTERNAL-IP     PORT(S)          AGE
    razeedash-api-lb   LoadBalancer   172.21.43.145   169.46.56.125   8081:31416/TCP   27m
@@ -203,16 +207,19 @@ To deploy Razee in your cluster, your cluster must meet the following requiremen
    ```
    
 6. Create a RazeeDash config map that includes the public IP addresses for your RazeeDash and RazeeDash API instances. This config map is required to finish the setup of RazeeDash. 
+  
    ```bash
    kubectl create configmap razeedash-config -n razee --from-literal=root_url=http://<razeedash-lb_external_IP>:8080/ --from-literal=razeedash_api_url=http://<razeedash-api-lb_external_IP>:8081/
    ```
 
 7. Verify that all Razee components are deployed and show `1/1` in the **READY** column of your CLI output. 
-   ```
+   
+   ```bash
    kubectl get deployments -n razee
    ```
    
-   Example output: 
+   Example output:
+
    ```
    NAME                          READY   UP-TO-DATE   AVAILABLE   AGE
    featureflagsetld-controller   1/1     1            1           8d
@@ -227,6 +234,7 @@ To deploy Razee in your cluster, your cluster must meet the following requiremen
    ```
    
 8. In your preferred web browser, access the welcome screen of your RazeeDash instance. 
+   
    ```
    http://<razeedash-lb_external_IP>:8080
    ```
@@ -250,6 +258,7 @@ To deploy Razee in your cluster, your cluster must meet the following requiremen
     2. Click the **Manage** button. 
     3. Copy the **Install Inventory** `kubectl` command. 
     4. Run the command in your cluster to create the Watch Keeper component. 
+    
        ```bash
        kubectl create -f http://<razeedash-api-lb_external_IP>:8081/api/install/inventory?orgKey=orgApiKey-<org_api_key>
        ```
@@ -271,7 +280,8 @@ To deploy Razee in your cluster, your cluster must meet the following requiremen
        kubectl get deployment -n razee | grep watch-keeper
        ```
        
-       Example output: 
+       Example output:
+       
        ```
        watch-keeper                  1/1     1            1           2m5s
        ```
