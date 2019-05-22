@@ -248,10 +248,6 @@ To deploy Razee in your cluster, your cluster must meet the following requiremen
        ```bash
        kubectl create -f http://<razeedash-api-lb_external_IP>:8081/api/install/inventory?orgKey=orgApiKey-<org_api_key>
        ```
-    5. Wait for the Watch Keeper to finish. 
-       ```bash
-       kubectl get deployment -n razee | grep watch-keeper
-       ```
        
        Example output: 
        ```
@@ -264,8 +260,18 @@ To deploy Razee in your cluster, your cluster must meet the following requiremen
        deployment.apps/watch-keeper created
        Error from server (AlreadyExists): namespaces "razee" already exists
        ```
-    
-12. From the RazeeDash console, click **Launch** to open deployment information dashboard and verify that you can see information for your Watch Keeper pod. 
+       
+    5. Wait for the Watch Keeper to finish. 
+       ```bash
+       kubectl get deployment -n razee | grep watch-keeper
+       ```
+       
+       Example output: 
+       ```
+       watch-keeper                  1/1     1            1           2m5s
+       ```
+
+12. From the RazeeDash console, click **Launch** to open the RazeeDash details page and verify that you can see deployment information for your Watch Keeper pod. 
 
 ## Step 2: Visualize deployment information in RazeeDash
 
