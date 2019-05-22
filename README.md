@@ -175,6 +175,7 @@ To deploy Razee in your cluster, your cluster must meet the following requiremen
    ```
 
    Example output if RazeeDash API is fully set up:
+   
    ```
    > razeedash-api@0.0.1 start /usr/src
    > node app/index.js
@@ -264,6 +265,7 @@ To deploy Razee in your cluster, your cluster must meet the following requiremen
        ```
 
        Example output:
+       
        ```
        configmap/watch-keeper-config created
        secret/watch-keeper-secret created
@@ -276,6 +278,7 @@ To deploy Razee in your cluster, your cluster must meet the following requiremen
        ```
 
     5. Wait for the Watch Keeper to finish.
+    
        ```bash
        kubectl get deployment -n razee | grep watch-keeper
        ```
@@ -319,6 +322,7 @@ With Watch Keeper set up in your cluster, you can retrieve deployment informatio
    ```
 
 3. In your preferred web browser, open RazeeDash. To find the public IP address that is assigned to your RazeeDash service, run `kubectl get service razeedash-lb -n razee `.
+
    ```
    http://<razeedash-lb_external_IP>:8080
    ```
