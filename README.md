@@ -181,7 +181,7 @@ To deploy Razee in your cluster, your cluster must meet the following requiremen
    {"name":"razeedash-api","hostname":"razeedash-api-55fd67ddb9-cnbf4","pid":16,"level":30,"msg":"razeedash-api listening on port 3333","time":"2019-05-22T03:15:14.257Z","v":0}
    ```
    
-5. Retrieve the **EXTERNAL-IP** and **PORT** of your `razeedash-lb` and `razeedash-api-lb` load balancer services. The two load balancer services are automatically created during the setup of your RazeeDash API instance and assigned a public IP address. `razeedash-lb` serves as the public endpoint for your RazeeDash instance, and `razeedash-api-lb` serves as the public endpoint for your RazeeDash API instance.  
+5. Retrieve the **EXTERNAL-IP** of your `razeedash-lb` and `razeedash-api-lb` load balancer services. The two load balancer services are automatically created during the setup of your RazeeDash API instance and assigned a public IP address. `razeedash-lb` serves as the public endpoint for your RazeeDash instance, and `razeedash-api-lb` serves as the public endpoint for your RazeeDash API instance.  
    ```bash
    kubectl get service razeedash-lb -n razee 
    ```
@@ -197,7 +197,7 @@ To deploy Razee in your cluster, your cluster must meet the following requiremen
    razeedash-lb       LoadBalancer   172.21.127.179  169.46.56.124   8080:30077/TCP   26m
    ```
    
-6. Create a RazeeDash config map that includes the public IP addresses for your RazeeDash and RazeeDash API instance. This config map is required to finish the setup of RazeeDash. 
+6. Create a RazeeDash config map that includes the public IP addresses for your RazeeDash and RazeeDash API instances. This config map is required to finish the setup of RazeeDash. 
    ```bash
    kubectl create configmap razeedash-config -n razee --from-literal=root_url=http://<razeedash-lb_external_IP>:8080/ --from-literal=razeedash_api_url=http://<razeedash-api-lb_external_IP>:8081/
    ```
