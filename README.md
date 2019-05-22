@@ -98,7 +98,7 @@ To deploy Razee in your cluster, your cluster must meet the following requiremen
 ## Step 1: Install Razee
 
 1. Install Kapitan in your cluster. Kapitan automatically creates the Kubernetes `CustomResourceDefinitions` (CRD) and controllers for each Kapitan component, the `razee` namespace, service account, and RBAC roles and role bindings in your cluster.
-   ```bash
+   ```
    kubectl apply -f https://github.com/razee-io/Kapitan-delta/releases/latest/download/resource.yaml
    ```
    
@@ -118,7 +118,6 @@ To deploy Razee in your cluster, your cluster must meet the following requiremen
    ```
 
    Example output:
-
    ```
    NAME                                           READY   STATUS    RESTARTS   AGE
    featureflagsetld-controller-86d8785864-x84ld   1/1     Running   0          34s
@@ -183,7 +182,7 @@ To deploy Razee in your cluster, your cluster must meet the following requiremen
    
 5. Retrieve the **EXTERNAL-IP** of your `razeedash-lb` and `razeedash-api-lb` load balancer services. The two load balancer services are automatically created during the setup of your RazeeDash API instance and assigned a public IP address. `razeedash-lb` serves as the public endpoint for your RazeeDash instance, and `razeedash-api-lb` serves as the public endpoint for your RazeeDash API instance.  
    ```bash
-   kubectl get service razeedash-lb -n razee 
+   kubectl get service razeedash-lb -n razee
    ```
    
    ```bash
