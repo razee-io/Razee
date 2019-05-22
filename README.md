@@ -13,7 +13,7 @@ See the following links to get started with Razee:
 - [Step 3: Automatically deploy Kubernetes resources with RemoteResources](#step-3-automatically-deploy-kubernetes-resources-with-remoteresources)
 - [Step 4: Add version control or replace YAML file variables with MustacheTemplates](#step-4-add-version-control-or-replace-yaml-file-variables-with-mustachetemplates)
 - [Step 5: Control deployments with FeatureFlagSetsLD](#step-5-control-deployments-with-featureflagsetsld)
-- [Step 6: Organizing resources in a ManagedSet](#step-6-organizing-resources-in-a-managedset)
+- [Step 6: Organize resources in a ManagedSet](#step-6-organizing-resources-in-a-managedset)
 - [Stay connected](#stay-connected)
 - [License](#license)
 
@@ -34,15 +34,15 @@ Take a look at the Razee architecture to see how Razee components interact, and 
    </thead>
    <tbody>
       <tr>
-         <td>[Watch Keeper](https://github.com/razee-io/watch-keeper)</td>
+         <td><a href="https://github.com/razee-io/watch-keeper">Watch Keeper</a></td>
          <td>Watch Keeper is responsible to retrieve configuration information for Kubernetes resources and to send this data to the RazeeDash API. To use Watch Keeper, simply install this component in your cluster and add the <code>razee/watch-resource</code> label to all resources that you want to monitor. After you add the label, Watch Keeper retrieves configuration information from the Kubernetes API server and immediately sends this data to the RazeeDash API. This process repeats once every hour. In addition, the Watch Keeper adds a Kubernetes event watcher to your resource so that the Watch Keeper is notified by Kubernetes when the configuration of your resource changes. </td>
       </tr>
       <tr>
-         <td>[RazeeDash API](https://github.com/razee-io/razeedash-api)</td>
+         <td><a href="https://github.com/razee-io/razeedash-api">RazeeDash API</a></td>
          <td>RazeeDash API is a service that receives Kubernetes resource configurations and resource definitions from the Watch Keeper. Data that is sent to the RazeeDash API is automatically stored in MongoDB.  </td>
       </tr>
       <tr>
-         <td>[RazeeDash](https://github.com/razee-io/razeedash)</td>
+         <td><a href="https://github.com/razee-io/razeedash">RazeeDash</a></td>
          <td>RazeeDash visualizes data that is retrieved by the Watch Keeper and dynamically creates an inventory of your Kubernetes resources in your cluster. You can use the intelligent filter and alerting capabilities to analyze this data and quickly identify and resolve issues in your deployment process. </td>
       </tr>
    </tbody>
@@ -57,31 +57,31 @@ Take a look at the Razee architecture to see how Razee components interact, and 
    </thead>
    <tbody>
       <tr>
-         <td>[Kapitan Core](https://github.com/razee-io/Kapitan-core)</td>
+         <td><a href="https://github.com/razee-io/Kapitan-core">Kapitan Core</a></td>
          <td>Kapitan Core is a Continuous Delivery tool that runs in your cluster and that you can use to set up the <code>CustomResourceDefinitions</code> (CRD), Kubernetes controllers, and dependencies for the Kapitan components. </td>
       </tr>
       <tr>
-         <td>[Kapitan Delta](https://github.com/razee-io/Kapitan-delta)</td>
+         <td><a href="https://github.com/razee-io/Kapitan-delta">Kapitan Delta</a></td>
          <td>Kapitan Delta is a component of Kapitan Core that runs in your cluster and keeps the custom resource definitions and Kubernetes controllers of the Kapitan components up-to-date. </td>
       </tr>
       <tr>
-         <td>[RemoteResource](https://github.com/razee-io/RemoteResource) and [Remote Resource S3](https://github.com/razee-io/RemoteResourceS3)</td>
+         <td><a href="https://github.com/razee-io/RemoteResource">RemoteResource</a> and <a href="https://github.com/razee-io/RemoteResourceS3">Remote Resource S3</a></td>
          <td>RemoteResource and RemoteResourceS3 are custom resource definitions and controllers that you can use to automatically deploy Kubernetes resources that are stored in a source repository. Rather than manually applying these YAML files in each cluster, environment, or across clouds every time an update is made, simply define the source repository in your remote resource and create the remote resource in your cluster. The remote resource controller automatically connects to your source repository, downloads the Kubernetes configuration file and applies the file to your cluster. </td>
       </tr>
       <tr>
-         <td>[MustacheTemplate](https://github.com/razee-io/MustacheTemplate)</td>
+         <td><a href="https://github.com/razee-io/MustacheTemplate">MustacheTemplate</a></td>
          <td>MustacheTemplate is a custom resource definition and controller to define environment variables that you can use to replace YAML file pieces in other Kubernetes YAML files. For example, use the environment variables of your mustache template to build the URL for your remote resource so that you can point to the app version that you want to deploy. </td>
       </tr>
       <tr>
-         <td>[FeatureFlagSetLD](https://github.com/razee-io/FeatureFlagSetLD)</td>
-         <td>FeatureFlagSetLD is a custom resource definition and controller to automatically retrieve feature flag values from [Launch Darkly](https://launchdarkly.com). With feature flags, you can control what code is deployed to your cluster and manage multiple versions of Kubernetes resources across clusters, environments, or clouds. </td>
+         <td><a href="https://github.com/razee-io/FeatureFlagSetLD">FeatureFlagSetLD</a></td>
+         <td>FeatureFlagSetLD is a custom resource definition and controller to automatically retrieve feature flag values from <a href="https://launchdarkly.com">Launch Darkly</a>. With feature flags, you can control what code is deployed to your cluster and manage multiple versions of Kubernetes resources across clusters, environments, or clouds. </td>
       </tr>
       <tr>
-         <td>[ManagedSet](https://github.com/razee-io/ManagedSet)</td>
+         <td><a href="https://github.com/razee-io/ManagedSet">ManagedSet</a></td>
          <td>ManagedSet is a custom resource definition and controller to group Kubernetes resources that you want to create and apply to the cluster at the same time.  </td>
       </tr>
       <tr>
-         <td>[Kubernetes utilities](https://github.com/razee-io/Kubernetes-util)</td>
+         <td><a href="https://github.com/razee-io/Kubernetes-util">Kubernetes utilities</a></td>
         <td>Kubernetes utilities is an <code>npm</code> package that you can use to simplify the communication with Kubernetes. </td>
       </tr>
    </tbody>
@@ -731,7 +731,7 @@ Razee FeatureFlagSetLD is a custom resource definition and controller that are d
 
 **Note**: If you delete a mustache template, all resources that you defined in the `spec.templates` section are removed at the same time. To keep the Kubernetes resources, add the `kapitan.razee.io/Reconcile: false` label to all your YAML files.
 
-## Step 6: Organizing resources in a ManagedSet
+## Step 6: Organize resources in a ManagedSet
 
 Use ManagedSets to group all the Kubernetes resources that you want to deploy or remove at the same time in one list. You can include all Razee deployment components that you used in previous steps and combine them with other Kubernetes resources, such as config maps, PVCs, or secrets.
 
