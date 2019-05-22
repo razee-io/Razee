@@ -98,11 +98,13 @@ To deploy Razee in your cluster, your cluster must meet the following requiremen
 ## Step 1: Install Razee
 
 1. Install Kapitan in your cluster. Kapitan automatically creates the Kubernetes `CustomResourceDefinitions` (CRD) and controllers for each Kapitan component, the `razee` namespace, service account, and RBAC roles and role bindings in your cluster.
-   ```
+
+   ```bash
    kubectl apply -f https://github.com/razee-io/Kapitan-delta/releases/latest/download/resource.yaml
    ```
    
    Example output: 
+   
    ```
    namespace/razee configured
    serviceaccount/kapitan-sa configured
@@ -113,11 +115,13 @@ To deploy Razee in your cluster, your cluster must meet the following requiremen
    ```
    
 2. Verify that the Kapitan components are deployed successfully. You must see one pod per component and each pod must be in a `Running` state before you proceed with the next step.
+ 
    ```bash
    kubectl get pods -n razee
    ```
 
    Example output:
+   
    ```
    NAME                                           READY   STATUS    RESTARTS   AGE
    featureflagsetld-controller-86d8785864-x84ld   1/1     Running   0          34s
@@ -129,11 +133,13 @@ To deploy Razee in your cluster, your cluster must meet the following requiremen
    ```
    
 3. Install the RazeeDash components in your cluster. 
+
    ```bash
    kubectl apply -f https://github.com/razee-io/Razee/releases/latest/download/resource.yaml
    ```
    
    Example output: 
+   
    ```
    persistentvolume/mongo-pv-volume created
    persistentvolumeclaim/mongo-pv-claim created
