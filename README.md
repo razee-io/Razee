@@ -295,7 +295,7 @@ To deploy Razee in your cluster, your cluster must meet the following requiremen
 
 With Watch Keeper set up in your cluster, you can retrieve deployment information for other Kubernetes resources that you want to monitor. Data is automatically sent to the RazeeDash API and you can access, monitor, and analyze this data with RazeeDash.
 
-1. Decide what information you want the Watch Keeper to retrieve by choosing between the following information detail levels: <ul><li><code>Lite</code>: Retrieves the <code>metadata</code> and <code>status</code> section of your Kubernetes resource configuration. </li><li><code>Detail</code>: Retrieves all configuration data of a Kubernetes resource, but leaves out environment variables and the <code>data</code> section of config maps and secrets.</li><li><code>Debug</code>: Retrieves all configuration data of a Kubernetes resource, including environment variables and the <code>data</code> section of config maps and secrets. This information might include sensitive information so use this option with care. </li></ul>
+1. Decide what information you want the Watch Keeper to retrieve by choosing between the following information detail levels: <ul><li><code>lite</code>: Retrieves the <code>metadata</code> and <code>status</code> section of your Kubernetes resource configuration. </li><li><code>detail</code>: Retrieves all configuration data of a Kubernetes resource, but leaves out environment variables and the <code>data</code> section of config maps and secrets.</li><li><code>debug</code>: Retrieves all configuration data of a Kubernetes resource, including environment variables and the <code>data</code> section of config maps and secrets. This information might include sensitive information so use this option with care. </li></ul>
 
 2. Add the `razee/watch-resource` label to the **labels** section of all Kubernetes resources that you want to monitor and specify the information detail level. For example, if you want to monitor a Kubernetes deployment, use the following command. After you add the label to your resource, the Watch Keeper automatically scans your resource and sends data to the RazeeDash API. Then, your resource is scanned once every hour. In addition, the Watch Keeper adds a Kubernetes event watcher to your resource so that the Watch Keeper is notified by Kubernetes when the configuration of your resource changes.
 
@@ -317,7 +317,7 @@ With Watch Keeper set up in your cluster, you can retrieve deployment informatio
      generation: 1
      labels:
        app: myapp
-       razee/watch-resource: "Lite"
+       razee/watch-resource: "lite"
    ...
    ```
 
