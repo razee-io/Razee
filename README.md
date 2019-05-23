@@ -19,7 +19,7 @@ See the following links to get started with Razee:
 
 ## Architecture overview
 
-Razee consists of two modules, RazeeDash and Kapitan, that are loosly coupled and that can be used independently. With RazeeDash,
+Razee consists of two modules, RazeeDash and Kapitan, that are loosly coupled and can be used independently. With RazeeDash,
 you can create a live inventory of your real time resources; and use the powerful filter and alerting capabilities to visualize 
 configuration information and, if needed, troubleshoot issues in your deployments. Kapitan components simplify 
 multi-cluster deployments by templatizing Kubernetes resources, grouping resources and clusters, and defining rules for these 
