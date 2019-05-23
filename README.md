@@ -1,6 +1,6 @@
 <img src="images/razee_icon.png">
 
-[Razee](http://www.razee.io/) is an open-source project that was developed by IBM to automate and manage the deployment of Kubernetes resources across clusters, environments, and cloud providers, and to visualize deployment information for your aggregate resources so that you can monitor the rollout process and find possible deployment issues.
+[Razee](http://www.razee.io/) is an open-source project that was developed by IBM to automate and manage the deployment of Kubernetes resources across clusters, environments, and cloud providers, and to visualize deployment information for your multi-cluster resources so that you can monitor the rollout process and find potential deployment issues.
 
 See the following links to get started with Razee:
 
