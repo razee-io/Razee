@@ -189,31 +189,17 @@ To deploy Razee in your cluster, your cluster must meet the following requiremen
    {"name":"razeedash-api","hostname":"razeedash-api-55fd67ddb9-cnbf4","pid":16,"level":30,"msg":"razeedash-api listening on port 3333","time":"2019-05-22T03:15:14.257Z","v":0}
    ```
 
-5. Retrieve the **EXTERNAL-IP** of your `razeedash-lb` and `razeedash-api-lb` load balancer services. The two load balancer services are automatically created during the setup of your RazeeDash API instance and assigned a public IP address. `razeedash-lb` serves as the public endpoint for your RazeeDash instance, and `razeedash-api-lb` serves as the public endpoint for your RazeeDash API instance.
+5. Retrieve the **EXTERNAL-IP** of your `razeedash-lb` and `razeedash-api-lb` load balancer services and create a RazeeDash config map. The two load balancer services are automatically created during the setup of your RazeeDash API instance and assigned a public IP address. `razeedash-lb` serves as the public endpoint for your RazeeDash instance, and `razeedash-api-lb` serves as the public endpoint for your RazeeDash API instance. RazeeDash config map includes the public IP addresses for your RazeeDash and RazeeDash API instances. This config map is required to finish the setup of RazeeDash. You can execute the following Bash commands or execute [bin/kc_create_razeedash_config.sh](https://github.com/razee-io/Kube-cloud-scripts/bin/kc_create_razeedash_config.sh)
 
    ```bash
-   kubectl get service razeedash-lb -n razee
+   RAZEEDASH_LB=$(kubectl get service razeedash-lb -n razee -o jsonpath="{.status.loadBalancer.ingress[*].ip}")
+   RAZEEDASH_API_LB=$(kubectl get service razeedash-api-lb -n razee -o jsonpath="{.status.loadBalancer.ingress[*].ip}")
+   kubectl create configmap razeedash-config -n razee \
+     --from-literal=root_url=http://"${RAZEEDASH_LB}":8080/ \
+     --from-literal=razeedash_api_url=http://"${RAZEEDASH_API_LB}":8081/
    ```
 
-   ```bash
-   kubectl get service razeedash-api-lb -n razee
-   ```
-
-   Example output:
-
-   ```
-   NAME               TYPE           CLUSTER-IP      EXTERNAL-IP     PORT(S)          AGE
-   razeedash-api-lb   LoadBalancer   172.21.43.145   169.46.56.125   8081:31416/TCP   27m
-   razeedash-lb       LoadBalancer   172.21.127.179  169.46.56.124   8080:30077/TCP   26m
-   ```
-
-6. Create a RazeeDash config map that includes the public IP addresses for your RazeeDash and RazeeDash API instances. This config map is required to finish the setup of RazeeDash.
-
-   ```bash
-   kubectl create configmap razeedash-config -n razee --from-literal=root_url=http://<razeedash-lb_external_IP>:8080/ --from-literal=razeedash_api_url=http://<razeedash-api-lb_external_IP>:8081/
-   ```
-
-7. Verify that all Razee components are deployed and show `1/1` in the **READY** column of your CLI output.
+6. Verify that all Razee components are deployed and show `1/1` in the **READY** column of your CLI output.
 
    ```bash
    kubectl get deployments -n razee
@@ -234,13 +220,13 @@ To deploy Razee in your cluster, your cluster must meet the following requiremen
    remoteresources3-controller   1/1     1            1           8d
    ```
 
-8. In your preferred web browser, access the welcome screen of your RazeeDash instance.
+7. In your preferred web browser, access the welcome screen of your RazeeDash instance.
 
    ```
    http://<razeedash-lb_external_IP>:8080
    ```
 
-9. Register RazeeDash as an `Oauth` application in GitHub.
+8. Register RazeeDash as an `Oauth` application in GitHub.
    1. From the RazeeDash welcome screen, click **Sign in**.
    2. Click **Configure GitHub Login**. A pop-up window opens.
    3. Follow the [link](https://github.com/settings/applications/new) in the pop-up window to register a new `OAuth` application in GitHub. Enter a name for your GitHub application, a description, and the **Homepage URL** and **Authorization callback URL** that are displayed in the pop-up window.
@@ -248,13 +234,13 @@ To deploy Razee in your cluster, your cluster must meet the following requiremen
    5. Copy the **Client ID** and the **Client Secret** and add these values to the pop-up window.
    6. Click **Save configuration**.
 
-10. Grant RazeeDash access to your organization in GitHub.
+9. Grant RazeeDash access to your organization in GitHub.
     1. If you do not own a GitHub organization, [create one](https://help.github.com/en/articles/creating-a-new-organization-from-scratch).
     2. From the RazeeDash welcome screen, click **Sign in with GitHub**. A pop-up window opens.
     3. In the **Organization access** section, find your organization and click **Grant**.
     4. Click **Authorize <github_user_name>**. The RazeeDash console opens and shows the name of the organization that you granted access to.
 
-11. Install Watch Keeper in your cluster.
+10. Install Watch Keeper in your cluster.
     1. From the RazeeDash console, click the **Register** button that you can find next to your GitHub organization.
     2. Click the **Manage** button.
     3. Copy the **Install Inventory** `kubectl` command.
@@ -289,7 +275,7 @@ To deploy Razee in your cluster, your cluster must meet the following requiremen
        watch-keeper                  1/1     1            1           2m5s
        ```
 
-12. From the RazeeDash console, click **Launch** to open the RazeeDash details page and verify that you can see deployment information for your Watch Keeper pod.
+11. From the RazeeDash console, click **Launch** to open the RazeeDash details page and verify that you can see deployment information for your Watch Keeper pod.
 
 ## Step 2: Visualize deployment information in RazeeDash
 
