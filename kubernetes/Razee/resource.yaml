@@ -34,6 +34,7 @@ items:
   spec:
     accessModes:
       - ReadWriteOnce
+    storageClassName: manual
     resources:
       requests:
         storage: 3Gi
