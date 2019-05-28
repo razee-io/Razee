@@ -19,7 +19,7 @@ See the following links to get started with Razee:
 
 ## Architecture overview
 
-Razee consists of two modules, RazeeDash and Kapitan, that are loosly coupled and that can be used independently. With RazeeDash, you can dynamically create a live inventory of your Kubernetes resources and use the powerful filter and alerting capabilities to visualize configuration information and troubleshoot issues in your deployment process more quickly. Kapitan components are designed to simplify multi-cluster deployments by templatizing Kubernetes resources, grouping resources and clusters, and defining rules for these groupings so that you can create a flexible configuration that is enforced across clusters, environments, and clouds.
+Razee consists of two modules, RazeeDash and Kapitan, that are loosely coupled and that can be used independently. With RazeeDash, you can dynamically create a live inventory of your Kubernetes resources and use the powerful filter and alerting capabilities to visualize configuration information and troubleshoot issues in your deployment process more quickly. Kapitan components are designed to simplify multi-cluster deployments by templatizing Kubernetes resources, grouping resources and clusters, and defining rules for these groupings so that you can create a flexible configuration that is enforced across clusters, environments, and clouds.
 
 Take a look at the Razee architecture to see how Razee components interact, and how you can visualize and control your deployment process.
 
@@ -151,7 +151,7 @@ To deploy Razee in your cluster, your cluster must meet the following requiremen
    service/razeedash-api-lb created
    ```
 
-4. Wait for the `razeedash-api` deployment to complete. As part of the RazeeDash API setup, an instance of MongoDB is created in your cluster and connected to your RazeeDash API instance. The set up of MongoDB takes a couple of minutes to complete and might lead to intermittent `MongoNetworkError` errors in your RazeeDash API deployment. When MongoDB is fully set up, Kubernetes automatically finishes the setup of your RazeeDash API instance.
+4. Wait for the `razeedash-api` deployment to complete. As part of the RazeeDash API setup, an instance of MongoDB is created in your cluster and connected to your RazeeDash API instance. The setup of MongoDB takes a couple of minutes to complete and might lead to intermittent `MongoNetworkError` errors in your RazeeDash API deployment. When MongoDB is fully set up, Kubernetes automatically finishes the setup of your RazeeDash API instance.
 
    ```bash
    kubectl logs deploy/razeedash-api -n razee
@@ -226,7 +226,7 @@ To deploy Razee in your cluster, your cluster must meet the following requiremen
    http://<razeedash-lb_external_IP>:8080
    ```
 
-8. Register RazeeDash as an `Oauth` application in GitHub.
+8. Register RazeeDash as an `OAuth` application in GitHub.
    1. From the RazeeDash welcome screen, click **Sign in**.
    2. Click **Configure GitHub Login**. A pop-up window opens.
    3. Follow the [link](https://github.com/settings/applications/new) in the pop-up window to register a new `OAuth` application in GitHub. Enter a name for your GitHub application, a description, and the **Homepage URL** and **Authorization callback URL** that are displayed in the pop-up window.
@@ -324,7 +324,7 @@ RemoteResource and RemoteResourceS3 are Kapitan components that you can use to a
 
 **Tip:** Use RemoteResource to specify a URL to your source repository and RemoteResourceS3 to connect to a Cloud Object Storage instance.
 
-1. Create a configuration file for your remote resource and include the information of the source repository where your YAML file is stored. You can create one remote resource for your cluster, or use one remote resource per Kubernetes namespace, for example if you use namespaces to separate teams, or environments. If the YAML file that is stored in your source repository does not specify a namespace, the resource is automatically deployed in the same namespace as your remote resource.
+1. Create a configuration file for your remote resource and include the information of the source repository where your YAML file is stored. You can create one remote resource for your cluster, or you can use one remote resource per Kubernetes namespace if, for example, you use namespaces to separate teams or environments. If the YAML file that is stored in your source repository does not specify a namespace, the resource is automatically deployed in the same namespace as your remote resource.
 
    ```yaml
    apiVersion: "kapitan.razee.io/v1alpha1"
@@ -429,7 +429,7 @@ RemoteResource and RemoteResourceS3 are Kapitan components that you can use to a
 
 When you develop an app, you must manage multiple versions of an app. For example, you might have an app that is considered stable and that runs in your production environment. At the same time, you work on a new version for your app that adds new features or enhances existing features. To keep your app versions separate, you might include the app version in your file name, or use different image tags and labels for Kubernetes resources that belong to the same app, team, or environment.
 
-With MustachTemplates, you can define environment variables and use Kubernetes config maps, secrets, or feature flags to determine the value of each environment variable. Then, you can replace variables in your YAML files with the value of your environment variable. For example, substitute the app version number in the URL of your remote resource that points to your file, or replace labels, image tags, and other YAML file pieces in your Kubernetes resources.
+With MustacheTemplates, you can define environment variables and use Kubernetes config maps, secrets, or feature flags to determine the value of each environment variable. Then, you can replace variables in your YAML files with the value of your environment variable. For example, substitute the app version number in the URL of your remote resource that points to your file, or replace labels, image tags, and other YAML file pieces in your Kubernetes resources.
 
 1. Create a configuration file for your mustache template.
 
@@ -846,7 +846,7 @@ Use ManagedSets to group all the Kubernetes resources that you want to deploy or
 
 ## Stay connected
 
-If you encouter an issue with using Razee, or want to learn more about Razee components and how to use them for your own Continuous Delivery pipeline, join the Razee development team in the [IBM Cloud Kubernetes Service Slack](https://ibm-container-service.slack.com) and post your question in the `#razee` channel. Click [here](https://bxcs-slack-invite.mybluemix.net/) to request access to this Slack.
+If you encounter an issue with using Razee, or want to learn more about Razee components and how to use them for your own Continuous Delivery pipeline, join the Razee development team in the [IBM Cloud Kubernetes Service Slack](https://ibm-container-service.slack.com) and post your question in the `#razee` channel. Click [here](https://bxcs-slack-invite.mybluemix.net/) to request access to this Slack.
 
 ## License
 
