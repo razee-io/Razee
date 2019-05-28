@@ -318,6 +318,27 @@ With Watch Keeper set up in your cluster, you can retrieve deployment informatio
    2. Click **Sign in with GitHub**.
    3. Find the GitHub organization that you connected RazeeDash to and click **Launch** to open the RazeeDash console.
 
+
+As you'll notice in the Razee dashboard, clusters you have configured to be watched and reported on are listed using a long ID token like `8e13917c-7e6b-11e9-a7d0-9e237586b5f9`. Razee can be configured to display the clusters using a more human-readable versus the IDs by following the steps below:
+
+1. Create a ConfigMap in your target cluster and label it with `razee/cluster-metadata=true`
+
+   For example: 
+    ```
+    apiVersion: v1
+    data:
+      name: razee-1
+    kind: ConfigMap
+    metadata:
+      labels:
+        razee/cluster-metadata: "true"
+        razee/watch-resource: debug
+      name: razee1-cluster-metadata
+      namespace: default
+    ```
+
+2. By creating a ConfigMap with a `name` field of `razee-1`, Razee will diplay this cluster on the dashboard using `razee-1` instead of the long ID value seen before. Note that it may take up to 2 minutes before the change can be seen in the dashboard. 
+
 ## Step 3: Automatically deploy Kubernetes resources with RemoteResources
 
 RemoteResource and RemoteResourceS3 are Kapitan components that you can use to automatically deploy Kubernetes resources that are stored in a source repository. Simply define the source repository in your remote resource and create the remote resource in your cluster. The remote resource controller automatically connects to your source repository, downloads the Kubernetes configuration file, and applies the file to your cluster. This process repeats about every two minutes. All you have to do is to keep your source file up-to-date and let your cluster auto-deploy it.
