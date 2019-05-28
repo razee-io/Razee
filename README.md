@@ -336,7 +336,7 @@ As you'll notice in the Razee dashboard, clusters you have configured to be watc
       name: razee1-cluster-metadata
       namespace: default
     ```
-    
+
 2. By creating a ConfigMap with a `name` field of `razee-1`, Razee will diplay this cluster on the dashboard using `razee-1` instead of the long ID value seen before. Note that it may take up to 2 minutes before the change can be seen in the dashboard.
 
 ## Step 3: Automatically deploy Kubernetes resources with RemoteResources
