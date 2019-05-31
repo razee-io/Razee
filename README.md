@@ -377,7 +377,7 @@ RemoteResource and RemoteResourceS3 are Kapitan components that you can use to a
 3. Verify that the remote resource is created successfully. After the remote resource is created, the remote resource establishes a connection to the source repository, downloads the specified file, and applies the file to the cluster. This process repeats about every 2 minutes. If an error occurs, you can review the error message in the **Status** section of your CLI output.
 
    ```bash
-   kubectl describe rrs <remote_resource_name> -n <namespace>
+   kubectl describe RemoteResource <remote_resource_name> -n <namespace>
    ```
 
    Example output:
