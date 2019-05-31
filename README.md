@@ -318,9 +318,7 @@ With Watch Keeper set up in your cluster, you can retrieve deployment informatio
    2. Click **Sign in with GitHub**.
    3. Find the GitHub organization that you connected RazeeDash to and click **Launch** to open the RazeeDash console.
 
-As you'll notice in the Razee dashboard, clusters you have configured to be watched and reported on are listed using a long ID token like `8e13917c-7e6b-11e9-a7d0-9e237586b5f9`. Razee can be configured to display the clusters using a more human-readable versus the IDs by following the steps below:
-
-1. Create a ConfigMap in your target cluster and label it with `razee/cluster-metadata=true`
+5. OPTIONAL: As you'll notice in the Razee dashboard, clusters you have configured to be watched and reported on are listed using a long ID token like `8e13917c-7e6b-11e9-a7d0-9e237586b5f9`. Razee can be configured to display the clusters using a more human-readable value versus the IDs by creating a ConfigMap in your target cluster and labelling it with `razee/cluster-metadata=true`.
 
    For example:
 
@@ -335,9 +333,9 @@ As you'll notice in the Razee dashboard, clusters you have configured to be watc
         razee/watch-resource: debug
       name: razee1-cluster-metadata
       namespace: default
-    ```
+    ````
 
-2. By creating a ConfigMap with a `name` field of `razee-1`, Razee will diplay this cluster on the dashboard using `razee-1` instead of the long ID value seen before. Note that it may take up to 2 minutes before the change can be seen in the dashboard.
+    After the ConfigMap is picked up (within a few moments), Razee will diplay this cluster on the dashboard using `razee-1` instead of the long ID value seen before. Note that it may take up to 2 minutes before the change can be seen in the dashboard.
 
 ## Step 3: Automatically deploy Kubernetes resources with RemoteResources
 
