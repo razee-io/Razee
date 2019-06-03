@@ -35,15 +35,15 @@ Take a look at the Razee architecture to see how Razee components interact, and 
    <tbody>
       <tr>
          <td><a href="https://github.com/razee-io/watch-keeper">Watch Keeper</a></td>
-         <td>Watch Keeper is responsible to retrieve configuration information for Kubernetes resources and to send this data to the RazeeDash API. To use Watch Keeper, simply install this component in your cluster and add the <code>razee/watch-resource</code> label to all resources that you want to monitor. After you add the label, Watch Keeper retrieves configuration information from the Kubernetes API server and immediately sends this data to the RazeeDash API. This process repeats once every hour. In addition, the Watch Keeper adds a Kubernetes event watcher to your resource so that the Watch Keeper is notified by Kubernetes when the configuration of your resource changes. </td>
+         <td>Watch Keeper is responsible to retrieve configuration information for Kubernetes resources and to send this data to the RazeeDash API. To use Watch Keeper, simply install this component in your cluster and add the <code>razee/watch-resource</code> label to all resources that you want to monitor. After you add the label, Watch Keeper retrieves configuration information from the Kubernetes API server and immediately sends this data to the RazeeDash API. This process repeats once every hour. In addition, Watch Keeper adds a Kubernetes event watcher to your resource so that Watch Keeper is notified by Kubernetes when the configuration of your resource changes. </td>
       </tr>
       <tr>
          <td><a href="https://github.com/razee-io/razeedash-api">RazeeDash API</a></td>
-         <td>RazeeDash API is a service that receives Kubernetes resource configurations and resource definitions from the Watch Keeper. Data that is sent to the RazeeDash API is automatically stored in MongoDB.  </td>
+         <td>RazeeDash API is a service that receives Kubernetes resource configurations and resource definitions from Watch Keeper. Data that is sent to the RazeeDash API is automatically stored in MongoDB.  </td>
       </tr>
       <tr>
          <td><a href="https://github.com/razee-io/razeedash">RazeeDash</a></td>
-         <td>RazeeDash visualizes data that is retrieved by the Watch Keeper and dynamically creates an inventory of your Kubernetes resources in your cluster. You can use the intelligent filter and alerting capabilities to analyze this data and quickly identify and resolve issues in your deployment process. </td>
+         <td>RazeeDash visualizes data that is retrieved by Watch Keeper and dynamically creates an inventory of your Kubernetes resources in your cluster. You can use the intelligent filter and alerting capabilities to analyze this data and quickly identify and resolve issues in your deployment process. </td>
       </tr>
    </tbody>
 </table>
@@ -243,11 +243,11 @@ To deploy Razee in your cluster, your cluster must meet the following requiremen
 10. Install Watch Keeper in your cluster.
     1. From the RazeeDash console, click the **Register** button that you can find next to your GitHub organization.
     2. Click the **Manage** button.
-    3. Copy the **Install Inventory** `kubectl` command.
+    3. Copy the **Install Razee Agent** `kubectl` command.
     4. Run the command in your cluster to create the Watch Keeper component.
 
        ```bash
-       kubectl create -f http://<razeedash-api-lb_external_IP>:8081/api/install/inventory?orgKey=orgApiKey-<org_api_key>
+       kubectl create -f http://<razeedash-api-lb_external_IP>:8081/api/install/cluster?orgKey=orgApiKey-<org_api_key>
        ```
 
        Example output:
@@ -263,7 +263,7 @@ To deploy Razee in your cluster, your cluster must meet the following requiremen
        Error from server (AlreadyExists): namespaces "razee" already exists
        ```
 
-    5. Wait for the Watch Keeper to finish.
+    5. Wait for Watch Keeper to finish.
 
        ```bash
        kubectl get deployment -n razee | grep watch-keeper
@@ -281,9 +281,9 @@ To deploy Razee in your cluster, your cluster must meet the following requiremen
 
 With Watch Keeper set up in your cluster, you can retrieve deployment information for other Kubernetes resources that you want to monitor. Data is automatically sent to the RazeeDash API and you can access, monitor, and analyze this data with RazeeDash.
 
-1. Decide what information you want the Watch Keeper to retrieve by choosing between the following information detail levels: <ul><li><code>lite</code>: Retrieves the <code>metadata</code> and <code>status</code> section of your Kubernetes resource configuration. </li><li><code>detail</code>: Retrieves all configuration data of a Kubernetes resource, but leaves out environment variables and the <code>data</code> section of config maps and secrets.</li><li><code>debug</code>: Retrieves all configuration data of a Kubernetes resource, including environment variables and the <code>data</code> section of config maps and secrets. This information might include sensitive information so use this option with care. </li></ul>
+1. Decide what information you want Watch Keeper to retrieve by choosing between the following information detail levels: <ul><li><code>lite</code>: Retrieves the <code>metadata</code> and <code>status</code> section of your Kubernetes resource configuration. </li><li><code>detail</code>: Retrieves all configuration data of a Kubernetes resource, but leaves out environment variables and the <code>data</code> section of config maps and secrets.</li><li><code>debug</code>: Retrieves all configuration data of a Kubernetes resource, including environment variables and the <code>data</code> section of config maps and secrets. This information might include sensitive information so use this option with care. </li></ul>
 
-2. Add the `razee/watch-resource` label to the **labels** section of all Kubernetes resources that you want to monitor and specify the information detail level. For example, if you want to monitor a Kubernetes deployment, use the following command. After you add the label to your resource, the Watch Keeper automatically scans your resource and sends data to the RazeeDash API. Then, your resource is scanned once every hour. In addition, the Watch Keeper adds a Kubernetes event watcher to your resource so that the Watch Keeper is notified by Kubernetes when the configuration of your resource changes.
+2. Add the `razee/watch-resource` label to the **labels** section of all Kubernetes resources that you want to monitor and specify the information detail level. For example, if you want to monitor a Kubernetes deployment, use the following command. After you add the label to your resource, Watch Keeper automatically scans your resource and sends data to the RazeeDash API. Then, your resource is scanned once every hour. In addition, Watch Keeper adds a Kubernetes event watcher to your resource so that Watch Keeper is notified by Kubernetes when the configuration of your resource changes.
 
    ```bash
    kubectl edit deployment <deployment_name>
