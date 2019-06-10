@@ -335,7 +335,7 @@ With Watch Keeper set up in your cluster, you can retrieve deployment informatio
       namespace: default
     ````
 
-    After the ConfigMap is picked up (within a few moments), Razee will diplay this cluster on the dashboard using `razee-1` instead of the long ID value seen before. Note that it may take up to 2 minutes before the change can be seen in the dashboard.
+    After the ConfigMap is picked up (within a few moments), Razee will display this cluster on the dashboard using `razee-1` instead of the long ID value seen before. Note that it may take about a minute before the change can be seen in the dashboard.
 
 ## Step 3: Automatically deploy Kubernetes resources with RemoteResources
 
