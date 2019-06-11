@@ -136,57 +136,57 @@ To deploy Razee in your cluster, your cluster must meet the following requiremen
 
     - For all-in-one approach and install a single-node MongoDB:
 
-    ```bash
-    kubectl apply -f https://github.com/razee-io/Razee/releases/latest/download/resource.yaml
-    ```
+        ```bash
+        kubectl apply -f https://github.com/razee-io/Razee/releases/latest/download/resource.yaml
+        ```
 
-    Example output:
+        Example output:
 
-    ```
-    persistentvolume/mongo-pv-volume created
-    persistentvolumeclaim/mongo-pv-claim created
-    deployment.apps/mongo created
-    service/mongo created
-    secret/razeedash-secret created
-    remoteresource.kapitan.razee.io/razeedash created
-    service/razeedash-lb created
-    service/razeedash-api-lb created
-    ```
+        ```
+        persistentvolume/mongo-pv-volume created
+        persistentvolumeclaim/mongo-pv-claim created
+        deployment.apps/mongo created
+        service/mongo created
+        secret/razeedash-secret created
+        remoteresource.kapitan.razee.io/razeedash created
+        service/razeedash-lb created
+        service/razeedash-api-lb created
+        ```
 
     - To use an existing MongoDB instance:
 
-     Create the razeedash secret for the mongo_url.  Substitute in the command below
-     with the actual username and password along with 3 host instances for mongo-0,
-     mongo-1 and mongo-3 along with the correct ports.  Make sure the end of the
-     mongo URL has `/razeedash?ssh=true`.
+        Create the razeedash secret for the mongo_url.  Substitute in the command below
+        with the actual username and password along with 3 host instances for mongo-0,
+        mongo-1 and mongo-3 along with the correct ports.  Make sure the end of the
+        mongo URL has `/razeedash?ssh=true`.
 
-    Example :
+        Example :
 
-    ```bash
-    echo -n "mongodb://username:password:mongo‑0:27017,mongo‑1:27017,mongo‑2/razeedash?ssl=true" | base64
-    ```
-    <!--Markdownlint-enable MD013-->
+        ```bash
+        echo -n "mongodb://username:password:mongo‑0:27017,mongo‑1:27017,mongo‑2/razeedash?ssl=true" | base64
+        ```
+        <!--Markdownlint-enable MD013-->
 
-    Create file razeedash-secret.yaml using the generated string provided from the
-    previous command replace `base64encodedstring` for the mongo_url parameter.
+        Create file razeedash-secret.yaml using the generated string provided from the
+        previous command replace `base64encodedstring` for the mongo_url parameter.
 
-    ```yaml
-    apiVersion: v1
-    kind: Secret
-    metadata:
-      name: razeedash-secret
-      namespace: razee
-    type: Opaque
-    data:
-      mongo_url: base64encodedstring
-    ```
+        ```yaml
+        apiVersion: v1
+        kind: Secret
+        metadata:
+          name: razeedash-secret
+          namespace: razee
+        type: Opaque
+        data:
+          mongo_url: base64encodedstring
+        ```
 
-    Apply the secret to kubernetes, then install Razeedash
+        Apply the secret to kubernetes, then install Razeedash
 
-    ```bash
-    kubectl apply -f razeedash-secret.yaml
-    kubectl apply -f https://github.com/razee-io/Razee/releases/latest/download/razeedash.yaml
-    ```
+        ```bash
+        kubectl apply -f razeedash-secret.yaml
+        kubectl apply -f https://github.com/razee-io/Razee/releases/latest/download/razeedash.yaml
+        ```
 
 4. Wait for the `razeedash-api` deployment to complete. As part of the RazeeDash
  API setup, an instance of MongoDB is created in your cluster and connected to
