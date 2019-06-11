@@ -134,7 +134,7 @@ To deploy Razee in your cluster, your cluster must meet the following requiremen
 
 3. Setup MongoDB and install the RazeeDash components in your cluster.
 
-    - For all-in-one approach and install a single-node MongoDB:
+    - *For all-in-one approach and install a single-node MongoDB:*
 
         ```bash
         kubectl apply -f https://github.com/razee-io/Razee/releases/latest/download/resource.yaml
@@ -153,7 +153,7 @@ To deploy Razee in your cluster, your cluster must meet the following requiremen
         service/razeedash-api-lb created
         ```
 
-    - To use an existing MongoDB instance:
+    - *To use an existing MongoDB instance:*
 
         Create the razeedash secret for the mongo_url.  Substitute in the command below
         with the actual username and password along with 3 host instances for mongo-0,
