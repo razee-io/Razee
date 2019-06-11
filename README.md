@@ -165,7 +165,6 @@ To deploy Razee in your cluster, your cluster must meet the following requiremen
         ```bash
         echo -n "mongodb://username:password:mongo‑0:27017,mongo‑1:27017,mongo‑2/razeedash?ssl=true" | base64
         ```
-        <!--Markdownlint-enable MD013-->
 
         Create file razeedash-secret.yaml using the generated string provided from the
         previous command replace `base64encodedstring` for the mongo_url parameter.
@@ -195,62 +194,48 @@ To deploy Razee in your cluster, your cluster must meet the following requiremen
  RazeeDash API deployment. When MongoDB is fully set up, Kubernetes automatically
  finishes the setup of your RazeeDash API instance.
 
-   ```bash
-   kubectl logs deploy/razeedash-api -n razee
-   ```
+    <!--Markdownlint-disable MD013-->
+    ```bash
+    kubectl logs deploy/razeedash-api -n razee
+    ```
 
-   Example output if MongoDB is not yet setup:
+    Example output if MongoDB is not yet setup:
 
-   ```
-   > razeedash-api@0.0.1 start /usr/src
-   > node app/index.js
+    ```
+    > razeedash-api@0.0.1 start /usr/src
+    > node app/index.js
 
-   (node:16) UnhandledPromiseRejectionWarning: MongoNetworkError: getaddrinfo
-   ENOTFOUND mongo
-    at Socket.<anonymous> (/usr/src/node_modules/mongodb-core/lib/connection/connect.js:287:16)
-    at Object.onceWrapper (events.js:284:20)
-    at Socket.emit (events.js:196:13)
-    at emitErrorNT (internal/streams/destroy.js:91:8)
-    at emitErrorAndCloseNT (internal/streams/destroy.js:59:3)
-    at processTicksAndRejections (internal/process/task_queues.js:84:9)
-   (node:16) UnhandledPromiseRejectionWarning: Unhandled promise rejection. This
-   error originated either by throwing inside of an async function without a
-   catch block, or by rejecting a promise which was not handled with .catch().
-   (rejection id: 1)
-   (node:16) [DEP0018] DeprecationWarning: Unhandled promise rejections are
-   deprecated. In the future, promise rejections that are not handled will
-   terminate the Node.js process with a non-zero exit code.
-   ```
+    (node:16) UnhandledPromiseRejectionWarning: MongoNetworkError: getaddrinfo
+    ENOTFOUND mongo
+      at Socket.<anonymous> (/usr/src/node_modules/mongodb-core/lib/connection/connect.js:287:16)
+      at Object.onceWrapper (events.js:284:20)
+      at Socket.emit (events.js:196:13)
+      at emitErrorNT (internal/streams/destroy.js:91:8)
+      at emitErrorAndCloseNT (internal/streams/destroy.js:59:3)
+      at processTicksAndRejections (internal/process/task_queues.js:84:9)
+    (node:16) UnhandledPromiseRejectionWarning: Unhandled promise rejection. This error originated either by throwing inside of an async function without a catch block, or by rejecting a promise which was not handled with .catch(). (rejection id: 1)
+    (node:16) [DEP0018] DeprecationWarning: Unhandled promise rejections are deprecated. In the future, promise rejections that are not handled will terminate the Node.js process with a non-zero exit code.
+    ```
 
-   Example output if RazeeDash API is fully set up:
+    Example output if RazeeDash API is fully set up:
 
-   ```
-   > razeedash-api@0.0.1 start /usr/src
-   > node app/index.js
+    ```
+    > razeedash-api@0.0.1 start /usr/src
+    > node app/index.js
 
-   {"name":"/","parseUA":false,"excludes":["req-headers","res-headers",
-   "referer","url","body","short-body"],"hostname":
-   "razeedash-api-55fd67ddb9-cnbf4","pid":16,"level":30,"msg":
-   "Created new collection deployments index deployments",
-   "time":"2019-05-22T03:15:11.526Z","v":0}
-   {"name":"/","parseUA":false,"excludes":["req-headers","res-headers","referer"
-   ,"url","body","short-body"],"hostname":"razeedash-api-55fd67ddb9-cnbf4",
-   "pid":16,"level":30,"msg":"Created new collection resources index resources","time":"2019-05-22T03:15:11.528Z","v":0}
-   {"name":"/","parseUA":false,"excludes":["req-headers","res-headers","referer"
-   ,"url","body","short-body"],"hostname":"razeedash-api-55fd67ddb9-cnbf4",
-   "pid":16,"level":30,"msg":"Created new collection clusters index clusters","time":"2019-05-22T03:15:12.172Z","v":0}
-   {"name":"/","parseUA":false,"excludes":["req-headers","res-headers","referer"
-   ,"url","body","short-body"],"hostname":"razeedash-api-55fd67ddb9-cnbf4",
-   "pid":16,"level":30,"msg":"Created new collection orgs index orgs","time":"2019-05-22T03:15:12.172Z","v":0}
-   {"name":"/","parseUA":false,"excludes":["req-headers","res-headers","referer"
-   ,"url","body","short-body"],"hostname":"razeedash-api-55fd67ddb9-cnbf4",
-   "pid":16,"level":30,"msg":"Created new collection resourceStats index resourceStats","time":"2019-05-22T03:15:12.173Z","v":0}
-   {"name":"/","parseUA":false,"excludes":["req-headers","res-headers","referer"
-   ,"url","body","short-body"],"hostname":"razeedash-api-55fd67ddb9-cnbf4",
-   "pid":16,"level":30,"msg":"Created new collection messages index messages","time":"2019-05-22T03:15:14.253Z","v":0}
-   {"name":"razeedash-api","hostname":"razeedash-api-55fd67ddb9-cnbf4","pid":16,
-   "level":30,"msg":"razeedash-api listening on port 3333","time":"2019-05-22T03:15:14.257Z","v":0}
-   ```
+    {"name":"/","parseUA":false,"excludes":["req-headers","res-headers",
+    "referer","url","body","short-body"],"hostname":
+    "razeedash-api-55fd67ddb9-cnbf4","pid":16,"level":30,"msg":
+    "Created new collection deployments index deployments",
+    "time":"2019-05-22T03:15:11.526Z","v":0}
+    {"name":"/","parseUA":false,"excludes":["req-headers","res-headers","referer","url","body","short-body"],"hostname":"razeedash-api-55fd67ddb9-cnbf4","pid":16,"level":30,"msg":"Created new collection resources index resources","time":"2019-05-22T03:15:11.528Z","v":0}
+    {"name":"/","parseUA":false,"excludes":["req-headers","res-headers","referer","url","body","short-body"],"hostname":"razeedash-api-55fd67ddb9-cnbf4", "pid":16,"level":30,"msg":"Created new collection clusters index clusters","time":"2019-05-22T03:15:12.172Z","v":0}
+    {"name":"/","parseUA":false,"excludes":["req-headers","res-headers","referer","url","body","short-body"],"hostname":"razeedash-api-55fd67ddb9-cnbf4","pid":16,"level":30,"msg":"Created new collection orgs index orgs","time":"2019-05-22T03:15:12.172Z","v":0}
+    {"name":"/","parseUA":false,"excludes":["req-headers","res-headers","referer","url","body","short-body"],"hostname":"razeedash-api-55fd67ddb9-cnbf4","pid":16,"level":30,"msg":"Created new collection resourceStats index resourceStats","time":"2019-05-22T03:15:12.173Z","v":0}
+    {"name":"/","parseUA":false,"excludes":["req-headers","res-headers","referer","url","body","short-body"],"hostname":"razeedash-api-55fd67ddb9-cnbf4","pid":16,"level":30,"msg":"Created new collection messages index messages","time":"2019-05-22T03:15:14.253Z","v":0}
+    {"name":"razeedash-api","hostname":"razeedash-api-55fd67ddb9-cnbf4","pid":16,"level":30,"msg":"razeedash-api listening on port 3333","time":"2019-05-22T03:15:14.257Z","v":0}
+    ```
+    <!--Markdownlint-enable MD013-->
 
 5. Retrieve the **EXTERNAL-IP** of your `razeedash-lb` and `razeedash-api-lb`
  load balancer services and create a RazeeDash config map. The two load balancer
@@ -538,38 +523,39 @@ repository, downloads the specified file, and applies the file to the cluster.
 This process repeats about every 2 minutes. If an error occurs, you can review
 the error message in the **Status** section of your CLI output.
 
-   ```bash
-   kubectl describe RemoteResource <remote_resource_name> -n <namespace>
-   ```
+    ```bash
+    kubectl describe RemoteResource <remote_resource_name> -n <namespace>
+    ```
 
-   Example output:
+    Example output:
+    <!--Markdownlint-disable MD013-->
 
-   ```
-   Name:         myremoteresource
-   Namespace:    razee
-   Labels:       <none>
-   Annotations:  kubectl.kubernetes.io/last-applied-configuration:
-                {"apiVersion":"kapitan.razee.io/v1alpha1","kind":"RemoteResource","metadata":{"annotations":{},"name":"myremoteresource","namespace":"...
-   API Version:  kapitan.razee.io/v1alpha1
-   Kind:         RemoteResource
-   Metadata:
-     Creation Timestamp:  2019-05-14T18:47:26Z
-     Finalizers:
-       children.downloads.kapitan.razee.io
-     Generation:        1
-     Resource Version:  37572078
-     Self Link:         /apis/kapitan.razee.io/v1alpha1/namespaces/razee/remoteresourcess3/myremoteresource
-     UID:               b81caa1f-7678-11e9-8e55-26f9979820ea
-   Spec:
-     Requests:
-       Options:
-         URL:  https://mysourcerepo.com/app.yaml
-   Status:
-     Children:
-       / Apis / Apps / V 1 / Namespaces / Razee / Deployments / Perfpvc:
-      Kapitan . Razee . Io / Reconcile:  true
-   Events:                                  <none>
-   ```
+    ```
+    Name:         myremoteresource
+    Namespace:    razee
+    Labels:       <none>
+    Annotations:  kubectl.kubernetes.io/last-applied-configuration:
+                  {"apiVersion":"kapitan.razee.io/v1alpha1","kind":"RemoteResource","metadata":{"annotations":{},"name":"myremoteresource","namespace":"...
+    API Version:  kapitan.razee.io/v1alpha1
+    Kind:         RemoteResource
+    Metadata:
+      Creation Timestamp:  2019-05-14T18:47:26Z
+      Finalizers:
+        children.downloads.kapitan.razee.io
+      Generation:        1
+      Resource Version:  37572078
+      Self Link:         /apis/kapitan.razee.io/v1alpha1/namespaces/razee/remoteresourcess3/myremoteresource
+      UID:               b81caa1f-7678-11e9-8e55-26f9979820ea
+    Spec:
+      Requests:
+        Options:
+          URL:  https://mysourcerepo.com/app.yaml
+    Status:
+      Children:
+        / Apis / Apps / V 1 / Namespaces / Razee / Deployments / Perfpvc: Kapitan . Razee . Io / Reconcile:  true
+    Events:                                  <none>
+    ```
+    <!--Markdownlint-enable MD013-->
 
 4. Verify that the Kubernetes resource is created or updated. For example, to
 verify a deployment, run the following command.
@@ -720,51 +706,52 @@ Then, these YAML files are applied to your cluster.
 3. Verify that your mustache template is created successfully. If an error
 occurs, you can review the error message in the **Status** section of your CLI output.
 
-   ```bash
-   kubectl describe mustachetemplate <mustache_template_name> -n <namespace>
-   ```
+    ```bash
+    kubectl describe mustachetemplate <mustache_template_name> -n <namespace>
+    ```
 
-   Example output:
+    Example output:
+    <!--Markdownlint-disable MD013-->
 
-   ```yaml
-   Name:         mymustachetemplate
-   Namespace:    razee
-   Labels:       <none>
-   Annotations:  kubectl.kubernetes.io/last-applied-configuration:
-                {"apiVersion":"kapitan.razee.io/v1alpha1","kind":"MustacheTemplate","metadata":{"annotations":{},"name":"demo-mustachetemplate","namespace...
-   API Version:  kapitan.razee.io/v1alpha1
-   Kind:         MustacheTemplate
-   Metadata:
-     Creation Timestamp:  2019-05-14T20:55:46Z
-     Finalizers:
-       children.mustachetemplate.kapitan.razee.io
-     Generation:        5
-     Resource Version:  37762378
-     Self Link:         /apis/kapitan.razee.io/v1alpha1/namespaces/razee/mustachetemplates/demo-mustachetemplate
-     UID:               a53e82c8-768a-11e9-8e55-26f9979820ea
-   Spec:
-     Env:
-       Name:  sample-app-version
-       Value: "3.0"
-       Name: prod-label
-       Value: myapp-prod
-     Templates:
-       API Version:  kapitan.razee.io/v1alpha1
-       Kind:         RemoteResource
-       Metadata:
-         Name:       myremoteresource
-         Namespace:  default
-       Spec:
-         Requests:
-           Options:
-             URL:  https://mysourcerepo.com/{{sample-app-version}}-app.yaml
-   Status:
-     Children:
-       / Apis / Kapitan . Razee . Io / V 1 Alpha 1 / Namespaces / Default /
-       Remoteresourcess 3 / Cos:
-      Kapitan . Razee . Io / Reconcile:  true
-   Events:                                  <none>
-   ```
+    ```yaml
+    Name:         mymustachetemplate
+    Namespace:    razee
+    Labels:       <none>
+    Annotations:  kubectl.kubernetes.io/last-applied-configuration:
+                  {"apiVersion":"kapitan.razee.io/v1alpha1","kind":"MustacheTemplate","metadata":{"annotations":{},"name":"demo-mustachetemplate","namespace...
+    API Version:  kapitan.razee.io/v1alpha1
+    Kind:         MustacheTemplate
+    Metadata:
+      Creation Timestamp:  2019-05-14T20:55:46Z
+      Finalizers:
+        children.mustachetemplate.kapitan.razee.io
+      Generation:        5
+      Resource Version:  37762378
+      Self Link:         /apis/kapitan.razee.io/v1alpha1/namespaces/razee/mustachetemplates/demo-mustachetemplate
+      UID:               a53e82c8-768a-11e9-8e55-26f9979820ea
+    Spec:
+      Env:
+        Name:  sample-app-version
+        Value: "3.0"
+        Name: prod-label
+        Value: myapp-prod
+      Templates:
+        API Version:  kapitan.razee.io/v1alpha1
+        Kind:         RemoteResource
+        Metadata:
+          Name:       myremoteresource
+          Namespace:  default
+        Spec:
+          Requests:
+            Options:
+              URL:  https://mysourcerepo.com/{{sample-app-version}}-app.yaml
+    Status:
+      Children:
+        / Apis / Kapitan . Razee . Io / V 1 Alpha 1 / Namespaces / Default / Remoteresourcess 3 / Cos:
+        Kapitan . Razee . Io / Reconcile:  true
+    Events:                                  <none>
+    ```
+    <!--Markdownlint-enable MD013-->
 
 4. Verify that your remote resource is created successfully and that variables
 are successfully replaced by the mustache template.
