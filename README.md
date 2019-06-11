@@ -223,11 +223,7 @@ To deploy Razee in your cluster, your cluster must meet the following requiremen
     > razeedash-api@0.0.1 start /usr/src
     > node app/index.js
 
-    {"name":"/","parseUA":false,"excludes":["req-headers","res-headers",
-    "referer","url","body","short-body"],"hostname":
-    "razeedash-api-55fd67ddb9-cnbf4","pid":16,"level":30,"msg":
-    "Created new collection deployments index deployments",
-    "time":"2019-05-22T03:15:11.526Z","v":0}
+    {"name":"/","parseUA":false,"excludes":["req-headers","res-headers","referer","url","body","short-body"],"hostname":"razeedash-api-55fd67ddb9-cnbf4","pid":16,"level":30,"msg":"Created new collection deployments index deployments","time":"2019-05-22T03:15:11.526Z","v":0}
     {"name":"/","parseUA":false,"excludes":["req-headers","res-headers","referer","url","body","short-body"],"hostname":"razeedash-api-55fd67ddb9-cnbf4","pid":16,"level":30,"msg":"Created new collection resources index resources","time":"2019-05-22T03:15:11.528Z","v":0}
     {"name":"/","parseUA":false,"excludes":["req-headers","res-headers","referer","url","body","short-body"],"hostname":"razeedash-api-55fd67ddb9-cnbf4", "pid":16,"level":30,"msg":"Created new collection clusters index clusters","time":"2019-05-22T03:15:12.172Z","v":0}
     {"name":"/","parseUA":false,"excludes":["req-headers","res-headers","referer","url","body","short-body"],"hostname":"razeedash-api-55fd67ddb9-cnbf4","pid":16,"level":30,"msg":"Created new collection orgs index orgs","time":"2019-05-22T03:15:12.172Z","v":0}
