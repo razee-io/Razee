@@ -132,26 +132,68 @@ To deploy Razee in your cluster, your cluster must meet the following requiremen
    remoteresources3-controller-86669655f9-5qv5m   1/1     Running   0          30s
    ```
 
-3. Install the RazeeDash components in your cluster.
+3. Setup MongoDB and install the RazeeDash components in your cluster.
 
-   ```bash
-   kubectl apply -f https://github.com/razee-io/Razee/releases/latest/download/resource.yaml
-   ```
+    - For all-in-one approach and install a single-node MongoDB:
 
-   Example output:
+    ```bash
+    kubectl apply -f https://github.com/razee-io/Razee/releases/latest/download/resource.yaml
+    ```
 
-   ```
-   persistentvolume/mongo-pv-volume created
-   persistentvolumeclaim/mongo-pv-claim created
-   deployment.apps/mongo created
-   service/mongo created
-   secret/razeedash-secret created
-   remoteresource.kapitan.razee.io/razeedash created
-   service/razeedash-lb created
-   service/razeedash-api-lb created
-   ```
+    Example output:
 
-4. Wait for the `razeedash-api` deployment to complete. As part of the RazeeDash API setup, an instance of MongoDB is created in your cluster and connected to your RazeeDash API instance. The setup of MongoDB takes a couple of minutes to complete and might lead to intermittent `MongoNetworkError` errors in your RazeeDash API deployment. When MongoDB is fully set up, Kubernetes automatically finishes the setup of your RazeeDash API instance.
+    ```
+    persistentvolume/mongo-pv-volume created
+    persistentvolumeclaim/mongo-pv-claim created
+    deployment.apps/mongo created
+    service/mongo created
+    secret/razeedash-secret created
+    remoteresource.kapitan.razee.io/razeedash created
+    service/razeedash-lb created
+    service/razeedash-api-lb created
+    ```
+
+    - To use an existing MongoDB instance:
+
+     Create the razeedash secret for the mongo_url.  Substitute in the command below
+     with the actual username and password along with 3 host instances for mongo-0,
+     mongo-1 and mongo-3 along with the correct ports.  Make sure the end of the
+     mongo URL has `/razeedash?ssh=true`.
+
+    Example :
+
+    ```bash
+    echo -n "mongodb://username:password:mongo‑0:27017,mongo‑1:27017,mongo‑2/razeedash?ssl=true" | base64
+    ```
+    <!--Markdownlint-enable MD013-->
+
+    Create file razeedash-secret.yaml using the generated string provided from the
+    previous command replace `base64encodedstring` for the mongo_url parameter.
+
+    ```yaml
+    apiVersion: v1
+    kind: Secret
+    metadata:
+      name: razeedash-secret
+      namespace: razee
+    type: Opaque
+    data:
+      mongo_url: base64encodedstring
+    ```
+
+    Apply the secret to kubernetes, then install Razeedash
+
+    ```bash
+    kubectl apply -f razeedash-secret.yaml
+    kubectl apply -f https://github.com/razee-io/Razee/releases/latest/download/razeedash.yaml
+    ```
+
+4. Wait for the `razeedash-api` deployment to complete. As part of the RazeeDash
+ API setup, an instance of MongoDB is created in your cluster and connected to
+ your RazeeDash API instance. The setup of MongoDB takes a couple of minutes to
+ complete and might lead to intermittent `MongoNetworkError` errors in your
+ RazeeDash API deployment. When MongoDB is fully set up, Kubernetes automatically
+ finishes the setup of your RazeeDash API instance.
 
    ```bash
    kubectl logs deploy/razeedash-api -n razee
@@ -163,15 +205,21 @@ To deploy Razee in your cluster, your cluster must meet the following requiremen
    > razeedash-api@0.0.1 start /usr/src
    > node app/index.js
 
-   (node:16) UnhandledPromiseRejectionWarning: MongoNetworkError: getaddrinfo ENOTFOUND mongo
+   (node:16) UnhandledPromiseRejectionWarning: MongoNetworkError: getaddrinfo
+   ENOTFOUND mongo
     at Socket.<anonymous> (/usr/src/node_modules/mongodb-core/lib/connection/connect.js:287:16)
     at Object.onceWrapper (events.js:284:20)
     at Socket.emit (events.js:196:13)
     at emitErrorNT (internal/streams/destroy.js:91:8)
     at emitErrorAndCloseNT (internal/streams/destroy.js:59:3)
     at processTicksAndRejections (internal/process/task_queues.js:84:9)
-   (node:16) UnhandledPromiseRejectionWarning: Unhandled promise rejection. This error originated either by throwing inside of an async function without a catch block, or by rejecting a promise which was not handled with .catch(). (rejection id: 1)
-   (node:16) [DEP0018] DeprecationWarning: Unhandled promise rejections are deprecated. In the future, promise rejections that are not handled will terminate the Node.js process with a non-zero exit code.
+   (node:16) UnhandledPromiseRejectionWarning: Unhandled promise rejection. This
+   error originated either by throwing inside of an async function without a
+   catch block, or by rejecting a promise which was not handled with .catch().
+   (rejection id: 1)
+   (node:16) [DEP0018] DeprecationWarning: Unhandled promise rejections are
+   deprecated. In the future, promise rejections that are not handled will
+   terminate the Node.js process with a non-zero exit code.
    ```
 
    Example output if RazeeDash API is fully set up:
@@ -180,16 +228,39 @@ To deploy Razee in your cluster, your cluster must meet the following requiremen
    > razeedash-api@0.0.1 start /usr/src
    > node app/index.js
 
-   {"name":"/","parseUA":false,"excludes":["req-headers","res-headers","referer","url","body","short-body"],"hostname":"razeedash-api-55fd67ddb9-cnbf4","pid":16,"level":30,"msg":"Created new collection deployments index deployments","time":"2019-05-22T03:15:11.526Z","v":0}
-   {"name":"/","parseUA":false,"excludes":["req-headers","res-headers","referer","url","body","short-body"],"hostname":"razeedash-api-55fd67ddb9-cnbf4","pid":16,"level":30,"msg":"Created new collection resources index resources","time":"2019-05-22T03:15:11.528Z","v":0}
-   {"name":"/","parseUA":false,"excludes":["req-headers","res-headers","referer","url","body","short-body"],"hostname":"razeedash-api-55fd67ddb9-cnbf4","pid":16,"level":30,"msg":"Created new collection clusters index clusters","time":"2019-05-22T03:15:12.172Z","v":0}
-   {"name":"/","parseUA":false,"excludes":["req-headers","res-headers","referer","url","body","short-body"],"hostname":"razeedash-api-55fd67ddb9-cnbf4","pid":16,"level":30,"msg":"Created new collection orgs index orgs","time":"2019-05-22T03:15:12.172Z","v":0}
-   {"name":"/","parseUA":false,"excludes":["req-headers","res-headers","referer","url","body","short-body"],"hostname":"razeedash-api-55fd67ddb9-cnbf4","pid":16,"level":30,"msg":"Created new collection resourceStats index resourceStats","time":"2019-05-22T03:15:12.173Z","v":0}
-   {"name":"/","parseUA":false,"excludes":["req-headers","res-headers","referer","url","body","short-body"],"hostname":"razeedash-api-55fd67ddb9-cnbf4","pid":16,"level":30,"msg":"Created new collection messages index messages","time":"2019-05-22T03:15:14.253Z","v":0}
-   {"name":"razeedash-api","hostname":"razeedash-api-55fd67ddb9-cnbf4","pid":16,"level":30,"msg":"razeedash-api listening on port 3333","time":"2019-05-22T03:15:14.257Z","v":0}
+   {"name":"/","parseUA":false,"excludes":["req-headers","res-headers",
+   "referer","url","body","short-body"],"hostname":
+   "razeedash-api-55fd67ddb9-cnbf4","pid":16,"level":30,"msg":
+   "Created new collection deployments index deployments",
+   "time":"2019-05-22T03:15:11.526Z","v":0}
+   {"name":"/","parseUA":false,"excludes":["req-headers","res-headers","referer"
+   ,"url","body","short-body"],"hostname":"razeedash-api-55fd67ddb9-cnbf4",
+   "pid":16,"level":30,"msg":"Created new collection resources index resources","time":"2019-05-22T03:15:11.528Z","v":0}
+   {"name":"/","parseUA":false,"excludes":["req-headers","res-headers","referer"
+   ,"url","body","short-body"],"hostname":"razeedash-api-55fd67ddb9-cnbf4",
+   "pid":16,"level":30,"msg":"Created new collection clusters index clusters","time":"2019-05-22T03:15:12.172Z","v":0}
+   {"name":"/","parseUA":false,"excludes":["req-headers","res-headers","referer"
+   ,"url","body","short-body"],"hostname":"razeedash-api-55fd67ddb9-cnbf4",
+   "pid":16,"level":30,"msg":"Created new collection orgs index orgs","time":"2019-05-22T03:15:12.172Z","v":0}
+   {"name":"/","parseUA":false,"excludes":["req-headers","res-headers","referer"
+   ,"url","body","short-body"],"hostname":"razeedash-api-55fd67ddb9-cnbf4",
+   "pid":16,"level":30,"msg":"Created new collection resourceStats index resourceStats","time":"2019-05-22T03:15:12.173Z","v":0}
+   {"name":"/","parseUA":false,"excludes":["req-headers","res-headers","referer"
+   ,"url","body","short-body"],"hostname":"razeedash-api-55fd67ddb9-cnbf4",
+   "pid":16,"level":30,"msg":"Created new collection messages index messages","time":"2019-05-22T03:15:14.253Z","v":0}
+   {"name":"razeedash-api","hostname":"razeedash-api-55fd67ddb9-cnbf4","pid":16,
+   "level":30,"msg":"razeedash-api listening on port 3333","time":"2019-05-22T03:15:14.257Z","v":0}
    ```
 
-5. Retrieve the **EXTERNAL-IP** of your `razeedash-lb` and `razeedash-api-lb` load balancer services and create a RazeeDash config map. The two load balancer services are automatically created during the setup of your RazeeDash API instance and assigned a public IP address. `razeedash-lb` serves as the public endpoint for your RazeeDash instance, and `razeedash-api-lb` serves as the public endpoint for your RazeeDash API instance. RazeeDash config map includes the public IP addresses for your RazeeDash and RazeeDash API instances. This config map is required to finish the setup of RazeeDash. You can execute the following Bash commands or execute [bin/kc_create_razeedash_config.sh](https://github.com/razee-io/Kube-cloud-scripts/bin/kc_create_razeedash_config.sh)
+5. Retrieve the **EXTERNAL-IP** of your `razeedash-lb` and `razeedash-api-lb`
+ load balancer services and create a RazeeDash config map. The two load balancer
+ services are automatically created during the setup of your RazeeDash API
+ instance and assigned a public IP address. `razeedash-lb` serves as the public
+ endpoint for your RazeeDash instance, and `razeedash-api-lb` serves as the
+ public endpoint for your RazeeDash API instance. RazeeDash config map includes
+ the public IP addresses for your RazeeDash and RazeeDash API instances. This
+ config map is required to finish the setup of RazeeDash. You can execute the
+ following Bash commands or execute [bin/kc_create_razeedash_config.sh](https://github.com/razee-io/Kube-cloud-scripts/bin/kc_create_razeedash_config.sh)
 
    ```bash
    RAZEEDASH_LB=$(kubectl get service razeedash-lb -n razee -o jsonpath="{.status.loadBalancer.ingress[*].ip}")
@@ -199,7 +270,8 @@ To deploy Razee in your cluster, your cluster must meet the following requiremen
      --from-literal=razeedash_api_url=http://"${RAZEEDASH_API_LB}":8081/
    ```
 
-6. Verify that all Razee components are deployed and show `1/1` in the **READY** column of your CLI output.
+6. Verify that all Razee components are deployed and show `1/1` in the **READY**
+column of your CLI output.
 
    ```bash
    kubectl get deployments -n razee
@@ -229,19 +301,26 @@ To deploy Razee in your cluster, your cluster must meet the following requiremen
 8. Register RazeeDash as an `OAuth` application in GitHub.
    1. From the RazeeDash welcome screen, click **Sign in**.
    2. Click **Configure GitHub Login**. A pop-up window opens.
-   3. Follow the [link](https://github.com/settings/applications/new) in the pop-up window to register a new `OAuth` application in GitHub. Enter a name for your GitHub application, a description, and the **Homepage URL** and **Authorization callback URL** that are displayed in the pop-up window.
+   3. Follow the [link](https://github.com/settings/applications/new) in the
+   pop-up window to register a new `OAuth` application in GitHub. Enter a name
+   for your GitHub application, a description, and the **Homepage URL** and
+   **Authorization callback URL** that are displayed in the pop-up window.
    4. Click **Register application**.
-   5. Copy the **Client ID** and the **Client Secret** and add these values to the pop-up window.
+   5. Copy the **Client ID** and the **Client Secret** and add these values to
+   the pop-up window.
    6. Click **Save configuration**.
 
 9. Grant RazeeDash access to your organization in GitHub.
     1. If you do not own a GitHub organization, [create one](https://help.github.com/en/articles/creating-a-new-organization-from-scratch).
-    2. From the RazeeDash welcome screen, click **Sign in with GitHub**. A pop-up window opens.
+    2. From the RazeeDash welcome screen, click **Sign in with GitHub**. A
+    pop-up window opens.
     3. In the **Organization access** section, find your organization and click **Grant**.
-    4. Click **Authorize <github_user_name>**. The RazeeDash console opens and shows the name of the organization that you granted access to.
+    4. Click **Authorize <github_user_name>**. The RazeeDash console opens and
+    shows the name of the organization that you granted access to.
 
 10. Install Watch Keeper in your cluster.
-    1. From the RazeeDash console, click the **Register** button that you can find next to your GitHub organization.
+    1. From the RazeeDash console, click the **Register** button that you can
+    find next to your GitHub organization.
     2. Click the **Manage** button.
     3. Copy the **Install Razee Agent** `kubectl` command.
     4. Run the command in your cluster to create the Watch Keeper component.
@@ -275,15 +354,37 @@ To deploy Razee in your cluster, your cluster must meet the following requiremen
        watch-keeper                  1/1     1            1           2m5s
        ```
 
-11. From the RazeeDash console, click **Launch** to open the RazeeDash details page and verify that you can see deployment information for your Watch Keeper pod.
+11. From the RazeeDash console, click **Launch** to open the RazeeDash details
+ page and verify that you can see deployment information for your Watch Keeper pod.
 
 ## Step 2: Visualize deployment information in RazeeDash
 
-With Watch Keeper set up in your cluster, you can retrieve deployment information for other Kubernetes resources that you want to monitor. Data is automatically sent to the RazeeDash API and you can access, monitor, and analyze this data with RazeeDash.
+With Watch Keeper set up in your cluster, you can retrieve deployment information
+ for other Kubernetes resources that you want to monitor. Data is automatically
+ sent to the RazeeDash API and you can access, monitor, and analyze this data
+  with RazeeDash.
 
-1. Decide what information you want Watch Keeper to retrieve by choosing between the following information detail levels: <ul><li><code>lite</code>: Retrieves the <code>metadata</code> and <code>status</code> section of your Kubernetes resource configuration. </li><li><code>detail</code>: Retrieves all configuration data of a Kubernetes resource, but leaves out environment variables and the <code>data</code> section of config maps and secrets.</li><li><code>debug</code>: Retrieves all configuration data of a Kubernetes resource, including environment variables and the <code>data</code> section of config maps and secrets. This information might include sensitive information so use this option with care. </li></ul>
+1. Decide what information you want Watch Keeper to retrieve by choosing between
+the following information detail levels:
 
-2. Add the `razee/watch-resource` label to the **labels** section of all Kubernetes resources that you want to monitor and specify the information detail level. For example, if you want to monitor a Kubernetes deployment, use the following command. After you add the label to your resource, Watch Keeper automatically scans your resource and sends data to the RazeeDash API. Then, your resource is scanned once every hour. In addition, Watch Keeper adds a Kubernetes event watcher to your resource so that Watch Keeper is notified by Kubernetes when the configuration of your resource changes.
+    - `lite`: Retrieves the `metadata` and `status` section of your Kubernetes
+    resource configuration.
+    - `detail`: Retrieves all configuration data of a Kubernetes resource, but
+    leaves out environment
+    variables and the `data` section of config maps and secrets.
+    - `debug`: Retrieves all configuration data of a
+    Kubernetes resource, including environment variables and the `data`
+    section of config maps and secrets. This information might include sensitive
+    information so use this option with care.
+
+2. Add the `razee/watch-resource` label to the **labels** section of all
+Kubernetes resources that you want to monitor and specify the information
+detail level. For example, if you want to monitor a Kubernetes deployment,
+use the following command. After you add the label to your resource, Watch
+Keeper automatically scans your resource and sends data to the RazeeDash API.
+Then, your resource is scanned once every hour. In addition, Watch Keeper adds
+a Kubernetes event watcher to your resource so that Watch Keeper is notified by
+Kubernetes when the configuration of your resource changes.
 
    ```bash
    kubectl edit deployment <deployment_name>
@@ -307,7 +408,9 @@ With Watch Keeper set up in your cluster, you can retrieve deployment informatio
    ...
    ```
 
-3. In your preferred web browser, open RazeeDash. To find the public IP address that is assigned to your RazeeDash service, run `kubectl get service razeedash-lb -n razee`.
+3. In your preferred web browser, open RazeeDash. To find the public IP address
+that is assigned to your RazeeDash service, run
+`kubectl get service razeedash-lb -n razee`.
 
    ```
    http://<razeedash-lb_external_IP>:8080
@@ -316,9 +419,14 @@ With Watch Keeper set up in your cluster, you can retrieve deployment informatio
 4. Access your data.
    1. Click **Sign in**.
    2. Click **Sign in with GitHub**.
-   3. Find the GitHub organization that you connected RazeeDash to and click **Launch** to open the RazeeDash console.
+   3. Find the GitHub organization that you connected RazeeDash to and click
+   **Launch** to open the RazeeDash console.
 
-5. OPTIONAL: As you'll notice in the Razee dashboard, clusters you have configured to be watched and reported on are listed using a long ID token like `8e13917c-7e6b-11e9-a7d0-9e237586b5f9`. Razee can be configured to display the clusters using a more human-readable value versus the IDs by creating a ConfigMap in your target cluster and labelling it with `razee/cluster-metadata=true`.
+5. OPTIONAL: As you'll notice in the Razee dashboard, clusters you have
+configured to be watched and reported on are listed using a long ID token like
+`8e13917c-7e6b-11e9-a7d0-9e237586b5f9`. Razee can be configured to display the
+clusters using a more human-readable value versus the IDs by creating a
+ConfigMap in your target cluster and labelling it with `razee/cluster-metadata=true`.
 
    For example:
 
@@ -335,15 +443,32 @@ With Watch Keeper set up in your cluster, you can retrieve deployment informatio
       namespace: default
     ````
 
-    After the ConfigMap is picked up (within a few moments), Razee will display this cluster on the dashboard using `razee-1` instead of the long ID value seen before. Note that it may take about a minute before the change can be seen in the dashboard.
+    After the ConfigMap is picked up (within a few moments), Razee will display
+    this cluster on the dashboard using `razee-1` instead of the long ID value
+    seen before. Note that it may take about a minute before the change can be
+    seen in the dashboard.
 
 ## Step 3: Automatically deploy Kubernetes resources with RemoteResources
 
-RemoteResource and RemoteResourceS3 are Kapitan components that you can use to automatically deploy Kubernetes resources that are stored in a source repository. Simply define the source repository in your remote resource and create the remote resource in your cluster. The remote resource controller automatically connects to your source repository, downloads the Kubernetes configuration file, and applies the file to your cluster. This process repeats about every two minutes. All you have to do is to keep your source file up-to-date and let your cluster auto-deploy it.
+RemoteResource and RemoteResourceS3 are Kapitan components that you can use to
+automatically deploy Kubernetes resources that are stored in a source
+repository. Simply define the source repository in your remote resource and
+create the remote resource in your cluster. The remote resource controller
+automatically connects to your source repository, downloads the Kubernetes
+configuration file, and applies the file to your cluster. This process repeats
+about every two minutes. All you have to do is to keep your source file
+up-to-date and let your cluster auto-deploy it.
 
-**Tip:** Use RemoteResource to specify a URL to your source repository and RemoteResourceS3 to connect to a Cloud Object Storage instance.
+**Tip:** Use RemoteResource to specify a URL to your source repository and
+RemoteResourceS3 to connect to a Cloud Object Storage instance.
 
-1. Create a configuration file for your remote resource and include the information of the source repository where your YAML file is stored. You can create one remote resource for your cluster, or you can use one remote resource per Kubernetes namespace if, for example, you use namespaces to separate teams or environments. If the YAML file that is stored in your source repository does not specify a namespace, the resource is automatically deployed in the same namespace as your remote resource.
+1. Create a configuration file for your remote resource and include the
+information of the source repository where your YAML file is stored. You can
+create one remote resource for your cluster, or you can use one remote resource
+per Kubernetes namespace if, for example, you use namespaces to separate teams
+or environments. If the YAML file that is stored in your source repository does
+not specify a namespace, the resource is automatically deployed in the same
+namespace as your remote resource.
 
    ```yaml
    apiVersion: "kapitan.razee.io/v1alpha1"
@@ -374,15 +499,29 @@ RemoteResource and RemoteResourceS3 are Kapitan components that you can use to a
       </tr>
       <tr>
          <td><code>metadata.namespace</code></td>
-         <td>Enter the namespace where you want to deploy your remote resource. You can deploy your remote resource to any namespace in your cluster. If the YAML file in your source repository that you link to does not define a namespace, the Kubernetes resource is deployed to the same namespace as your remote resource.</td>
+         <td>Enter the namespace where you want to deploy your remote resource.
+         You can deploy your remote resource to any namespace in your cluster.
+         If the YAML file in your source repository that you link to does not
+         define a namespace, the Kubernetes resource is deployed to the same
+         namespace as your remote resource.</td>
       </tr>
       <tr>
          <td><code>spec.requests.options.url</code></td>
-         <td>Enter the URLs to the YAML files that you want to deploy in your cluster. Each URL must be included as a separate entry in <code>spec.requests.options</code> and can point to one file only, not a collection of files. Depending on the type of source repository that you use, you can include credentials in your URL to authenticate with the source repository. If credentials must be passed in as header information, add these headers in <code>spec.requests.options.headers</code>.  </td>
+         <td>Enter the URLs to the YAML files that you want to deploy in your
+         cluster. Each URL must be included as a separate entry in
+         <code>spec.requests.options</code> and can point to one file only, not
+         a collection of files. Depending on the type of source repository that
+         you use, you can include credentials in your URL to authenticate with
+         the source repository. If credentials must be passed in as header
+         information, add these headers in <code>spec.requests.options.headers
+         </code>.  </td>
       </tr>
       <tr>
          <td><code>spec.requests.options.headers</code></td>
-         <td>Enter any header information, such as credentials, that you want the remote resource to pass along when connecting to your source repository. You must enter a key and a value for each header that you want to add. </td>
+         <td>Enter any header information, such as credentials, that you want
+         the remote resource to pass along when connecting to your source
+         repository. You must enter a key and a value for each header that you
+         want to add. </td>
       </tr>
    </tbody>
    </table>
@@ -393,7 +532,11 @@ RemoteResource and RemoteResourceS3 are Kapitan components that you can use to a
    kubectl apply -f remoteresource.yaml
    ```
 
-3. Verify that the remote resource is created successfully. After the remote resource is created, the remote resource establishes a connection to the source repository, downloads the specified file, and applies the file to the cluster. This process repeats about every 2 minutes. If an error occurs, you can review the error message in the **Status** section of your CLI output.
+3. Verify that the remote resource is created successfully. After the remote
+resource is created, the remote resource establishes a connection to the source
+repository, downloads the specified file, and applies the file to the cluster.
+This process repeats about every 2 minutes. If an error occurs, you can review
+the error message in the **Status** section of your CLI output.
 
    ```bash
    kubectl describe RemoteResource <remote_resource_name> -n <namespace>
@@ -428,27 +571,44 @@ RemoteResource and RemoteResourceS3 are Kapitan components that you can use to a
    Events:                                  <none>
    ```
 
-4. Verify that the Kubernetes resource is created or updated. For example, to verify a deployment, run the following command.
+4. Verify that the Kubernetes resource is created or updated. For example, to
+verify a deployment, run the following command.
 
    ```bash
    kubectl describe deployment <deployment_name> -n <namespace>
    ```
 
-5. Change the configuration of your YAML file in your source repository. For example, if you have a deployment, you can change or add a label to the `metadata` section of your YAML file.
+5. Change the configuration of your YAML file in your source repository. For
+example, if you have a deployment, you can change or add a label to the
+`metadata` section of your YAML file.
 
-6. Wait about 2 minutes for the remote resource to get restarted by Kubernetes, download the latest version of your Kubernetes resource and apply the change to your resource. Then, verify that the change is rolled out successfully.
+6. Wait about 2 minutes for the remote resource to get restarted by Kubernetes,
+download the latest version of your Kubernetes resource and apply the change to
+your resource. Then, verify that the change is rolled out successfully.
 
    ```bash
    kubectl describe deployment <deployment_name> -n <namespace>
    ```
 
-7. Optional: To remove a Kubernetes resource, you can either remove the source repository's URL from the remote resource, or remove the remote resource entirely.
+7. Optional: To remove a Kubernetes resource, you can either remove the source
+repository's URL from the remote resource, or remove the remote resource entirely.
 
 ## Step 4: Add version control or replace YAML file variables with MustacheTemplates
 
-When you develop an app, you must manage multiple versions of an app. For example, you might have an app that is considered stable and that runs in your production environment. At the same time, you work on a new version for your app that adds new features or enhances existing features. To keep your app versions separate, you might include the app version in your file name, or use different image tags and labels for Kubernetes resources that belong to the same app, team, or environment.
+When you develop an app, you must manage multiple versions of an app. For
+example, you might have an app that is considered stable and that runs in your
+production environment. At the same time, you work on a new version for your app
+that adds new features or enhances existing features. To keep your app versions
+separate, you might include the app version in your file name, or use different
+image tags and labels for Kubernetes resources that belong to the same app,
+team, or environment.
 
-With MustacheTemplates, you can define environment variables and use Kubernetes config maps, secrets, or feature flags to determine the value of each environment variable. Then, you can replace variables in your YAML files with the value of your environment variable. For example, substitute the app version number in the URL of your remote resource that points to your file, or replace labels, image tags, and other YAML file pieces in your Kubernetes resources.
+With MustacheTemplates, you can define environment variables and use Kubernetes
+config maps, secrets, or feature flags to determine the value of each
+environment variable. Then, you can replace variables in your YAML files with
+the value of your environment variable. For example, substitute the app version
+number in the URL of your remote resource that points to your file, or replace
+labels, image tags, and other YAML file pieces in your Kubernetes resources.
 
 1. Create a configuration file for your mustache template.
 
@@ -490,39 +650,75 @@ With MustacheTemplates, you can define environment variables and use Kubernetes 
       </tr>
       <tr>
          <td><code>metadata.namespace</code></td>
-         <td>Enter the namespace where you want to deploy your mustache template. You can deploy your mustache template to any namespace in your cluster. <strong>Note</strong>: If you want to retrieve values for your environment variables from other Kubernetes resources, such as a config map or feature flag set, the mustache template must be deployed to the same namespace as the resource so that the mustache template can retrieve the environment variable values. </td>
+         <td>Enter the namespace where you want to deploy your mustache
+         template. You can deploy your mustache template to any namespace in
+         your cluster. <strong>Note</strong>: If you want to retrieve values
+         for your environment variables from other Kubernetes resources, such
+         as a config map or feature flag set, the mustache template must be
+         deployed to the same namespace as the resource so that the mustache
+         template can retrieve the environment variable values. </td>
       </tr>
       <tr>
          <td><code>spec.env.name</code></td>
-         <td>Enter the name of the environment variable that you want to specify in your mustache template. If you define a name, you must define a value at the same time. You can use the name of your environment variable in the <code>spec.templates</code> section of your mustache template to replace a variable with the environment variable's value.</td>
+         <td>Enter the name of the environment variable that you want to specify
+         in your mustache template. If you define a name, you must define a
+         value at the same time. You can use the name of your environment
+         variable in the <code>spec.templates</code> section of your mustache
+         template to replace a variable with the environment variable's value.</td>
       </tr>
       <tr>
          <td><code>spec.env.value</code></td>
-         <td>Enter the value of the environment variable. You can choose to enter the value directly as shown in this example, retrieve the value from a Kubernetes secret, or reference a Kubernetes config map or Razee FeatureFlagSetLD.  </td>
+         <td>Enter the value of the environment variable. You can choose to enter
+          the value directly as shown in this example, retrieve the value from a
+          Kubernetes secret, or reference a Kubernetes config map or Razee
+          FeatureFlagSetLD.  </td>
       </tr>
        <tr>
          <td><code>spec.env.valueFrom.configMapKeyRef.name</code></td>
-         <td>Required for config maps only. Enter the name of the config map that holds the information that you want to retrieve. The config map must be deployed in the same namespace as your mustache template so that the mustache template can retrieve the environment variable value.  </td>
+         <td>Required for config maps only. Enter the name of the config map
+         that holds the information that you want to retrieve. The config map
+         must be deployed in the same namespace as your mustache template so
+         that the mustache template can retrieve the environment variable value.
+         </td>
       </tr>
       <tr>
          <td><code>spec.env.valueFrom.configMapKeyRef.key</code></td>
-         <td>Required for config maps only. Enter the key of the key-value pair that you want to retrieve from your config map. In this example, the mustache template retrieves the value of the <code>prod</code> key from your config map. You can use this value to replace any variable with the name <code>prod-label</code> in the YAML files that you added to the <code>spec.templates</code> section of your mustache template. The config map must be deployed in the same namespace as your mustache template so that the mustache template can retrieve the environment variable value. </td>
+         <td>Required for config maps only. Enter the key of the key-value pair
+         that you want to retrieve from your config map. In this example, the
+         mustache template retrieves the value of the <code>prod</code> key from
+         your config map. You can use this value to replace any variable with
+         the name <code>prod-label</code> in the YAML files that you added to
+         the <code>spec.templates</code> section of your mustache template. The
+         config map must be deployed in the same namespace as your mustache
+         template so that the mustache template can retrieve the environment
+         variable value. </td>
       </tr>
       <tr>
          <td><code>spec.templates</code></td>
-         <td>Specify any YAML file that you want to deploy in your cluster and where you want to replace variables with the value of the environment variables that you defined in your mustache template. For example, specify your remote resource and use the environment variable of your mustache template to replace the version number of the app so that you point to the URL that is specific to the app version. Every YAML file that you specify in this section is automatically created when you create the mustache template.    </td>
+         <td>Specify any YAML file that you want to deploy in your cluster and
+         where you want to replace variables with the value of the environment
+         variables that you defined in your mustache template. For example,
+         specify your remote resource and use the environment variable of your
+         mustache template to replace the version number of the app so that you
+         point to the URL that is specific to the app version. Every YAML file
+         that you specify in this section is automatically created when you
+         create the mustache template.    </td>
       </tr>
    </tbody>
    </thead>
    </table>
 
-2. Create the mustache template in your cluster. When you create the mustache template, the values for all environment variables are automatically retrieved and replaced in the YAML files that you listed in the `spec.templates` section. Then, these YAML files are applied to your cluster.
+2. Create the mustache template in your cluster. When you create the mustache
+template, the values for all environment variables are automatically retrieved
+and replaced in the YAML files that you listed in the `spec.templates` section.
+Then, these YAML files are applied to your cluster.
 
    ```bash
    kubectl apply -f mustachetemplate.yaml
    ```
 
-3. Verify that your mustache template is created successfully. If an error occurs, you can review the error message in the **Status** section of your CLI output.
+3. Verify that your mustache template is created successfully. If an error
+occurs, you can review the error message in the **Status** section of your CLI output.
 
    ```bash
    kubectl describe mustachetemplate <mustache_template_name> -n <namespace>
@@ -564,34 +760,50 @@ With MustacheTemplates, you can define environment variables and use Kubernetes 
              URL:  https://mysourcerepo.com/{{sample-app-version}}-app.yaml
    Status:
      Children:
-       / Apis / Kapitan . Razee . Io / V 1 Alpha 1 / Namespaces / Default / Remoteresourcess 3 / Cos:
+       / Apis / Kapitan . Razee . Io / V 1 Alpha 1 / Namespaces / Default /
+       Remoteresourcess 3 / Cos:
       Kapitan . Razee . Io / Reconcile:  true
    Events:                                  <none>
    ```
 
-4. Verify that your remote resource is created successfully and that variables are successfully replaced by the mustache template.
+4. Verify that your remote resource is created successfully and that variables
+are successfully replaced by the mustache template.
 
    ```bash
    kubectl describe rrs <remote_resource_name> -n <namespace>
    ```
 
-5. Verify that the Kubernetes resource from your source repository is created or updated. For example to verify a deployment, run the following command.
+5. Verify that the Kubernetes resource from your source repository is created or
+updated. For example to verify a deployment, run the following command.
 
    ```bash
    kubectl describe deployment <deployment_name> -n <namespace>
    ```
 
-**Note**: If you delete a mustache template, all resources that you defined in the `spec.templates` section are removed at the same time. To keep the Kubernetes resources, add the `kapitan.razee.io/Reconcile: false` label to all your YAML files.
+**Note**: If you delete a mustache template, all resources that you defined in
+the `spec.templates` section are removed at the same time. To keep the
+Kubernetes resources, add the `kapitan.razee.io/Reconcile: false` label to all
+your YAML files.
 
 ## Step 5: Control deployments with FeatureFlagSetsLD
 
-Connect a feature flagging service to your cluster so that you can pull environment variables and version control information into your mustache template to control the deployment of Kubernetes resources based on the feature flags that you enable.
+Connect a feature flagging service to your cluster so that you can pull
+environment variables and version control information into your mustache
+template to control the deployment of Kubernetes resources based on the feature
+flags that you enable.
 
-Razee FeatureFlagSetLD is a custom resource definition and controller that are designed to connect and retrieve feature flag information from [Launch Darkly](https://launchdarkly.com). But you can use the resources in the Razee project as a template to connect to your own feature flagging service.
+Razee FeatureFlagSetLD is a custom resource definition and controller that are
+designed to connect and retrieve feature flag information from
+[Launch Darkly](https://launchdarkly.com). But you can use the resources in the
+Razee project as a template to connect to your own feature flagging service.
 
-1. Create a [Launch Darkly trial account](https://launchdarkly.com). The trial account lets you try out the Launch Darkly features for 30 days for free. When you start your trial version, Launch Darkly is automatically launched and a `test` and `production` project are set up for you.
+1. Create a [Launch Darkly trial account](https://launchdarkly.com). The trial
+account lets you try out the Launch Darkly features for 30 days for free. When
+you start your trial version, Launch Darkly is automatically launched and a
+`test` and `production` project are set up for you.
 2. [Create your first feature flag](https://docs.launchdarkly.com/docs/creating-a-feature-flag).
-3. [Enable targeting for your feature flag](https://docs.launchdarkly.com/docs/creating-a-feature-flag#section-make-this-flag-available-to-the-client-side). Feature flags cannot be retrieved by Razee if targeting is disabled.
+3. [Enable targeting for your feature flag](https://docs.launchdarkly.com/docs/creating-a-feature-flag#section-make-this-flag-available-to-the-client-side)
+. Feature flags cannot be retrieved by Razee if targeting is disabled.
 4. Retrieve the Launch Darkly SDK key.
    1. From the Launch Darkly console, click **Account settings**.
    2. Note the **SDK key** of your production project.
@@ -619,11 +831,15 @@ Razee FeatureFlagSetLD is a custom resource definition and controller that are d
    </tr>
    <tr>
    <td><code>metadata.namespace</code></td>
-   <td>Enter the namespace where you want to deploy your feature flag set. The feature flag set must be deployed in the same namespace as your mustache template so that the mustache template can retrieve information from Launch Darkly.  </td>
+   <td>Enter the namespace where you want to deploy your feature flag set. The
+   feature flag set must be deployed in the same namespace as your mustache
+   template so that the mustache template can retrieve information from Launch
+   Darkly.  </td>
    </tr>
    <tr>
    <td><code>spec.sdk-key</code></td>
-   <td>Enter the Launch Darkly SDK key for your production project that you retrieved earlier. </td>
+   <td>Enter the Launch Darkly SDK key for your production project that you
+   retrieved earlier. </td>
    </tr>
    </tbody>
    </table>
@@ -634,7 +850,10 @@ Razee FeatureFlagSetLD is a custom resource definition and controller that are d
    kubectl apply -f featureflagset.yaml
    ```
 
-7. Verify that your feature flag set is created successfully. When you create the feature flag set, a connection to your Launch Darkly SDK is established. If an error occurs, you can review the error message in the **Status** section of your CLI output.
+7. Verify that your feature flag set is created successfully. When you create
+the feature flag set, a connection to your Launch Darkly SDK is established. If
+an error occurs, you can review the error message in the **Status** section of
+your CLI output.
 
    ```bash
    kubectl describe featureflagsetsld <feature_flag_name> -n <namespace>
@@ -667,7 +886,8 @@ Razee FeatureFlagSetLD is a custom resource definition and controller that are d
    Events:  <none>
    ```
 
-8. Use your existing Razee mustache template to replace the value of your environment variables with the values of your Launch Darkly feature flags.
+8. Use your existing Razee mustache template to replace the value of your
+environment variables with the values of your Launch Darkly feature flags.
 
    ```yaml
    apiVersion: "kapitan.razee.io/v1alpha1"
@@ -703,7 +923,11 @@ Razee FeatureFlagSetLD is a custom resource definition and controller that are d
    <tbody>
       <tr>
          <td><code>spec.env.name</code></td>
-         <td>Enter the name of the environment variable that you want to specify in your mustache template. If you define a name, you must define a value at the same time. You can use the name of your environment variable in the <code>spec.templates</code> section of your mustache template to replace a variable with the environment variable's value.</td>
+         <td>Enter the name of the environment variable that you want to specify
+         in your mustache template. If you define a name, you must define a
+         value at the same time. You can use the name of your environment
+         variable in the <code>spec.templates</code> section of your mustache
+         template to replace a variable with the environment variable's value.</td>
       </tr>
       <tr>
          <td><code>spec.env.valueFrom.genericKeyRef.name</code></td>
@@ -711,7 +935,12 @@ Razee FeatureFlagSetLD is a custom resource definition and controller that are d
       </tr>
       <tr>
          <td><code>spec.env.valueFrom.genericKeyRef.key</code></td>
-         <td>Enter the key of the feature flag for which you want to retrieve the value from Launch Darkly. In this example, the mustache template retrieves the value of the <code>version</code> feature flag in Launch Darkly. You can use this value to replace any variable with the name <code>sample-app-version</code> in the YAML files that you added to the <code>spec.templates</code> section of your mustache template. </td>
+         <td>Enter the key of the feature flag for which you want to retrieve
+         the value from Launch Darkly. In this example, the mustache template
+         retrieves the value of the <code>version</code> feature flag in Launch
+         Darkly. You can use this value to replace any variable with the name
+         <code>sample-app-version</code> in the YAML files that you added to
+         the <code>spec.templates</code> section of your mustache template. </td>
       </tr>
    </tbody>
    </table>
@@ -722,25 +951,35 @@ Razee FeatureFlagSetLD is a custom resource definition and controller that are d
    kubectl apply -f mustachetemplate.yaml
    ```
 
-10. Verify that the mustache template successfully retrieved the values from Launch Darkly. If errors occur, you can see them in the **Status** section of your CLI output.
+10. Verify that the mustache template successfully retrieved the values from
+Launch Darkly. If errors occur, you can see them in the **Status** section of
+your CLI output.
 
     ```bash
     kubectl describe mustachetemplate <mustache_template_name> -n <namespace>
     ```
 
-11. Verify that your remote resource is created successfully and that variables are successfully replaced by the mustache template.
+11. Verify that your remote resource is created successfully and that variables
+are successfully replaced by the mustache template.
 
     ```bash
     kubectl describe rrs <remote_resource_name> -n <namespace>
     ```
 
-**Note**: If you delete a mustache template, all resources that you defined in the `spec.templates` section are removed at the same time. To keep the Kubernetes resources, add the `kapitan.razee.io/Reconcile: false` label to all your YAML files.
+**Note**: If you delete a mustache template, all resources that you defined in
+the `spec.templates` section are removed at the same time. To keep the
+Kubernetes resources, add the `kapitan.razee.io/Reconcile: false` label to all
+your YAML files.
 
 ## Step 6: Organize resources in a ManagedSet
 
-Use ManagedSets to group all the Kubernetes resources that you want to deploy or remove at the same time in one list. You can include all Razee deployment components that you used in previous steps and combine them with other Kubernetes resources, such as config maps, PVCs, or secrets.
+Use ManagedSets to group all the Kubernetes resources that you want to deploy or
+remove at the same time in one list. You can include all Razee deployment
+components that you used in previous steps and combine them with other
+Kubernetes resources, such as config maps, PVCs, or secrets.
 
-1. Create a configuration file for your managed set and define all Kubernetes resources that you want to create with Razee.
+1. Create a configuration file for your managed set and define all Kubernetes
+resources that you want to create with Razee.
 
    ```yaml
    kind: ManagedSet
@@ -798,11 +1037,14 @@ Use ManagedSets to group all the Kubernetes resources that you want to deploy or
       </tr>
        <tr>
          <td><code>metadata.namespace</code></td>
-         <td>Enter the namespace where you want to deploy your managed set. The managed set can be deployed to a different namespace than the resources that you want to create with it.  </td>
+         <td>Enter the namespace where you want to deploy your managed set. The
+         managed set can be deployed to a different namespace than the resources
+         that you want to create with it.  </td>
       </tr>
       <tr>
          <td><code>spec.resources</code></td>
-         <td>Add the YAML file configuration of each Kubernetes resources that you want to create with the managed set.    </td>
+         <td>Add the YAML file configuration of each Kubernetes resources that
+         you want to create with the managed set.    </td>
       </tr>
    </tbody>
    </table>
@@ -813,7 +1055,8 @@ Use ManagedSets to group all the Kubernetes resources that you want to deploy or
    kubectl apply -f managedset.yaml
    ```
 
-3. Verify that your managed set is created successfully. If errors occur, you can see them in the **Status** section of your CLI output.
+3. Verify that your managed set is created successfully. If errors occur, you
+can see them in the **Status** section of your CLI output.
 
    ```bash
    kubectl describe managedset <managedset_name> -n <namespace>
@@ -848,14 +1091,18 @@ Use ManagedSets to group all the Kubernetes resources that you want to deploy or
          Sdk - Key:  <sdk_key>
    Status:
      Children:
-    / Apis / Kapitan . Razee . Io / V 1 Alpha 1 / Namespaces / Default / Featureflagsetsld / Ffs:
+    / Apis / Kapitan . Razee . Io / V 1 Alpha 1 / Namespaces / Default /
+    Featureflagsetsld / Ffs:
       Kapitan . Razee . Io / Reconcile:  true
    Events:                                  <none>
    ```
 
-4. Verify that all the Kubernetes resources that you defined in your managed set are created successfully.
+4. Verify that all the Kubernetes resources that you defined in your managed set
+are created successfully.
 
-5. Delete the managed set. **Tip**: To keep Kubernetes resources of your managed set, even after you delete the managed set, add the `kapitan.razee.io/Reconcile: false` label to Kubernetes resource configuration.
+5. Delete the managed set. **Tip**: To keep Kubernetes resources of your managed
+set, even after you delete the managed set, add the `kapitan.razee.io/Reconcile:
+false` label to Kubernetes resource configuration.
 
    ```bash
    kubectl delete managedset <managedset_name> -n <namespace>
@@ -865,7 +1112,11 @@ Use ManagedSets to group all the Kubernetes resources that you want to deploy or
 
 ## Stay connected
 
-If you encounter an issue with using Razee, or want to learn more about Razee components and how to use them for your own Continuous Delivery pipeline, join the Razee development team in the [IBM Cloud Kubernetes Service Slack](https://ibm-container-service.slack.com) and post your question in the `#razee` channel. Click [here](https://bxcs-slack-invite.mybluemix.net/) to request access to this Slack.
+If you encounter an issue with using Razee, or want to learn more about Razee
+components and how to use them for your own Continuous Delivery pipeline, join
+the Razee development team in the [IBM Cloud Kubernetes Service Slack](https://ibm-container-service.slack.com)
+and post your question in the `#razee` channel. Click [here](https://bxcs-slack-invite.mybluemix.net/)
+to request access to this Slack.
 
 ## License
 

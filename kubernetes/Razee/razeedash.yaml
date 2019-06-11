@@ -1,0 +1,64 @@
+apiVersion: v1
+kind: List
+metadata:
+  name: Razee
+  namespace: razee
+  annotations:
+    razee.io/git-repo: "{{{GIT_REMOTE}}}"
+    razee.io/commit-sha: "{{TRAVIS_COMMIT}}"
+items:
+# Razeedash resources
+- apiVersion: "kapitan.razee.io/v1alpha1"
+  kind: RemoteResource
+  metadata:
+    name: razeedash
+    namespace: razee
+    annotations:
+      razee.io/git-repo: "{{{GIT_REMOTE}}}"
+      razee.io/commit-sha: "{{TRAVIS_COMMIT}}"
+  spec:
+    requests:
+      - options:
+          url: https://github.com/razee-io/Razeedash-api/releases/latest/download/resource.yaml
+      - options:
+          url: https://github.com/razee-io/Razeedash/releases/latest/download/resource.yaml
+#ALB Resources
+- apiVersion: v1
+  kind: Service
+  metadata:
+    labels:
+      app: razeedash
+    name: razeedash-lb
+    namespace: razee
+    annotations:
+      razee.io/git-repo: "{{{GIT_REMOTE}}}"
+      razee.io/commit-sha: "{{TRAVIS_COMMIT}}"
+  spec:
+    externalTrafficPolicy: Cluster
+    ports:
+    - port: 8080
+      protocol: TCP
+      targetPort: 3000
+    selector:
+      app: razeedash
+    sessionAffinity: ClientIP
+    type: LoadBalancer
+- apiVersion: v1
+  kind: Service
+  metadata:
+    labels:
+      app: razeedash-api
+    name: razeedash-api-lb
+    namespace: razee
+    annotations:
+      razee.io/git-repo: "{{{GIT_REMOTE}}}"
+      razee.io/commit-sha: "{{TRAVIS_COMMIT}}"
+  spec:
+    externalTrafficPolicy: Cluster
+    ports:
+    - port: 8081
+      protocol: TCP
+      targetPort: 3333
+    selector:
+      app: razeedash-api
+    type: LoadBalancer
