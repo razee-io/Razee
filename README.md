@@ -865,7 +865,7 @@ Use ManagedSets to group all the Kubernetes resources that you want to deploy or
 
 ## Stay connected
 
-If you encounter an issue with using Razee, or want to learn more about Razee components and how to use them for your own Continuous Delivery pipeline, join the Razee development team in the [IBM Cloud Kubernetes Service Slack](https://ibm-container-service.slack.com) and post your question in the `#razee` channel. Click [here](https://bxcs-slack-invite.mybluemix.net/) to request access to this Slack.
+If you encounter an issue with using Razee, or want to learn more about Razee components and how to use them for your own Continuous Delivery pipeline, join the Razee development team in the [IBM Cloud Kubernetes Service Slack](https://ibm-container-service.slack.com) and post your question in the `#razee` channel. Click [here](https://cloud.ibm.com/kubernetes/slack) to request access to this Slack.
 
 ## License
 
