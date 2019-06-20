@@ -13,7 +13,7 @@ See the following links to get started with Razee:
 - [Step 3: Automatically deploy Kubernetes resources with RemoteResources](#step-3-automatically-deploy-kubernetes-resources-with-remoteresources)
 - [Step 4: Add version control or replace YAML file variables with MustacheTemplates](#step-4-add-version-control-or-replace-yaml-file-variables-with-mustachetemplates)
 - [Step 5: Control deployments with FeatureFlagSetsLD](#step-5-control-deployments-with-featureflagsetsld)
-- [Step 6: Organize resources in a ManagedSet](#step-6-organizing-resources-in-a-managedset)
+- [Step 6: Organize resources in a ManagedSet](#step-6-organize-resources-in-a-managedset)
 - [Stay connected](#stay-connected)
 - [License](#license)
 
