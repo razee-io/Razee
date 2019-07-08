@@ -13,7 +13,7 @@ See the following links to get started with Razee:
 - [Step 3: Automatically deploy Kubernetes resources with RemoteResources](#step-3-automatically-deploy-kubernetes-resources-with-remoteresources)
 - [Step 4: Add version control or replace YAML file variables with MustacheTemplates](#step-4-add-version-control-or-replace-yaml-file-variables-with-mustachetemplates)
 - [Step 5: Control deployments with FeatureFlagSetsLD](#step-5-control-deployments-with-featureflagsetsld)
-- [Step 6: Organize resources in a ManagedSet](#step-6-organizing-resources-in-a-managedset)
+- [Step 6: Organize resources in a ManagedSet](#step-6-organize-resources-in-a-managedset)
 - [Stay connected](#stay-connected)
 - [License](#license)
 
@@ -242,6 +242,7 @@ To deploy Razee in your cluster, your cluster must meet the following requiremen
  the public IP addresses for your RazeeDash and RazeeDash API instances. This
  config map is required to finish the setup of RazeeDash. You can execute the
  following Bash commands or execute [bin/kc_create_razeedash_config.sh](https://github.com/razee-io/Kube-cloud-scripts/bin/kc_create_razeedash_config.sh)
+ Note the required trailing '/' at the end of `root_url` and `razeedash_api_url`
 
    ```bash
    RAZEEDASH_LB=$(kubectl get service razeedash-lb -n razee -o jsonpath="{.status.loadBalancer.ingress[*].ip}")
