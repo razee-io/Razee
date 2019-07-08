@@ -163,27 +163,8 @@ To deploy Razee in your cluster, your cluster must meet the following requiremen
         Example :
 
         ```bash
-        echo -n "mongodb://username:password:mongo‑0:27017,mongo‑1:27017,mongo‑2/razeedash?ssl=true" | base64
-        ```
-
-        Create file razeedash-secret.yaml using the generated string provided from the
-        previous command replace `base64encodedstring` for the mongo_url parameter.
-
-        ```yaml
-        apiVersion: v1
-        kind: Secret
-        metadata:
-          name: razeedash-secret
-          namespace: razee
-        type: Opaque
-        data:
-          mongo_url: base64encodedstring
-        ```
-
-        Apply the secret to kubernetes, then install Razeedash
-
-        ```bash
-        kubectl apply -f razeedash-secret.yaml
+        echo -n "mongodb://username:password:mongo‑0:27017,mongo‑1:27017,mongo‑2/razeedash?ssl=true" > ./mongourl.txt
+        kubectl -n razee create secret generic razeedash-secret --from-file=./mongourl.txt
         kubectl apply -f https://github.com/razee-io/Razee/releases/latest/download/razeedash.yaml
         ```
 
