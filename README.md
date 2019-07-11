@@ -211,7 +211,6 @@ To deploy Razee in your cluster, your cluster must meet the following requiremen
     {"name":"/","parseUA":false,"excludes":["req-headers","res-headers","referer","url","body","short-body"],"hostname":"razeedash-api-55fd67ddb9-cnbf4","pid":16,"level":30,"msg":"Created new collection messages index messages","time":"2019-05-22T03:15:14.253Z","v":0}
     {"name":"razeedash-api","hostname":"razeedash-api-55fd67ddb9-cnbf4","pid":16,"level":30,"msg":"razeedash-api listening on port 3333","time":"2019-05-22T03:15:14.257Z","v":0}
     ```
-    <!--Markdownlint-enable MD013-->
 
 5. Retrieve the **EXTERNAL-IP** of your `razeedash-lb` and `razeedash-api-lb`
  load balancer services and create a RazeeDash config map. The two load balancer
@@ -236,6 +235,7 @@ To deploy Razee in your cluster, your cluster must meet the following requiremen
      --from-literal=root_url=http://"${RAZEEDASH_LB}":8080/ \
      --from-literal=razeedash_api_url=http://"${RAZEEDASH_API_LB}":8081/
    ```
+    <!--Markdownlint-enable MD013-->
 
 6. Verify that all Razee components are deployed and show `1/1` in the **READY**
 column of your CLI output.
