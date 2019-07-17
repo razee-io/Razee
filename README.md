@@ -374,6 +374,8 @@ Kubernetes when the configuration of your resource changes.
        razee/watch-resource: "lite"
    ...
    ```
+   
+   For more info on labeling resources and namespaces, see [docs here](https://github.com/razee-io/Watch-keeper/#collecting-resources)
 
 3. In your preferred web browser, open RazeeDash. To find the public IP address
 that is assigned to your RazeeDash service, run
