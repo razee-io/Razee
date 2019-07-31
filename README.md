@@ -374,10 +374,10 @@ Kubernetes when the configuration of your resource changes.
        razee/watch-resource: "lite"
    ...
    ```
-   
+
 For more info on labeling resources and namespaces, see [docs here](https://github.com/razee-io/Watch-keeper/#collecting-resources)
 
-3. In your preferred web browser, open RazeeDash. To find the public IP address
+1. In your preferred web browser, open RazeeDash. To find the public IP address
 that is assigned to your RazeeDash service, run
 `kubectl get service razeedash-lb -n razee`.
 
@@ -385,13 +385,13 @@ that is assigned to your RazeeDash service, run
    http://<razeedash-lb_external_IP>:8080
    ```
 
-4. Access your data.
+2. Access your data.
    1. Click **Sign in**.
    2. Click **Sign in with GitHub**.
    3. Find the GitHub organization that you connected RazeeDash to and click
    **Launch** to open the RazeeDash console.
 
-5. OPTIONAL: As you'll notice in the Razee dashboard, clusters you have
+3. OPTIONAL: As you'll notice in the Razee dashboard, clusters you have
 configured to be watched and reported on are listed using a long ID token like
 `8e13917c-7e6b-11e9-a7d0-9e237586b5f9`. Razee can be configured to display the
 clusters using a more human-readable value versus the IDs by creating a
