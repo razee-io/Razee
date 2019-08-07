@@ -10,3 +10,6 @@
     resources, it deletes the deployments first (like remoteresource-controller). Then it tries to delete `my-rr`; it
     gets stuck in terminating because the `remoteresource-controller` no longer exists to remove the finalizer from
     `my-rr`. Which in effect means the razee namespace gets stuck in terminating.
+1. Kapitan-delta stopped updating my razee components.
+    - `kubectl apply -f https://github.com/razee-io/Kapitan-delta/releases/latest/download/resource.yaml`
+    - update kapitan delta to latest version
