@@ -163,7 +163,7 @@ To deploy Razee in your cluster, your cluster must meet the following requiremen
         Example :
 
         ```bash
-        kubectl -n razee create secret generic razeedash-secret --from-literal "mongo_url=mongodb://username:password:mongo‑0:27017,mongo‑1:27017,mongo‑2/razeedash?ssl=true"
+        kubectl -n razee create secret generic razeedash-secret --from-literal "mongo_url=mongodb://username:password@mongo‑0:27017,mongo‑1:27017,mongo‑2:27017/razeedash?ssl=true"
         kubectl apply -f https://github.com/razee-io/Razee/releases/latest/download/razeedash.yaml
         ```
 
@@ -230,7 +230,7 @@ To deploy Razee in your cluster, your cluster must meet the following requiremen
    RAZEEDASH_LB_HOSTNAME=$(kubectl get service razeedash-lb -n razee -o jsonpath="{.status.loadBalancer.ingress[*].hostname}")
    RAZEEDASH_API_LB_HOSTNAME=$(kubectl get service razeedash-api-lb -n razee -o jsonpath="{.status.loadBalancer.ingress[*].hostname}")
    RAZEEDASH_LB=${RAZEEDASH_LB_HOSTNAME} && [[ "${RAZEEDASH_LB_IP}" != "" ]] && RAZEEDASH_LB=${RAZEEDASH_LB_IP}
-   RAZEEDASH_API_LB=${RAZEEDASH_LB_API_HOSTNAME} && [[ "${RAZEEDASH_LB_API_IP}" != "" ]] && RAZEEDASH_API_LB=${RAZEEDASH_LB_API_IP}
+   RAZEEDASH_API_LB=${RAZEEDASH_API_LB_HOSTNAME} && [[ "${RAZEEDASH_API_LB_IP}" != "" ]] && RAZEEDASH_API_LB=${RAZEEDASH_API_LB_IP}
    kubectl create configmap razeedash-config -n razee \
      --from-literal=root_url=http://"${RAZEEDASH_LB}":8080/ \
      --from-literal=razeedash_api_url=http://"${RAZEEDASH_API_LB}":8081/
