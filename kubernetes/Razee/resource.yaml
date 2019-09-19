@@ -127,7 +127,6 @@ items:
       targetPort: 3000
     selector:
       app: razeedash
-    sessionAffinity: ClientIP
     type: LoadBalancer
 - apiVersion: v1
   kind: Service
