@@ -6,7 +6,7 @@ See the following links to get started with Razee:
 
 - [Architecture overview](#architecture-overview)
   - [RazeeDash components](#razeedash-components)
-  - [Kapitan components](#kapitan-components)
+  - [RazeeDeploy components](#RazeeDeploy-components)
 - [Prerequisites](#prerequisites)
 - [Step 1: Install Razee](#step-1-install-razee)
 - [Step 2: Visualize deployment information in RazeeDash](#step-2-visualize-deployment-information-in-razeedash)
@@ -19,7 +19,7 @@ See the following links to get started with Razee:
 
 ## Architecture overview
 
-Razee consists of two modules, RazeeDash and Kapitan, that are loosely coupled and that can be used independently. With RazeeDash, you can dynamically create a live inventory of your Kubernetes resources and use the powerful filter and alerting capabilities to visualize configuration information and troubleshoot issues in your deployment process more quickly. Kapitan components are designed to simplify multi-cluster deployments by templatizing Kubernetes resources, grouping resources and clusters, and defining rules for these groupings so that you can create a flexible configuration that is enforced across clusters, environments, and clouds.
+Razee consists of two modules, RazeeDash and RazeeDeploy, that are loosely coupled and that can be used independently. With RazeeDash, you can dynamically create a live inventory of your Kubernetes resources and use the powerful filter and alerting capabilities to visualize configuration information and troubleshoot issues in your deployment process more quickly. RazeeDeploy components are designed to simplify multi-cluster deployments by templatizing Kubernetes resources, grouping resources and clusters, and defining rules for these groupings so that you can create a flexible configuration that is enforced across clusters, environments, and clouds.
 
 Take a look at the Razee architecture to see how Razee components interact, and how you can visualize and control your deployment process.
 
@@ -48,7 +48,7 @@ Take a look at the Razee architecture to see how Razee components interact, and 
    </tbody>
 </table>
 
-### Kapitan components
+### RazeeDeploy components
 
 <table>
    <thead>
@@ -57,12 +57,12 @@ Take a look at the Razee architecture to see how Razee components interact, and 
    </thead>
    <tbody>
       <tr>
-         <td><a href="https://github.com/razee-io/Kapitan-core">Kapitan Core</a></td>
-         <td>Kapitan Core is a Continuous Delivery tool that runs in your cluster and that you can use to set up the <code>CustomResourceDefinitions</code> (CRD), Kubernetes controllers, and dependencies for the Kapitan components. </td>
+         <td><a href="https://github.com/razee-io/RazeeDeploy-core">RazeeDeploy Core</a></td>
+         <td>RazeeDeploy Core is a Continuous Delivery tool that runs in your cluster and that you can use to set up the <code>CustomResourceDefinitions</code> (CRD), Kubernetes controllers, and dependencies for the RazeeDeploy components. </td>
       </tr>
       <tr>
-         <td><a href="https://github.com/razee-io/Kapitan-delta">Kapitan Delta</a></td>
-         <td>Kapitan Delta is a component of Kapitan Core that runs in your cluster and keeps the custom resource definitions and Kubernetes controllers of the Kapitan components up-to-date. </td>
+         <td><a href="https://github.com/razee-io/RazeeDeploy-delta">RazeeDeploy Delta</a></td>
+         <td>RazeeDeploy Delta is a component of RazeeDeploy Core that runs in your cluster and keeps the custom resource definitions and Kubernetes controllers of the RazeeDeploy components up-to-date. </td>
       </tr>
       <tr>
          <td><a href="https://github.com/razee-io/RemoteResource">RemoteResource</a> and <a href="https://github.com/razee-io/RemoteResourceS3">Remote Resource S3</a></td>
@@ -97,24 +97,24 @@ To deploy Razee in your cluster, your cluster must meet the following requiremen
 
 ## Step 1: Install Razee
 
-1. Install Kapitan in your cluster. Kapitan automatically creates the Kubernetes `CustomResourceDefinitions` (CRD) and controllers for each Kapitan component, the `razee` namespace, service account, and RBAC roles and role bindings in your cluster.
+1. Install RazeeDeploy in your cluster. RazeeDeploy automatically creates the Kubernetes `CustomResourceDefinitions` (CRD) and controllers for each RazeeDeploy component, the `razee` namespace, service account, and RBAC roles and role bindings in your cluster.
 
    ```bash
-   kubectl apply -f https://github.com/razee-io/Kapitan-delta/releases/latest/download/resource.yaml
+   kubectl apply -f https://github.com/razee-io/RazeeDeploy-delta/releases/latest/download/resource.yaml
    ```
 
    Example output:
 
    ```
    namespace/razee configured
-   serviceaccount/kapitan-sa configured
+   serviceaccount/RazeeDeploy-sa configured
    clusterrole.rbac.authorization.k8s.io/cluster-admin configured
-   clusterrolebinding.rbac.authorization.k8s.io/kapitan-rb configured
-   configmap/kapitan-delta-resource-uris configured
-   deployment.apps/kapitan-delta configured
+   clusterrolebinding.rbac.authorization.k8s.io/RazeeDeploy-rb configured
+   configmap/RazeeDeploy-delta-resource-uris configured
+   deployment.apps/RazeeDeploy-delta configured
    ```
 
-2. Verify that the Kapitan components are deployed successfully. You must see one pod per component and each pod must be in a `Running` state before you proceed with the next step.
+2. Verify that the RazeeDeploy components are deployed successfully. You must see one pod per component and each pod must be in a `Running` state before you proceed with the next step.
 
    ```bash
    kubectl get pods -n razee
@@ -125,7 +125,7 @@ To deploy Razee in your cluster, your cluster must meet the following requiremen
    ```
    NAME                                           READY   STATUS    RESTARTS   AGE
    featureflagsetld-controller-86d8785864-x84ld   1/1     Running   0          34s
-   kapitan-delta-d7996c95d-dlz6x                  1/1     Running   0          60s
+   RazeeDeploy-delta-d7996c95d-dlz6x                  1/1     Running   0          60s
    managedset-controller-575f4864b8-xvgxz         1/1     Running   0          33s
    mustachetemplate-controller-847d66c6bd-j8p7d   1/1     Running   0          31s
    remoteresource-controller-6896c55cd9-nckqw     1/1     Running   0          30s
@@ -148,7 +148,7 @@ To deploy Razee in your cluster, your cluster must meet the following requiremen
         deployment.apps/mongo created
         service/mongo created
         secret/razeedash-secret created
-        remoteresource.kapitan.razee.io/razeedash created
+        remoteresource.RazeeDeploy.razee.io/razeedash created
         service/razeedash-lb created
         service/razeedash-api-lb created
         ```
@@ -249,7 +249,7 @@ column of your CLI output.
    ```
    NAME                          READY   UP-TO-DATE   AVAILABLE   AGE
    featureflagsetld-controller   1/1     1            1           8d
-   kapitan-delta                 1/1     1            1           8d
+   RazeeDeploy-delta                 1/1     1            1           8d
    managedset-controller         1/1     1            1           8d
    mongo                         1/1     1            1           75m
    mustachetemplate-controller   1/1     1            1           8d
@@ -419,7 +419,7 @@ ConfigMap in your target cluster and labelling it with `razee/cluster-metadata=t
 
 ## Step 3: Automatically deploy Kubernetes resources with RemoteResources
 
-RemoteResource and RemoteResourceS3 are Kapitan components that you can use to
+RemoteResource and RemoteResourceS3 are RazeeDeploy components that you can use to
 automatically deploy Kubernetes resources that are stored in a source
 repository. Simply define the source repository in your remote resource and
 create the remote resource in your cluster. The remote resource controller
@@ -440,7 +440,7 @@ not specify a namespace, the resource is automatically deployed in the same
 namespace as your remote resource.
 
    ```yaml
-   apiVersion: "kapitan.razee.io/v1alpha1"
+   apiVersion: "deploy.razee.io/v1alpha1"
    kind: RemoteResource
    metadata:
      name: <remote_resource_name>
@@ -519,16 +519,16 @@ the error message in the **Status** section of your CLI output.
     Namespace:    razee
     Labels:       <none>
     Annotations:  kubectl.kubernetes.io/last-applied-configuration:
-                  {"apiVersion":"kapitan.razee.io/v1alpha1","kind":"RemoteResource","metadata":{"annotations":{},"name":"myremoteresource","namespace":"...
-    API Version:  kapitan.razee.io/v1alpha1
+                  {"apiVersion":"deploy.razee.io/v1alpha1","kind":"RemoteResource","metadata":{"annotations":{},"name":"myremoteresource","namespace":"...
+    API Version:  deploy.razee.io/v1alpha1
     Kind:         RemoteResource
     Metadata:
       Creation Timestamp:  2019-05-14T18:47:26Z
       Finalizers:
-        children.downloads.kapitan.razee.io
+        children.downloads.deploy.razee.io
       Generation:        1
       Resource Version:  37572078
-      Self Link:         /apis/kapitan.razee.io/v1alpha1/namespaces/razee/remoteresourcess3/myremoteresource
+      Self Link:         /apis/deploy.razee.io/v1alpha1/namespaces/razee/remoteresourcess3/myremoteresource
       UID:               b81caa1f-7678-11e9-8e55-26f9979820ea
     Spec:
       Requests:
@@ -536,8 +536,8 @@ the error message in the **Status** section of your CLI output.
           URL:  https://mysourcerepo.com/app.yaml
     Status:
       Children:
-        / Apis / Apps / V 1 / Namespaces / Razee / Deployments / Perfpvc: Kapitan . Razee . Io / Reconcile:  true
-    Events:                                  <none>
+        /Apis/Apps/V1/Namespaces/Razee/Deployments/Perfpvc: deploy.Razee.Io/Reconcile: true
+    Events: <none>
     ```
     <!--Markdownlint-enable MD013-->
 
@@ -583,7 +583,7 @@ labels, image tags, and other YAML file pieces in your Kubernetes resources.
 1. Create a configuration file for your mustache template.
 
    ```yaml
-   apiVersion: "kapitan.razee.io/v1alpha1"
+   apiVersion: "deploy.razee.io/v1alpha1"
    kind: MustacheTemplate
    metadata:
      name: <mustache_template_name>
@@ -598,7 +598,7 @@ labels, image tags, and other YAML file pieces in your Kubernetes resources.
             name: myconfigmap
             key: prod
      templates:
-     - apiVersion: "kapitan.razee.io/v1alpha1"
+     - apiVersion: "deploy.razee.io/v1alpha1"
        kind: RemoteResource
        metadata:
          name: <remote_resource_name>
@@ -699,16 +699,16 @@ occurs, you can review the error message in the **Status** section of your CLI o
     Namespace:    razee
     Labels:       <none>
     Annotations:  kubectl.kubernetes.io/last-applied-configuration:
-                  {"apiVersion":"kapitan.razee.io/v1alpha1","kind":"MustacheTemplate","metadata":{"annotations":{},"name":"demo-mustachetemplate","namespace...
-    API Version:  kapitan.razee.io/v1alpha1
+                  {"apiVersion":"deploy.razee.io/v1alpha1","kind":"MustacheTemplate","metadata":{"annotations":{},"name":"demo-mustachetemplate","namespace...
+    API Version:  deploy.razee.io/v1alpha1
     Kind:         MustacheTemplate
     Metadata:
       Creation Timestamp:  2019-05-14T20:55:46Z
       Finalizers:
-        children.mustachetemplate.kapitan.razee.io
+        children.mustachetemplate.deploy.razee.io
       Generation:        5
       Resource Version:  37762378
-      Self Link:         /apis/kapitan.razee.io/v1alpha1/namespaces/razee/mustachetemplates/demo-mustachetemplate
+      Self Link:         /apis/deploy.razee.io/v1alpha1/namespaces/razee/mustachetemplates/demo-mustachetemplate
       UID:               a53e82c8-768a-11e9-8e55-26f9979820ea
     Spec:
       Env:
@@ -717,7 +717,7 @@ occurs, you can review the error message in the **Status** section of your CLI o
         Name: prod-label
         Value: myapp-prod
       Templates:
-        API Version:  kapitan.razee.io/v1alpha1
+        API Version:  deploy.razee.io/v1alpha1
         Kind:         RemoteResource
         Metadata:
           Name:       myremoteresource
@@ -728,9 +728,9 @@ occurs, you can review the error message in the **Status** section of your CLI o
               URL:  https://mysourcerepo.com/{{sample-app-version}}-app.yaml
     Status:
       Children:
-        / Apis / Kapitan . Razee . Io / V 1 Alpha 1 / Namespaces / Default / Remoteresourcess 3 / Cos:
-        Kapitan . Razee . Io / Reconcile:  true
-    Events:                                  <none>
+        /Apis/Deploy.Razee.Io/V1Alpha1/Namespaces/Default/Remoteresourcess3/Cos:
+        Deploy.Razee.Io/Reconcile: true
+    Events: <none>
     ```
     <!--Markdownlint-enable MD013-->
 
@@ -750,7 +750,7 @@ updated. For example to verify a deployment, run the following command.
 
 **Note**: If you delete a mustache template, all resources that you defined in
 the `spec.templates` section are removed at the same time. To keep the
-Kubernetes resources, add the `kapitan.razee.io/Reconcile: false` label to all
+Kubernetes resources, add the `deploy.razee.io/Reconcile: false` label to all
 your YAML files.
 
 ## Step 5: Control deployments with FeatureFlagSetsLD
@@ -779,7 +779,7 @@ you start your trial version, Launch Darkly is automatically launched and a
 5. Create a configuration file for your feature flag set.
 
    ```yaml
-   apiVersion: kapitan.razee.io/v1alpha1
+   apiVersion: deploy.razee.io/v1alpha1
    kind: FeatureFlagSetLD
    metadata:
      name: <name>
@@ -834,8 +834,8 @@ your CLI output.
    Namespace:    razee
    Labels:       client=<launch_darkly_sdk_key>
    Annotations:  kubectl.kubernetes.io/last-applied-configuration:
-                {"apiVersion":"kapitan.razee.io/v1alpha1","kind":"FeatureFlagSetLD","metadata":{"annotations":{},"name":"myfeatureflag","namespace":"razee...
-   API Version:  kapitan.razee.io/v1alpha1
+                {"apiVersion":"deploy.razee.io/v1alpha1","kind":"FeatureFlagSetLD","metadata":{"annotations":{},"name":"myfeatureflag","namespace":"razee...
+   API Version:  deploy.razee.io/v1alpha1
    Data:
      Razee:  3
      Test:   false
@@ -843,10 +843,10 @@ your CLI output.
    Metadata:
      Creation Timestamp:  2019-05-15T17:03:19Z
      Finalizers:
-       client.featureflagset.kapitan.razee.io
+       client.featureflagset.deploy.razee.io
      Generation:        2
      Resource Version:  37760364
-     Self Link:         /apis/kapitan.razee.io/v1alpha1/namespaces/razee/featureflagsetsld/myfeatureflag
+     Self Link:         /apis/deploy.razee.io/v1alpha1/namespaces/razee/featureflagsetsld/myfeatureflag
      UID:               56d90220-7733-11e9-9100-66cbb576408c
    Spec:
     Sdk - Key:  <launch_darkly_sdk_key>
@@ -858,7 +858,7 @@ your CLI output.
 environment variables with the values of your Launch Darkly feature flags.
 
    ```yaml
-   apiVersion: "kapitan.razee.io/v1alpha1"
+   apiVersion: "deploy.razee.io/v1alpha1"
    kind: MustacheTemplate
    metadata:
      name: <mustache_template_name>
@@ -868,12 +868,12 @@ environment variables with the values of your Launch Darkly feature flags.
      - name: sample-app-version
        valueFrom:
          genericKeyRef:
-           apiVersion: kapitan.razee.io/v1alpha1
+           apiVersion: deploy.razee.io/v1alpha1
            kind: FeatureFlagSetLD
            name: myfeatureflag
            key: version
      templates:
-     - apiVersion: "kapitan.razee.io/v1alpha1"
+     - apiVersion: "deploy.razee.io/v1alpha1"
        kind: RemoteResource
        metadata:
          name: <remote_resource_name>
@@ -936,7 +936,7 @@ are successfully replaced by the mustache template.
 
 **Note**: If you delete a mustache template, all resources that you defined in
 the `spec.templates` section are removed at the same time. To keep the
-Kubernetes resources, add the `kapitan.razee.io/Reconcile: false` label to all
+Kubernetes resources, add the `deploy.razee.io/Reconcile: false` label to all
 your YAML files.
 
 ## Step 6: Organize resources in a ManagedSet
@@ -951,20 +951,20 @@ resources that you want to create with Razee.
 
    ```yaml
    kind: ManagedSet
-   apiVersion: kapitan.razee.io/v1alpha1
+   apiVersion: deploy.razee.io/v1alpha1
    metadata:
      name: <managed_set_name>
      namespace: <namespace>
    spec:
      resources:
-       - apiVersion: kapitan.razee.io/v1alpha1
+       - apiVersion: deploy.razee.io/v1alpha1
          kind: FeatureFlagSetLD
          metadata:
            name: <feature_flag_set_name>
            namespace: <namespace>
          spec:
            sdk-key: "<launch_darkly_sdk_key>"
-       - apiVersion: "kapitan.razee.io/v1alpha1"
+       - apiVersion: "deploy.razee.io/v1alpha1"
          kind: MustacheTemplate
          metadata:
            name: <mustache_template_name>
@@ -974,12 +974,12 @@ resources that you want to create with Razee.
            - name: <env_name>
              valueFrom:
                genericKeyRef:
-                 apiVersion: kapitan.razee.io/v1alpha1
+                 apiVersion: deploy.razee.io/v1alpha1
                  kind: FeatureFlagSetLD
                  name: <feature_flag_set_name>
                  key: <launch_darkly_feature_flag>
            templates:
-           - apiVersion: "kapitan.razee.io/v1alpha1"
+           - apiVersion: "deploy.razee.io/v1alpha1"
              kind: RemoteResourceS3
              metadata:
                name: <remote_resource_name>
@@ -1037,20 +1037,20 @@ can see them in the **Status** section of your CLI output.
    Namespace:    razee
    Labels:       <none>
    Annotations:  kubectl.kubernetes.io/last-applied-configuration:
-                {"apiVersion":"kapitan.razee.io/v1alpha1","kind":"ManagedSet","metadata":{"annotations":{},"name":"ms","namespace":"razee"},"spec":{"resou...
-   API Version:  kapitan.razee.io/v1alpha1
+                {"apiVersion":"deploy.razee.io/v1alpha1","kind":"ManagedSet","metadata":{"annotations":{},"name":"ms","namespace":"razee"},"spec":{"resou...
+   API Version:  deploy.razee.io/v1alpha1
    Kind:         ManagedSet
    Metadata:
      Creation Timestamp:  2019-05-16T18:22:13Z
      Finalizers:
-       children.managedsets.kapitan.razee.io
+       children.managedsets.deploy.razee.io
      Generation:        1
      Resource Version:  37976193
-     Self Link:         /apis/kapitan.razee.io/v1alpha1/namespaces/razee/managedsets/ms
+     Self Link:         /apis/deploy.razee.io/v1alpha1/namespaces/razee/managedsets/ms
      UID:               87136536-7807-11e9-9159-42b4d0e9ec96
    Spec:
      Resources:
-       API Version:  kapitan.razee.io/v1alpha1
+       API Version:  deploy.razee.io/v1alpha1
        Kind:         FeatureFlagSetLD
        Metadata:
          Name:       myfeatureflag
@@ -1059,17 +1059,16 @@ can see them in the **Status** section of your CLI output.
          Sdk - Key:  <sdk_key>
    Status:
      Children:
-    / Apis / Kapitan . Razee . Io / V 1 Alpha 1 / Namespaces / Default /
-    Featureflagsetsld / Ffs:
-      Kapitan . Razee . Io / Reconcile:  true
-   Events:                                  <none>
+    /Apis/Deploy.Razee.Io/V1Alpha1/Namespaces/Default/Featureflagsetsld/Ffs:
+    Deploy.Razee.Io/Reconcile: true
+   Events: <none>
    ```
 
 4. Verify that all the Kubernetes resources that you defined in your managed set
 are created successfully.
 
 5. Delete the managed set. **Tip**: To keep Kubernetes resources of your managed
-set, even after you delete the managed set, add the `kapitan.razee.io/Reconcile:
+set, even after you delete the managed set, add the `deploy.razee.io/Reconcile:
 false` label to Kubernetes resource configuration.
 
    ```bash
@@ -1088,4 +1087,4 @@ to request access to this Slack.
 
 ## License
 
-All Razee components are licensed under the [Apache License 2.0](https://github.com/razee-io/Kapitan-core/blob/master/LICENSE).
+All Razee components are licensed under the [Apache License 2.0](https://github.com/razee-io/RazeeDeploy-core/blob/master/LICENSE).
