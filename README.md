@@ -163,7 +163,7 @@ To deploy Razee in your cluster, your cluster must meet the following requiremen
         Example :
 
         ```bash
-        kubectl -n razee create secret generic razeedash-secret --from-literal "mongo_url=mongodb://username:password:mongo‑0:27017,mongo‑1:27017,mongo‑2/razeedash?ssl=true"
+        kubectl -n razee create secret generic razeedash-secret --from-literal "mongo_url=mongodb://username:password@mongo‑0:27017,mongo‑1:27017,mongo‑2:27017/razeedash?ssl=true"
         kubectl apply -f https://github.com/razee-io/Razee/releases/latest/download/razeedash.yaml
         ```
 
@@ -230,7 +230,7 @@ To deploy Razee in your cluster, your cluster must meet the following requiremen
    RAZEEDASH_LB_HOSTNAME=$(kubectl get service razeedash-lb -n razee -o jsonpath="{.status.loadBalancer.ingress[*].hostname}")
    RAZEEDASH_API_LB_HOSTNAME=$(kubectl get service razeedash-api-lb -n razee -o jsonpath="{.status.loadBalancer.ingress[*].hostname}")
    RAZEEDASH_LB=${RAZEEDASH_LB_HOSTNAME} && [[ "${RAZEEDASH_LB_IP}" != "" ]] && RAZEEDASH_LB=${RAZEEDASH_LB_IP}
-   RAZEEDASH_API_LB=${RAZEEDASH_LB_API_HOSTNAME} && [[ "${RAZEEDASH_LB_API_IP}" != "" ]] && RAZEEDASH_API_LB=${RAZEEDASH_LB_API_IP}
+   RAZEEDASH_API_LB=${RAZEEDASH_API_LB_HOSTNAME} && [[ "${RAZEEDASH_API_LB_IP}" != "" ]] && RAZEEDASH_API_LB=${RAZEEDASH_API_LB_IP}
    kubectl create configmap razeedash-config -n razee \
      --from-literal=root_url=http://"${RAZEEDASH_LB}":8080/ \
      --from-literal=razeedash_api_url=http://"${RAZEEDASH_API_LB}":8081/
@@ -622,11 +622,7 @@ labels, image tags, and other YAML file pieces in your Kubernetes resources.
          <td><code>metadata.namespace</code></td>
          <td>Enter the namespace where you want to deploy your mustache
          template. You can deploy your mustache template to any namespace in
-         your cluster. <strong>Note</strong>: If you want to retrieve values
-         for your environment variables from other Kubernetes resources, such
-         as a config map or feature flag set, the mustache template must be
-         deployed to the same namespace as the resource so that the mustache
-         template can retrieve the environment variable values. </td>
+         your cluster. </td>
       </tr>
       <tr>
          <td><code>spec.env.name</code></td>
@@ -646,9 +642,13 @@ labels, image tags, and other YAML file pieces in your Kubernetes resources.
        <tr>
          <td><code>spec.env.valueFrom.configMapKeyRef.name</code></td>
          <td>Required for config maps only. Enter the name of the config map
-         that holds the information that you want to retrieve. The config map
-         must be deployed in the same namespace as your mustache template so
-         that the mustache template can retrieve the environment variable value.
+         that holds the information that you want to retrieve.
+         </td>
+      </tr>
+       <tr>
+         <td><code>spec.env.valueFrom.configMapKeyRef.namespace</code></td>
+         <td>Required for config maps only. Enter the namespace of the config
+           map that holds the information that you want to retrieve.
          </td>
       </tr>
       <tr>
@@ -658,10 +658,7 @@ labels, image tags, and other YAML file pieces in your Kubernetes resources.
          mustache template retrieves the value of the <code>prod</code> key from
          your config map. You can use this value to replace any variable with
          the name <code>prod-label</code> in the YAML files that you added to
-         the <code>spec.templates</code> section of your mustache template. The
-         config map must be deployed in the same namespace as your mustache
-         template so that the mustache template can retrieve the environment
-         variable value. </td>
+         the <code>spec.templates</code> section of your mustache template. </td>
       </tr>
       <tr>
          <td><code>spec.templates</code></td>
