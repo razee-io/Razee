@@ -97,7 +97,7 @@ To deploy Razee in your cluster, your cluster must meet the following requiremen
 
 ## Step 1: Install Razee
 
-1. Install RazeeDeploy in your cluster. RazeeDeploy automatically creates the Kubernetes `CustomResourceDefinitions` (CRD) and controllers for each RazeeDeploy component, the `razee` namespace, service account, and RBAC roles and role bindings in your cluster.
+1. Install razeedeploy in your cluster. Razeedeploy automatically creates the Kubernetes `CustomResourceDefinitions` (CRD) and controllers for each razeedeploy component, the `razee` namespace, service account, and RBAC roles and role bindings in your cluster.
 
    ```bash
    kubectl apply -f https://github.com/razee-io/RazeeDeploy-delta/releases/latest/download/resource.yaml
@@ -106,15 +106,15 @@ To deploy Razee in your cluster, your cluster must meet the following requiremen
    Example output:
 
    ```
-   namespace/razee configured
-   serviceaccount/RazeeDeploy-sa configured
-   clusterrole.rbac.authorization.k8s.io/cluster-admin configured
-   clusterrolebinding.rbac.authorization.k8s.io/RazeeDeploy-rb configured
-   configmap/RazeeDeploy-delta-resource-uris configured
-   deployment.apps/RazeeDeploy-delta configured
+   namespace/razee created
+   serviceaccount/razeedeploy-sa created
+   clusterrole.rbac.authorization.k8s.io/razeedeploy-admin-cr created
+   clusterrolebinding.rbac.authorization.k8s.io/razeedeploy-rb created
+   configmap/razeedeploy-delta-resource-uris created
+   deployment.apps/razeedeploy-delta created
    ```
 
-2. Verify that the RazeeDeploy components are deployed successfully. You must see one pod per component and each pod must be in a `Running` state before you proceed with the next step.
+2. Verify that the razeedeploy components are deployed successfully. You must see one pod per component and each pod must be in a `Running` state before you proceed with the next step.
 
    ```bash
    kubectl get pods -n razee
@@ -124,17 +124,17 @@ To deploy Razee in your cluster, your cluster must meet the following requiremen
 
    ```
    NAME                                           READY   STATUS    RESTARTS   AGE
-   featureflagsetld-controller-86d8785864-x84ld   1/1     Running   0          34s
-   RazeeDeploy-delta-d7996c95d-dlz6x                  1/1     Running   0          60s
-   managedset-controller-575f4864b8-xvgxz         1/1     Running   0          33s
-   mustachetemplate-controller-847d66c6bd-j8p7d   1/1     Running   0          31s
-   remoteresource-controller-6896c55cd9-nckqw     1/1     Running   0          30s
-   remoteresources3-controller-86669655f9-5qv5m   1/1     Running   0          30s
+   featureflagsetld-controller-8d86b95bf-lrpln    1/1     Running   0          76s
+   managedset-controller-74876947db-bhrjt         1/1     Running   0          75s
+   mustachetemplate-controller-674fdd9498-ntlgs   1/1     Running   0          74s
+   razeedeploy-delta-6d7859b7cc-rd57f             1/1     Running   0          104s
+   remoteresource-controller-756bdbf544-t87sz     1/1     Running   0          72s
+   remoteresources3-controller-59b5c454bd-r2pr9   1/1     Running   0          71s
    ```
 
-3. Setup MongoDB and install the RazeeDash components in your cluster.
+3. Install the Razeedash components in your cluster. To store data that is sent to the Razeedash API, you must set up a MongoDB instance. You can choose to set up Razeedash and a single MongoDB instance by using the provided `resource.yaml` file or to set up Razeedash with an existing MongoDB instance that runs in your cluster. 
 
-    - **For all-in-one approach and install a single-node MongoDB:**
+    - **To install Razeedash and a single MongoDB instance**:
 
         ```bash
         kubectl apply -f https://github.com/razee-io/Razee/releases/latest/download/resource.yaml
@@ -148,12 +148,12 @@ To deploy Razee in your cluster, your cluster must meet the following requiremen
         deployment.apps/mongo created
         service/mongo created
         secret/razeedash-secret created
-        remoteresource.RazeeDeploy.razee.io/razeedash created
+        remoteresource.deploy.razee.io/razeedash created
         service/razeedash-lb created
-        service/razeedash-api-lb created
+        service/razeedash-api-lb created 
         ```
 
-    - **To use an existing MongoDB instance:**
+    - **To use an existing MongoDB instance**:
 
         Create the razeedash secret for the mongo_url.  Substitute in the command below
         with the actual username and password along with 3 host instances for mongo-0,
@@ -167,19 +167,14 @@ To deploy Razee in your cluster, your cluster must meet the following requiremen
         kubectl apply -f https://github.com/razee-io/Razee/releases/latest/download/razeedash.yaml
         ```
 
-4. Wait for the `razeedash-api` deployment to complete. As part of the RazeeDash
- API setup, an instance of MongoDB is created in your cluster and connected to
- your RazeeDash API instance. The setup of MongoDB takes a couple of minutes to
- complete and might lead to intermittent `MongoNetworkError` errors in your
- RazeeDash API deployment. When MongoDB is fully set up, Kubernetes automatically
- finishes the setup of your RazeeDash API instance.
+4. Wait for the `razeedash-api` deployment to complete. If you chose to create Razeedash by using the provided `resource.yaml` file in the previous step, an instance of MongoDB is created in your cluster and connected to the Razeedash API instance. The setup of MongoDB takes a few of minutes to complete and might lead to intermittent `MongoNetworkError` errors in your Razeedash API deployment. When MongoDB is fully set up, Kubernetes automatically finishes the setup of your Razeedash API instance.
 
     <!--Markdownlint-disable MD013-->
     ```bash
     kubectl logs deploy/razeedash-api -n razee
     ```
 
-    Example output if MongoDB is not yet setup:
+    Example output if MongoDB is not yet set up:
 
     ```
     > razeedash-api@0.0.1 start /usr/src
@@ -197,7 +192,7 @@ To deploy Razee in your cluster, your cluster must meet the following requiremen
     (node:16) [DEP0018] DeprecationWarning: Unhandled promise rejections are deprecated. In the future, promise rejections that are not handled will terminate the Node.js process with a non-zero exit code.
     ```
 
-    Example output if RazeeDash API is fully set up:
+    Example output if Razeedash API is fully set up:
 
     ```
     > razeedash-api@0.0.1 start /usr/src
@@ -212,16 +207,9 @@ To deploy Razee in your cluster, your cluster must meet the following requiremen
     {"name":"razeedash-api","hostname":"razeedash-api-55fd67ddb9-cnbf4","pid":16,"level":30,"msg":"razeedash-api listening on port 3333","time":"2019-05-22T03:15:14.257Z","v":0}
     ```
 
-5. Retrieve the **EXTERNAL-IP** of your `razeedash-lb` and `razeedash-api-lb`
- load balancer services and create a RazeeDash config map. The two load balancer
- services are automatically created during the setup of your RazeeDash API
- instance and assigned a public IP address. `razeedash-lb` serves as the public
- endpoint for your RazeeDash instance, and `razeedash-api-lb` serves as the
- public endpoint for your RazeeDash API instance. RazeeDash config map includes
- the public IP addresses for your RazeeDash and RazeeDash API instances. This
- config map is required to finish the setup of RazeeDash. You can execute the
- following Bash commands or execute [bin/kc_create_razeedash_config.sh](https://github.com/razee-io/Kube-cloud-scripts/blob/master/bin/kc_create_razeedash_config_map.sh)
- Note the required trailing '/' at the end of `root_url` and `razeedash_api_url`
+5. Retrieve the external IP address of your `razeedash-lb` and `razeedash-api-lb` load balancer services that are automatically created during the Razeedash API setup. `razeedash-lb` serves as the public endpoint for your Razeedash instance, and `razeedash-api-lb` serves as the public endpoint for your Razeedash API instance. By using the public IP addresses that were assigned, you can build the public URLs that you use to access the Razeedash and the Razeedash API components. To finish the setup of Razeedash, the two URLs must be stored in the Razeedash config map. 
+  
+   Use the following Bash commands to retrieve the public IP addresses, build the public URLs, and store the URLs in the Razeedash config map. You can also execute the Bash script [`bin/kc_create_razeedash_config.sh`](https://github.com/razee-io/Kube-cloud-scripts/blob/master/bin/kc_create_razeedash_config_map.sh). Note that you must include the trailing `/` at the end of the `root_url` and `razeedash_api_url` in your Razeedash config map. 
 
    ```bash
    # EKS uses hostname, IKS uses ip on the ingress.  This will handle both.
@@ -237,8 +225,7 @@ To deploy Razee in your cluster, your cluster must meet the following requiremen
    ```
     <!--Markdownlint-enable MD013-->
 
-6. Verify that all Razee components are deployed and show `1/1` in the **READY**
-column of your CLI output.
+6. Verify that all Razee components are deployed and show `1/1` in the **READY** column of your CLI output.
 
    ```bash
    kubectl get deployments -n razee
@@ -248,55 +235,65 @@ column of your CLI output.
 
    ```
    NAME                          READY   UP-TO-DATE   AVAILABLE   AGE
-   featureflagsetld-controller   1/1     1            1           8d
-   RazeeDeploy-delta                 1/1     1            1           8d
-   managedset-controller         1/1     1            1           8d
-   mongo                         1/1     1            1           75m
-   mustachetemplate-controller   1/1     1            1           8d
-   razeedash                     1/1     1            1           75m
-   razeedash-api                 1/1     1            1           75m
-   remoteresource-controller     1/1     1            1           76m
-   remoteresources3-controller   1/1     1            1           8d
+   featureflagsetld-controller   1/1     1            1           53m
+   managedset-controller         1/1     1            1           53m
+   mongo                         1/1     1            1           34m
+   mustachetemplate-controller   1/1     1            1           53m
+   razeedash                     1/1     1            1           25m
+   razeedash-api                 1/1     1            1           25m
+   razeedeploy-delta             1/1     1            1           53m
+   remoteresource-controller     1/1     1            1           53m
+   remoteresources3-controller   1/1     1            1           53m
    ```
 
-7. In your preferred web browser, access the welcome screen of your RazeeDash instance.
+7. Open the Razeedash welcome screen.
 
    ```
-   http://<razeedash-lb_external_IP>:8080
+   open http://"${RAZEEDASH_LB}":8080
    ```
 
-8. Register RazeeDash as an `OAuth` application in GitHub.
-   1. From the RazeeDash welcome screen, click **Sign in**.
-   2. Click **Configure GitHub Login**. A pop-up window opens.
-   3. Follow the [link](https://github.com/settings/applications/new) in the
-   pop-up window to register a new `OAuth` application in GitHub. Enter a name
-   for your GitHub application, a description, and the **Homepage URL** and
-   **Authorization callback URL** that are displayed in the pop-up window.
-   4. Click **Register application**.
-   5. Copy the **Client ID** and the **Client Secret** and add these values to
-   the pop-up window.
-   6. Click **Save configuration**.
+8. Integrate Razeedash with GitHub, GitHub Enterprise, or Bitbucket. 
+   - **GitHub**: 
+     1. From the Razeedash welcome screen, select the **GitHub** tile and click **Configure Github**. 
+     2. Follow the [link](https://github.com/settings/applications/new) in the pop-up window to register a new `OAuth` application in GitHub. 
+     3. Enter a namefor your GitHub application, a description, and use the **Homepage URL** and **Authorization callback URL** that are displayed in the pop-up window.
+     4. Click **Register application**.
+     5. Copy the **Client ID** and the **Client Secret** and add these values to the pop-up window.
+     6. Click **Save configuration**.
+     7. If you do not own a GitHub organization, [create one](https://help.github.com/en/articles/creating-a-new-organization-from-scratch).
+     8. From the Razeedash welcome screen, click **Sign in with GitHub**. A pop-up window opens.
+     9. In the **Organization access** section, find your organization and click **Grant**. Enter your GitHub password when prompted. 
+     10. Click **Authorize <github_user_name>**. The RazeeDash console opens and shows the name of the organization that you granted access to.
+     
+   - **GitHub Enterprise**: 
+   - **Bitbucket**: 
 
-9. Grant RazeeDash access to your organization in GitHub.
-    1. If you do not own a GitHub organization, [create one](https://help.github.com/en/articles/creating-a-new-organization-from-scratch).
-    2. From the RazeeDash welcome screen, click **Sign in with GitHub**. A
-    pop-up window opens.
-    3. In the **Organization access** section, find your organization and click **Grant**.
-    4. Click **Authorize <github_user_name>**. The RazeeDash console opens and
-    shows the name of the organization that you granted access to.
-
-10. Install Watch Keeper in your cluster.
-    1. From the RazeeDash console, click the **Register** button that you can
-    find next to your GitHub organization.
-    2. Click the **Manage** button.
+10. Install Watch Keeper in every cluster that you want to monitor. The cluster where you install Watch Keeper can be a different cluster than the one where you installed Razeedash. 
+    1. From the Razeedash console, click **Register**.
+    2. Click **Manage**.
     3. Copy the **Install Razee Agent** `kubectl` command.
-    4. Run the command in your cluster to create the Watch Keeper component.
+    4. Run the command in the cluster that you want to monitor to create the Watch Keeper components. If you install Watch Keeper in the same cluster where you installed Razeedash, you see messages that some of the Watch Keeper components already exist in your cluster. You can ignore these messages. 
 
        ```bash
        kubectl create -f http://<razeedash-api-lb_external_IP>:8081/api/install/cluster?orgKey=orgApiKey-<org_api_key>
        ```
-
-       Example output:
+       
+       Example output for a cluster where Razeedash is installed: 
+       ```
+       deployment.apps/remoteresource-controller created
+       configmap/watch-keeper-config created
+       secret/watch-keeper-secret created
+       Error from server (AlreadyExists): error when creating "http://4e0ef59e-us-south.lb.appdomain.cloud:8081/api/install/cluster?orgKey=orgApiKey-d52b52fc-38ae-4da0-b187-6e097e5bfe5c": namespaces "razee" already exists
+       Error from server (AlreadyExists): customresourcedefinitions.apiextensions.k8s.io "remoteresources.deploy.razee.io" already exists
+       Error from server (AlreadyExists): error when creating "http://4e0ef59e-us-south.lb.appdomain.cloud:8081/api/install/cluster?orgKey=orgApiKey-d52b52fc-38ae-4da0-b187-6e097e5bfe5c": namespaces "razee" already exists
+       Error from server (AlreadyExists): error when creating "http://4e0ef59e-us-south.lb.appdomain.cloud:8081/api/install/cluster?orgKey=orgApiKey-d52b52fc-38ae-4da0-b187-6e097e5bfe5c": serviceaccounts "razeedeploy-sa" already exists
+       Error from server (AlreadyExists): error when creating "http://4e0ef59e-us-south.lb.appdomain.cloud:8081/api/install/cluster?orgKey=orgApiKey-d52b52fc-38ae-4da0-b187-6e097e5bfe5c": clusterroles.rbac.authorization.k8s.io "razeedeploy-admin-cr" already exists
+       Error from server (AlreadyExists): error when creating "http://4e0ef59e-us-south.lb.appdomain.cloud:8081/api/install/cluster?orgKey=orgApiKey-d52b52fc-38ae-4da0-b187-6e097e5bfe5c": clusterrolebindings.rbac.authorization.k8s.io "razeedeploy-rb" already exists
+       Error from server (AlreadyExists): error when creating "http://4e0ef59e-us-south.lb.appdomain.cloud:8081/api/install/cluster?orgKey=orgApiKey-d52b52fc-38ae-4da0-b187-6e097e5bfe5c": configmaps "razeedeploy-delta-resource-uris" already exists
+       Error from server (AlreadyExists): error when creating "http://4e0ef59e-us-south.lb.appdomain.cloud:8081/api/install/cluster?orgKey=orgApiKey-d52b52fc-38ae-4da0-b187-6e097e5bfe5c": deployments.apps "razeedeploy-delta" already exists
+       ````
+       
+       Example output for a cluster where Razeedash is not installed:
 
        ```
        configmap/watch-keeper-config created
