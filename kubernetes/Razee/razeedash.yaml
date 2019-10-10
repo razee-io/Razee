@@ -8,7 +8,7 @@ metadata:
     razee.io/commit-sha: "{{TRAVIS_COMMIT}}"
 items:
 # Razeedash resources
-- apiVersion: "kapitan.razee.io/v1alpha1"
+- apiVersion: "deploy.razee.io/v1alpha1"
   kind: RemoteResource
   metadata:
     name: razeedash
