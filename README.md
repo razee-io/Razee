@@ -283,6 +283,7 @@ To deploy Razee in your cluster, your cluster must meet the following requiremen
        deployment.apps/remoteresource-controller created
        configmap/watch-keeper-config created
        secret/watch-keeper-secret created
+       remoteresource.deploy.razee.io/watch-keeper-rr created
        Error from server (AlreadyExists): error when creating "http://4e0ef59e-us-south.lb.appdomain.cloud:8081/api/install/cluster?orgKey=orgApiKey-d52b52fc-38ae-4da0-b187-6e097e5bfe5c": namespaces "razee" already exists
        Error from server (AlreadyExists): customresourcedefinitions.apiextensions.k8s.io "remoteresources.deploy.razee.io" already exists
        Error from server (AlreadyExists): error when creating "http://4e0ef59e-us-south.lb.appdomain.cloud:8081/api/install/cluster?orgKey=orgApiKey-d52b52fc-38ae-4da0-b187-6e097e5bfe5c": namespaces "razee" already exists
@@ -306,7 +307,7 @@ To deploy Razee in your cluster, your cluster must meet the following requiremen
        Error from server (AlreadyExists): namespaces "razee" already exists
        ```
 
-    5. Wait for Watch Keeper to finish.
+    5. Wait for the Watch Keeper deployment to finish.
 
        ```bash
        kubectl get deployment -n razee | grep watch-keeper
@@ -318,28 +319,18 @@ To deploy Razee in your cluster, your cluster must meet the following requiremen
        watch-keeper                  1/1     1            1           2m5s
        ```
 
-11. From the RazeeDash console, click **Launch** to open the RazeeDash details
- page and verify that you can see deployment information for your Watch Keeper pod.
+11. From the Razeedash console, click **RazeeDash** to open the Razeedash details page and verify that you can see deployment information for your Watch Keeper pod.
 
 ## Step 2: Visualize deployment information in RazeeDash
 
-With Watch Keeper set up in your cluster, you can retrieve deployment information
- for other Kubernetes resources that you want to monitor. Data is automatically
- sent to the RazeeDash API and you can access, monitor, and analyze this data
-  with RazeeDash.
+With Watch Keeper set up in your cluster, you can retrieve deployment information for other Kubernetes resources that you want to monitor. Data is automatically sent to the Razeedash API and you can access, monitor, and analyze this data with Razeedash.
 
-1. Decide what information you want Watch Keeper to retrieve by choosing between
-the following information detail levels:
+1. Decide what information you want Watch Keeper to retrieve by choosing among the following information detail levels:
 
-    - `lite`: Retrieves the `metadata` and `status` section of your Kubernetes
-    resource configuration.
-    - `detail`: Retrieves all configuration data of a Kubernetes resource, but
-    leaves out environment
-    variables and the `data` section of config maps and secrets.
-    - `debug`: Retrieves all configuration data of a
-    Kubernetes resource, including environment variables and the `data`
-    section of config maps and secrets. This information might include sensitive
-    information so use this option with care.
+    - `lite`: Retrieves the `metadata` and `status` section of your Kubernetes resource configuration.
+    - `detail`: Retrieves all configuration data of a Kubernetes resource, but leaves out environment variables and the `data` section of config maps and secrets.
+    - `debug`: Retrieves all configuration data of a Kubernetes resource, including environment variables and the `data`
+    section of config maps and secrets. This information might include sensitive information so use this option with care.
 
 2. Add the `razee/watch-resource` label to the **labels** section of all
 Kubernetes resources that you want to monitor and specify the information
