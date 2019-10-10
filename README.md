@@ -212,7 +212,7 @@ To deploy Razee in your cluster, your cluster must meet the following requiremen
    Use the following Bash commands to retrieve the public IP addresses, build the public URLs, and store the URLs in the Razeedash config map. You can also execute the Bash script [`bin/kc_create_razeedash_config.sh`](https://github.com/razee-io/Kube-cloud-scripts/blob/master/bin/kc_create_razeedash_config_map.sh). Note that you must include the trailing `/` at the end of the `root_url` and `razeedash_api_url` in your Razeedash config map. 
 
    ```bash
-   # EKS uses hostname, IKS uses ip on the ingress.  This will handle both.
+   # Amazon EKS uses host names, IBM Cloud Kubernetes Service uses Ingress IP addresses. This handle both.
    RAZEEDASH_LB_IP=$(kubectl get service razeedash-lb -n razee -o jsonpath="{.status.loadBalancer.ingress[*].ip}")
    RAZEEDASH_API_LB_IP=$(kubectl get service razeedash-api-lb -n razee -o jsonpath="{.status.loadBalancer.ingress[*].ip}")
    RAZEEDASH_LB_HOSTNAME=$(kubectl get service razeedash-lb -n razee -o jsonpath="{.status.loadBalancer.ingress[*].hostname}")
@@ -332,14 +332,8 @@ With Watch Keeper set up in your cluster, you can retrieve deployment informatio
     - `debug`: Retrieves all configuration data of a Kubernetes resource, including environment variables and the `data`
     section of config maps and secrets. This information might include sensitive information so use this option with care.
 
-2. Add the `razee/watch-resource` label to the **labels** section of all
-Kubernetes resources that you want to monitor and specify the information
-detail level. For example, if you want to monitor a Kubernetes deployment,
-use the following command. After you add the label to your resource, Watch
-Keeper automatically scans your resource and sends data to the RazeeDash API.
-Then, your resource is scanned once every hour. In addition, Watch Keeper adds
-a Kubernetes event watcher to your resource so that Watch Keeper is notified by
-Kubernetes when the configuration of your resource changes.
+2. Add the `razee/watch-resource` label to the **labels** section of all Kubernetes resources that you want to monitor and specify the information detail level. For example, if you want to monitor a Kubernetes deployment, use the following command. After you add the label to your resource, Watch Keeper automatically scans your resource and sends data to the Razeedash API.
+Then, your resource is scanned once every hour. In addition, Watch Keeper adds a Kubernetes event watcher to your resource so that Watch Keeper is notified by Kubernetes when the configuration of your resource changes.
 
    ```bash
    kubectl edit deployment <deployment_name>
@@ -363,68 +357,49 @@ Kubernetes when the configuration of your resource changes.
    ...
    ```
 
-For more info on labeling resources and namespaces, see [docs here](https://github.com/razee-io/Watch-keeper/#collecting-resources)
+   For more info on labeling resources and namespaces, see [docs here](https://github.com/razee-io/Watch-keeper/#collecting-resources)
 
-1. In your preferred web browser, open RazeeDash. To find the public IP address
-that is assigned to your RazeeDash service, run
-`kubectl get service razeedash-lb -n razee`.
-
-   ```
-   http://<razeedash-lb_external_IP>:8080
-   ```
-
-2. Access your data.
-   1. Click **Sign in**.
+3. Verify that your Kubernetes resource is displayed in Razeedash. 
+   1. Open Razeedash. **Tip**: To find the public IP address that is assigned to your RazeeDash service, run `kubectl get service razeedash-lb -n razee`.
+      ```
+      open http://"${RAZEEDASH_LB}":8080
+      ```   
    2. Click **Sign in with GitHub**.
-   3. Find the GitHub organization that you connected RazeeDash to and click
-   **Launch** to open the RazeeDash console.
+   3. Select the GitHub organization that you connected Razeedash to. The Razeedash console opens automatically. 
+   4. Verify that you can access deployment information about your Kubernetes resource in Razeedash. 
 
-3. OPTIONAL: As you'll notice in the Razee dashboard, clusters you have
-configured to be watched and reported on are listed using a long ID token like
-`8e13917c-7e6b-11e9-a7d0-9e237586b5f9`. Razee can be configured to display the
-clusters using a more human-readable value versus the IDs by creating a
-ConfigMap in your target cluster and labelling it with `razee/cluster-metadata=true`.
-
-   For example:
-
-    ```
-    apiVersion: v1
-    data:
-      name: razee-1
-    kind: ConfigMap
-    metadata:
-      labels:
-        razee/cluster-metadata: "true"
-        razee/watch-resource: debug
-      name: razee1-cluster-metadata
-      namespace: default
-    ````
-
-    After the ConfigMap is picked up (within a few moments), Razee will display
-    this cluster on the dashboard using `razee-1` instead of the long ID value
-    seen before. Note that it may take about a minute before the change can be
-    seen in the dashboard.
+4. Optional: Configure Razeedash to display the cluster name instead of the cluster ID. By default, all Kubernetes resources that you watch in a cluster are listed with their cluster ID in the Razeedash console. You can change this setting and instead display the cluster name or any other string to help you find the Kubernetes resources of a cluster more quickly. 
+   1. In your cluster, create a Kubernetes configmap that looks similar to the following. Enter the name that you want to display in Razeedash in the `data.name` section. In the following example, you change the cluster ID to `razee-1`. 
+      
+      Example configmap: 
+      ```yaml
+      apiVersion: v1
+      data:
+        name: razee-1
+      kind: ConfigMap
+      metadata:
+        labels:
+          razee/cluster-metadata: "true"
+          razee/watch-resource: debug
+        name: razee1-cluster-metadata
+        namespace: default
+      ```
+   
+   2. Apply the configmap in your cluster. 
+      ```bash
+      kubectl apply -f configmap.yaml
+      ```
+     
+   3. Wait a few minutes for Razeedash to update the cluster ID and display the name that you chose in your configmap. 
 
 ## Step 3: Automatically deploy Kubernetes resources with RemoteResources
 
-RemoteResource and RemoteResourceS3 are RazeeDeploy components that you can use to
-automatically deploy Kubernetes resources that are stored in a source
-repository. Simply define the source repository in your remote resource and
-create the remote resource in your cluster. The remote resource controller
-automatically connects to your source repository, downloads the Kubernetes
-configuration file, and applies the file to your cluster. This process repeats
-about every two minutes. All you have to do is to keep your source file
-up-to-date and let your cluster auto-deploy it.
+RemoteResource and RemoteResourceS3 are razeedeploy components that you can use to automatically deploy Kubernetes resources that are stored in a source repository. Simply define the source repository in your remote resource and create the remote resource in your cluster. The remote resource controller automatically connects to your source repository, downloads the Kubernetes configuration file, and applies the file to your cluster. This process repeats about every two minutes. All you have to do is to keep your source file up-to-date and let your cluster auto-deploy it.
 
-**Tip:** Use RemoteResource to specify a URL to your source repository and
-RemoteResourceS3 to connect to a Cloud Object Storage instance.
+**Tip:** Use RemoteResource to specify a URL to your source repository and RemoteResourceS3 to connect to a Cloud Object Storage instance.
 
-1. Create a configuration file for your remote resource and include the
-information of the source repository where your YAML file is stored. You can
-create one remote resource for your cluster, or you can use one remote resource
-per Kubernetes namespace if, for example, you use namespaces to separate teams
-or environments. If the YAML file that is stored in your source repository does
-not specify a namespace, the resource is automatically deployed in the same
+1. Create a configuration file for your remote resource and include the information of the source repository where your YAML file is stored. You can create one remote resource for your cluster, or you can use one remote resource
+per Kubernetes namespace if, for example, you use namespaces to separate teams or environments. If the YAML file that is stored in your source repository does not specify a namespace, the resource is automatically deployed in the same
 namespace as your remote resource.
 
    ```yaml
@@ -471,7 +446,7 @@ namespace as your remote resource.
          you use, you can include credentials in your URL to authenticate with
          the source repository. If credentials must be passed in as header
          information, add these headers in <code>spec.requests.options.headers
-         </code>.  </td>
+         </code>. For example to use a file that is stored in a public GitHub repository, use <code>https://raw.githubusercontent.com/myorg/myrepo/master/deployment.yaml</code>. </td>
       </tr>
       <tr>
          <td><code>spec.requests.options.headers</code></td>
@@ -489,14 +464,11 @@ namespace as your remote resource.
    kubectl apply -f remoteresource.yaml
    ```
 
-3. Verify that the remote resource is created successfully. After the remote
-resource is created, the remote resource establishes a connection to the source
-repository, downloads the specified file, and applies the file to the cluster.
-This process repeats about every 2 minutes. If an error occurs, you can review
-the error message in the **Status** section of your CLI output.
+3. Verify that the remote resource is created successfully. After the remote resource is created, the remote resource establishes a connection to the source repository, downloads the specified file, and applies the file to the cluster.
+This process repeats about every 2 minutes. If an error occurs, you can review the error message in the **Status** section of your CLI output.
 
     ```bash
-    kubectl describe RemoteResource <remote_resource_name> -n <namespace>
+    kubectl describe remoteresource <remote_resource_name> -n <namespace>
     ```
 
     Example output:
