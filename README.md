@@ -508,37 +508,24 @@ verify a deployment, run the following command.
    kubectl describe deployment <deployment_name> -n <namespace>
    ```
 
-5. Change the configuration of your YAML file in your source repository. For
-example, if you have a deployment, you can change or add a label to the
-`metadata` section of your YAML file.
+5. Change the configuration of your YAML file in your source repository. For example, if you have a deployment, you can change or add a label to the `metadata` section of your YAML file.
 
-6. Wait about 2 minutes for the remote resource to get restarted by Kubernetes,
-download the latest version of your Kubernetes resource and apply the change to
-your resource. Then, verify that the change is rolled out successfully.
+6. Wait about 2 minutes for the remote resource to get restarted by Kubernetes, download the latest version of your Kubernetes resource and apply the change to your resource. Then, verify that the change is rolled out successfully.
 
    ```bash
    kubectl describe deployment <deployment_name> -n <namespace>
    ```
 
-7. Optional: To remove a Kubernetes resource, you can either remove the source
-repository's URL from the remote resource, or remove the remote resource entirely.
+7. Optional: To remove a Kubernetes resource, you can either remove the source repository's URL from the remote resource, or remove the remote resource entirely.
 
 ## Step 4: Add version control or replace YAML file variables with MustacheTemplates
 
-When you develop an app, you must manage multiple versions of an app. For
-example, you might have an app that is considered stable and that runs in your
-production environment. At the same time, you work on a new version for your app
-that adds new features or enhances existing features. To keep your app versions
-separate, you might include the app version in your file name, or use different
-image tags and labels for Kubernetes resources that belong to the same app,
+When you develop an app, you must manage multiple versions of an app. For example, you might have an app that is considered stable and that runs in your production environment. At the same time, you work on a new version for your app
+that adds new features or enhances existing features. To keep your app versions separate, you might include the app version in your file name, or use different image tags and labels for Kubernetes resources that belong to the same app,
 team, or environment.
 
-With MustacheTemplates, you can define environment variables and use Kubernetes
-config maps, secrets, or feature flags to determine the value of each
-environment variable. Then, you can replace variables in your YAML files with
-the value of your environment variable. For example, substitute the app version
-number in the URL of your remote resource that points to your file, or replace
-labels, image tags, and other YAML file pieces in your Kubernetes resources.
+With MustacheTemplates, you can define environment variables and use Kubernetes config maps, secrets, or feature flags to determine the value of each environment variable. Then, you can replace variables in your YAML files with
+the value of your environment variable. For example, substitute the app version number in the URL of your remote resource that points to your file, or replace labels, image tags, and other YAML file pieces in your Kubernetes resources.
 
 1. Create a configuration file for your mustache template.
 
@@ -694,23 +681,19 @@ occurs, you can review the error message in the **Status** section of your CLI o
     ```
     <!--Markdownlint-enable MD013-->
 
-4. Verify that your remote resource is created successfully and that variables
-are successfully replaced by the mustache template.
+4. Verify that your remote resource is created successfully and that variables are successfully replaced by the mustache template.
 
    ```bash
    kubectl describe rrs <remote_resource_name> -n <namespace>
    ```
 
-5. Verify that the Kubernetes resource from your source repository is created or
-updated. For example to verify a deployment, run the following command.
+5. Verify that the Kubernetes resource from your source repository is created or updated. For example to verify a deployment, run the following command.
 
    ```bash
    kubectl describe deployment <deployment_name> -n <namespace>
    ```
 
-**Note**: If you delete a mustache template, all resources that you defined in
-the `spec.templates` section are removed at the same time. To keep the
-Kubernetes resources, add the `deploy.razee.io/Reconcile: false` label to all
+**Note**: If you delete a mustache template, all resources that you defined in the `spec.templates` section are removed at the same time. To keep the Kubernetes resources, add the `deploy.razee.io/Reconcile: false` label to all
 your YAML files.
 
 ## Step 5: Control deployments with FeatureFlagSetsLD
@@ -729,9 +712,8 @@ Razee project as a template to connect to your own feature flagging service.
 account lets you try out the Launch Darkly features for 30 days for free. When
 you start your trial version, Launch Darkly is automatically launched and a
 `test` and `production` project are set up for you.
-2. [Create your first feature flag](https://docs.launchdarkly.com/docs/creating-a-feature-flag).
-3. [Enable targeting for your feature flag](https://docs.launchdarkly.com/docs/creating-a-feature-flag#section-make-this-flag-available-to-the-client-side)
-. Feature flags cannot be retrieved by Razee if targeting is disabled.
+2. [Create your first feature flag](https://docs.launchdarkly.com/docs/creating-a-feature-flag). 
+3. [Enable targeting for your feature flag](https://docs.launchdarkly.com/docs/the-kill-switch#section-turning-flags-on). Feature flags cannot be retrieved by Razee if targeting is disabled.
 4. Retrieve the Launch Darkly SDK key.
    1. From the Launch Darkly console, click **Account settings**.
    2. Note the **SDK key** of your production project.
