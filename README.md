@@ -256,7 +256,7 @@ To deploy Razee in your cluster, your cluster must meet the following requiremen
    - **GitHub**: 
      1. From the Razeedash welcome screen, select the **GitHub** tile and click **Configure Github**. 
      2. Follow the [link](https://github.com/settings/applications/new) in the pop-up window to register a new `OAuth` application in GitHub. 
-     3. Enter a namefor your GitHub application, a description, and use the **Homepage URL** and **Authorization callback URL** that are displayed in the pop-up window.
+     3. Enter a name for your GitHub application, a description, and use the **Homepage URL** and **Authorization callback URL** that are displayed in the pop-up window.
      4. Click **Register application**.
      5. Copy the **Client ID** and the **Client Secret** and add these values to the pop-up window.
      6. Click **Save configuration**.
@@ -266,7 +266,22 @@ To deploy Razee in your cluster, your cluster must meet the following requiremen
      10. Click **Authorize <github_user_name>**. The RazeeDash console opens and shows the name of the organization that you granted access to.
      
    - **GitHub Enterprise**: 
+     1. From the Razeedash welcome screen, select the **GitHub Enterprise** tile and click **Configure Ghe**. 
+     2. Follow the [link](https://github.com/settings/applications/new) in the pop-up window to register a new `OAuth` application in GitHub. 
+     3. Enter a name for your GitHub application, a description, and use the **Homepage URL** and **Authorization callback URL** that are displayed in the pop-up window.
+     
    - **Bitbucket**: 
+     1. From the Razeedash welcome screen, select the **Bitbucket** tile and click **Configure Bitbucket**. 
+     2. Follow the link in the pop-up window to register a new `OAuth` application in Bitbucket. 
+     3. Click on your user profile and select **View profile** to open your user profile. 
+     4. Select the **Settings** tab and select **OAuth** from the **Access management** section.  
+     5. Click **Add consumer**. 
+     6. Enter a name for your Bitbucket application, a description, and enter the **Callback URL** that you can find in the pop-up window of your Razeedash welcome screen.
+     7. In the **Permissions** section, select **Read** access in the **Account** and **Team membership** categories. 
+     9. Click **Save** to store your configuration. 
+     10. Expand the `OAuth` application that you created to view the **Key** and the **Secret**. 
+     11. Copy the **Key** and the **Secret**, and add these values to the pop-up window. 
+     12. Click **Save configuration**. 
 
 10. Install Watch Keeper in every cluster that you want to monitor. The cluster where you install Watch Keeper can be a different cluster than the one where you installed Razeedash. 
     1. From the Razeedash console, click **Register**.
