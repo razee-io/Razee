@@ -23,7 +23,7 @@ Razee consists of two modules, RazeeDash and RazeeDeploy, that are loosely coupl
 
 Take a look at the Razee architecture to see how Razee components interact, and how you can visualize and control your deployment process.
 
-<img src="images/razee_ov.png">
+![Razee architecture](images/razee_ov.png)s
 
 ### RazeeDash components
 
@@ -105,7 +105,7 @@ To deploy Razee in your cluster, your cluster must meet the following requiremen
 
    Example output:
 
-   ```
+   ```bash
    namespace/razee created
    serviceaccount/razeedeploy-sa created
    clusterrole.rbac.authorization.k8s.io/razeedeploy-admin-cr created
@@ -122,7 +122,7 @@ To deploy Razee in your cluster, your cluster must meet the following requiremen
 
    Example output:
 
-   ```
+   ```bash
    NAME                                           READY   STATUS    RESTARTS   AGE
    featureflagsetld-controller-8d86b95bf-lrpln    1/1     Running   0          76s
    managedset-controller-74876947db-bhrjt         1/1     Running   0          75s
@@ -142,7 +142,7 @@ To deploy Razee in your cluster, your cluster must meet the following requiremen
 
         Example output:
 
-        ```
+        ```bash
         persistentvolume/mongo-pv-volume created
         persistentvolumeclaim/mongo-pv-claim created
         deployment.apps/mongo created
@@ -176,7 +176,7 @@ To deploy Razee in your cluster, your cluster must meet the following requiremen
 
     Example output if MongoDB is not yet set up:
 
-    ```
+    ```bash
     > razeedash-api@0.0.1 start /usr/src
     > node app/index.js
 
@@ -194,7 +194,7 @@ To deploy Razee in your cluster, your cluster must meet the following requiremen
 
     Example output if Razeedash API is fully set up:
 
-    ```
+    ```bash
     > razeedash-api@0.0.1 start /usr/src
     > node app/index.js
 
@@ -224,7 +224,8 @@ To deploy Razee in your cluster, your cluster must meet the following requiremen
    ```
     <!--Markdownlint-enable MD013-->
 
-6. Verify that all Razee components are deployed and show `1/1` in the **READY** column of your CLI output.
+6. Verify that all Razee components are deployed and show `1/1` in the **READY**
+column of your CLI output.
 
    ```bash
    kubectl get deployments -n razee
@@ -232,7 +233,7 @@ To deploy Razee in your cluster, your cluster must meet the following requiremen
 
    Example output:
 
-   ```
+   ```bash
    NAME                          READY   UP-TO-DATE   AVAILABLE   AGE
    featureflagsetld-controller   1/1     1            1           53m
    managedset-controller         1/1     1            1           53m
@@ -247,72 +248,121 @@ To deploy Razee in your cluster, your cluster must meet the following requiremen
 
 7. Open the Razeedash welcome screen.
 
-   ```
+   ```bash
    open http://"${RAZEEDASH_LB}":8080
    ```
 
 8. Integrate Razeedash with GitHub, GitHub Enterprise, or Bitbucket.
    - **GitHub**:
-     1. From the Razeedash welcome screen, select the **GitHub** tile and click **Configure Github**.
-     2. Follow the [link](https://github.com/settings/applications/new) in the pop-up window to register a new `OAuth` application in GitHub.
-     3. Enter a name for your GitHub application, a description, and use the **Homepage URL** and **Authorization callback URL** that are displayed in the pop-up window.
+     1. From the Razeedash welcome screen, select the **GitHub** tile and
+     click **Configure Github**.
+     2. Follow the [link](https://github.com/settings/applications/new) in the
+     pop-up window to register a new `OAuth` application in GitHub.
+     3. Enter a name for your GitHub application, a description, and use the
+     **Homepage URL** and **Authorization callback URL** that are displayed in
+     the pop-up window.
      4. Click **Register application**.
-     5. Copy the **Client ID** and the **Client Secret** and add these values to the pop-up window.
+     5. Copy the **Client ID** and the **Client Secret** and add these values to
+     the pop-up window.
      6. Click **Save configuration**.
      7. If you do not own a GitHub organization, [create one](https://help.github.com/en/articles/creating-a-new-organization-from-scratch).
-     8. From the Razeedash welcome screen, click **Sign in with GitHub**. A pop-up window opens.
-     9. In the **Organization access** section, find your organization and click **Grant**. Enter your GitHub password when prompted.
-     10. Click **Authorize <github_user_name>**. The RazeeDash console opens and shows the name of the organization that you granted access to.
+     8. From the Razeedash welcome screen, click **Sign in with GitHub**. A
+     pop-up window opens.
+     9. In the **Organization access** section, find your organization and click
+      **Grant**. Enter your GitHub password when prompted.
+     10. Click **Authorize <github_user_name>**. The RazeeDash console opens and
+      shows the name of the organization that you granted access to.
 
    - **GitHub Enterprise**:
-     1. From the Razeedash welcome screen, select the **GitHub Enterprise** tile and click **Configure Ghe**.
-     2. Follow the [link](https://github.com/settings/applications/new) in the pop-up window to register a new `OAuth` application in GitHub.
-     3. Enter a name for your GitHub application, a description, and use the **Homepage URL** and **Authorization callback URL** that are displayed in the pop-up window.
+     1. From the Razeedash welcome screen, select the **GitHub Enterprise** tile
+      and click **Configure Ghe**.
+     2. Follow the [link](https://github.com/settings/applications/new) in the
+      pop-up window to register a new `OAuth` application in GitHub.
+     3. Enter a name for your GitHub application, a description, and use the
+      **Homepage URL** and **Authorization callback URL** that are displayed in
+       the pop-up window.
 
    - **Bitbucket**:
-     1. From the Razeedash welcome screen, select the **Bitbucket** tile and click **Configure Bitbucket**.
-     2. Follow the link in the pop-up window to register a new `OAuth` application in Bitbucket.
-     3. Click on your user profile and select **View profile** to open your user profile.
-     4. Select the **Settings** tab and select **OAuth** from the **Access management** section.
+     1. From the Razeedash welcome screen, select the **Bitbucket** tile and
+      click **Configure Bitbucket**.
+     2. Follow the link in the pop-up window to register a new `OAuth`
+      application in Bitbucket.
+     3. Click on your user profile and select **View profile** to open your
+      user profile.
+     4. Select the **Settings** tab and select **OAuth** from the
+      **Access management** section.
      5. Click **Add consumer**.
-     6. Enter a name for your Bitbucket application, a description, and enter the **Callback URL** that you can find in the pop-up window of your Razeedash welcome screen.
-     7. In the **Permissions** section, select **Read** access in the **Account** and **Team membership** categories.
-     9. Click **Save** to store your configuration.
-     10. Expand the `OAuth` application that you created to view the **Key** and the **Secret**, and copy the values to the Razeedash pop-up window.
-     11. Click **Save configuration**.
-     12. From the Razeedash welcome screen, click **Sign in with Bitbucket**. A pop-up window opens. 
-     13. Click **Grant access** to allow your bucket to access Razeedash. 
-     14. If you don't have a team in Bitbucket, [create one](https://bitbucket.org/account/create-team/). 
+     6. Enter a name for your Bitbucket application, a description, and enter
+      the **Callback URL** that you can find in the pop-up window of your
+       Razeedash welcome screen.
+     7. In the **Permissions** section, select **Read** access in the
+      **Account** and **Team membership** categories.
+     8. Click **Save** to store your configuration.
+     9. Expand the `OAuth` application that you created to view the **Key** and
+      the **Secret**, and copy the values to the Razeedash pop-up window.
+     10. Click **Save configuration**.
+     11. From the Razeedash welcome screen, click **Sign in with Bitbucket**.
+      A pop-up window opens.
+     12. Click **Grant access** to allow your bucket to access Razeedash.
+     13. If you don't have a team in Bitbucket, [create one](https://bitbucket.org/account/create-team/).
 
-10. Install Watch Keeper in every cluster that you want to monitor. The cluster where you install Watch Keeper can be a different cluster than the one where you installed Razeedash.
+9. Install Watch Keeper in every cluster that you want to monitor. The cluster
+ where you install Watch Keeper can be a different cluster than the one where
+  you installed Razeedash.
     1. From the Razeedash console, click **Register**.
     2. Click **Manage**.
     3. Copy the **Install Razee Agent** `kubectl` command.
-    4. Run the command in the cluster that you want to monitor to create the Watch Keeper components. If you install Watch Keeper in the same cluster where you installed Razeedash, you see messages that some of the Watch Keeper components already exist in your cluster. You can ignore these messages.
+    4. Run the command in the cluster that you want to monitor to create the
+     Watch Keeper components. If you install Watch Keeper in the same cluster
+      where you installed Razeedash, you see messages that some of the Watch
+       Keeper components already exist in your cluster. You can ignore these messages.
 
        ```bash
        kubectl create -f http://<razeedash-api-lb_external_IP>:8081/api/install/cluster?orgKey=orgApiKey-<org_api_key>
        ```
 
        Example output for a cluster where Razeedash is installed:
-       ```
+
+       ```bash
        deployment.apps/remoteresource-controller created
        configmap/watch-keeper-config created
        secret/watch-keeper-secret created
        remoteresource.deploy.razee.io/watch-keeper-rr created
-       Error from server (AlreadyExists): error when creating "http://4e0ef59e-us-south.lb.appdomain.cloud:8081/api/install/cluster?orgKey=orgApiKey-d52b52fc-38ae-4da0-b187-6e097e5bfe5c": namespaces "razee" already exists
-       Error from server (AlreadyExists): customresourcedefinitions.apiextensions.k8s.io "remoteresources.deploy.razee.io" already exists
-       Error from server (AlreadyExists): error when creating "http://4e0ef59e-us-south.lb.appdomain.cloud:8081/api/install/cluster?orgKey=orgApiKey-d52b52fc-38ae-4da0-b187-6e097e5bfe5c": namespaces "razee" already exists
-       Error from server (AlreadyExists): error when creating "http://4e0ef59e-us-south.lb.appdomain.cloud:8081/api/install/cluster?orgKey=orgApiKey-d52b52fc-38ae-4da0-b187-6e097e5bfe5c": serviceaccounts "razeedeploy-sa" already exists
-       Error from server (AlreadyExists): error when creating "http://4e0ef59e-us-south.lb.appdomain.cloud:8081/api/install/cluster?orgKey=orgApiKey-d52b52fc-38ae-4da0-b187-6e097e5bfe5c": clusterroles.rbac.authorization.k8s.io "razeedeploy-admin-cr" already exists
-       Error from server (AlreadyExists): error when creating "http://4e0ef59e-us-south.lb.appdomain.cloud:8081/api/install/cluster?orgKey=orgApiKey-d52b52fc-38ae-4da0-b187-6e097e5bfe5c": clusterrolebindings.rbac.authorization.k8s.io "razeedeploy-rb" already exists
-       Error from server (AlreadyExists): error when creating "http://4e0ef59e-us-south.lb.appdomain.cloud:8081/api/install/cluster?orgKey=orgApiKey-d52b52fc-38ae-4da0-b187-6e097e5bfe5c": configmaps "razeedeploy-delta-resource-uris" already exists
-       Error from server (AlreadyExists): error when creating "http://4e0ef59e-us-south.lb.appdomain.cloud:8081/api/install/cluster?orgKey=orgApiKey-d52b52fc-38ae-4da0-b187-6e097e5bfe5c": deployments.apps "razeedeploy-delta" already exists
+       Error from server (AlreadyExists): error when creating
+        "http://4e0ef59e-us-south.lb.appdomain.cloud:8081/api/install/cluster?
+        orgKey=orgApiKey-d52b52fc-38ae-4da0-b187-6e097e5bfe5c": namespaces
+         "razee" already exists
+       Error from server (AlreadyExists): customresourcedefinitions.
+       apiextensions.k8s.io "remoteresources.deploy.razee.io" already exists
+       Error from server (AlreadyExists): error when creating
+        "http://4e0ef59e-us-south.lb.appdomain.cloud:8081/api/install/cluster?
+        orgKey=orgApiKey-d52b52fc-38ae-4da0-b187-6e097e5bfe5c": namespaces
+         "razee" already exists
+       Error from server (AlreadyExists): error when creating
+        "http://4e0ef59e-us-south.lb.appdomain.cloud:8081/api/install/cluster?
+        orgKey=orgApiKey-d52b52fc-38ae-4da0-b187-6e097e5bfe5c": serviceaccounts
+         "razeedeploy-sa" already exists
+       Error from server (AlreadyExists): error when creating
+        "http://4e0ef59e-us-south.lb.appdomain.cloud:8081/api/install/cluster?
+        orgKey=orgApiKey-d52b52fc-38ae-4da0-b187-6e097e5bfe5c": clusterroles.
+        rbac.authorization.k8s.io "razeedeploy-admin-cr" already exists
+       Error from server (AlreadyExists): error when creating
+        "http://4e0ef59e-us-south.lb.appdomain.cloud:8081/api/install/cluster?
+        orgKey=orgApiKey-d52b52fc-38ae-4da0-b187-6e097e5bfe5c":
+        clusterrolebindings.rbac.authorization.k8s.io "razeedeploy-rb" already exists
+       Error from server (AlreadyExists): error when creating
+        "http://4e0ef59e-us-south.lb.appdomain.cloud:8081/api/install/cluster?
+        orgKey=orgApiKey-d52b52fc-38ae-4da0-b187-6e097e5bfe5c": configmaps
+         "razeedeploy-delta-resource-uris" already exists
+       Error from server (AlreadyExists): error when creating
+        "http://4e0ef59e-us-south.lb.appdomain.cloud:8081/api/install/cluster?
+        orgKey=orgApiKey-d52b52fc-38ae-4da0-b187-6e097e5bfe5c": deployments.apps
+         "razeedeploy-delta" already exists
        ````
 
        Example output for a cluster where Razeedash is not installed:
 
-       ```
+       ```bash
        configmap/watch-keeper-config created
        secret/watch-keeper-secret created
        clusterrole.rbac.authorization.k8s.io/cluster-reader created
@@ -331,25 +381,41 @@ To deploy Razee in your cluster, your cluster must meet the following requiremen
 
        Example output:
 
-       ```
+       ```bash
        watch-keeper                  1/1     1            1           2m5s
        ```
 
-11. From the Razeedash console, click **RazeeDash** to open the Razeedash details page and verify that you can see deployment information for your Watch Keeper pod.
+10. From the Razeedash console, click **RazeeDash** to open the Razeedash
+ details page and verify that you can see deployment information for your Watch
+  Keeper pod.
 
 ## Step 2: Visualize deployment information in RazeeDash
 
-With Watch Keeper set up in your cluster, you can retrieve deployment information for other Kubernetes resources that you want to monitor. Data is automatically sent to the Razeedash API and you can access, monitor, and analyze this data with Razeedash.
+With Watch Keeper set up in your cluster, you can retrieve deployment
+ information for other Kubernetes resources that you want to monitor. Data is
+  automatically sent to the Razeedash API and you can access, monitor, and
+   analyze this data with Razeedash.
 
-1. Decide what information you want Watch Keeper to retrieve by choosing among the following information detail levels:
+1. Decide what information you want Watch Keeper to retrieve by choosing among
+ the following information detail levels:
 
-    - `lite`: Retrieves the `metadata` and `status` section of your Kubernetes resource configuration.
-    - `detail`: Retrieves all configuration data of a Kubernetes resource, but leaves out environment variables and the `data` section of config maps and secrets.
-    - `debug`: Retrieves all configuration data of a Kubernetes resource, including environment variables and the `data`
-    section of config maps and secrets. This information might include sensitive information so use this option with care.
+    - `lite`: Retrieves the `metadata` and `status` section of your Kubernetes
+     resource configuration.
+    - `detail`: Retrieves all configuration data of a Kubernetes resource, but
+     leaves out environment variables and the `data` section of config maps and secrets.
+    - `debug`: Retrieves all configuration data of a Kubernetes resource,
+     including environment variables and the `data`.
+    section of config maps and secrets. This information might include
+     sensitive information so use this option with care.
 
-2. Add the `razee/watch-resource` label to the **labels** section of all Kubernetes resources that you want to monitor and specify the information detail level. For example, if you want to monitor a Kubernetes deployment, use the following command. After you add the label to your resource, Watch Keeper automatically scans your resource and sends data to the Razeedash API.
-Then, your resource is scanned once every hour. In addition, Watch Keeper adds a Kubernetes event watcher to your resource so that Watch Keeper is notified by Kubernetes when the configuration of your resource changes.
+2. Add the `razee/watch-resource` label to the **labels** section of all
+ Kubernetes resources that you want to monitor and specify the information
+  detail level. For example, if you want to monitor a Kubernetes deployment, use
+   the following command. After you add the label to your resource, Watch Keeper
+    automatically scans your resource and sends data to the Razeedash API.
+Then, your resource is scanned once every hour. In addition, Watch Keeper adds a
+ Kubernetes event watcher to your resource so that Watch Keeper is notified by
+  Kubernetes when the configuration of your resource changes.
 
    ```bash
    kubectl edit deployment <deployment_name>
@@ -376,18 +442,31 @@ Then, your resource is scanned once every hour. In addition, Watch Keeper adds a
    For more info on labeling resources and namespaces, see [docs here](https://github.com/razee-io/Watch-keeper/#collecting-resources)
 
 3. Verify that your Kubernetes resource is displayed in Razeedash.
-   1. Open Razeedash. **Tip**: To find the public IP address that is assigned to your RazeeDash service, run `kubectl get service razeedash-lb -n razee`.
-      ```
+   1. Open Razeedash. **Tip**: To find the public IP address that is assigned to
+    your RazeeDash service, run `kubectl get service razeedash-lb -n razee`.
+
+      ```bash
       open http://"${RAZEEDASH_LB}":8080
       ```
-   2. Click **Sign in with GitHub**.
-   3. Select the GitHub organization that you connected Razeedash to. The Razeedash console opens automatically.
-   4. Verify that you can access deployment information about your Kubernetes resource in Razeedash.
 
-4. Optional: Configure Razeedash to display the cluster name instead of the cluster ID. By default, all Kubernetes resources that you watch in a cluster are listed with their cluster ID in the Razeedash console. You can change this setting and instead display the cluster name or any other string to help you find the Kubernetes resources of a cluster more quickly.
-   1. In your cluster, create a Kubernetes configmap that looks similar to the following. Enter the name that you want to display in Razeedash in the `data.name` section. In the following example, you change the cluster ID to `razee-1`.
+   2. Click **Sign in with GitHub**.
+   3. Select the GitHub organization that you connected Razeedash to. The
+    Razeedash console opens automatically.
+   4. Verify that you can access deployment information about your Kubernetes
+    resource in Razeedash.
+
+4. Optional: Configure Razeedash to display the cluster name instead of the
+cluster ID. By default, all Kubernetes resources that you watch in a cluster
+are listed with their cluster ID in the Razeedash console. You can change this
+setting and instead display the cluster name or any other string to help you
+find the Kubernetes resources of a cluster more quickly.
+   1. In your cluster, create a Kubernetes configmap that looks similar to the
+    following. Enter the name that you want to display in Razeedash in the
+     `data.name` section. In the following example, you change the cluster ID to
+      `razee-1`.
 
       Example configmap:
+
       ```yaml
       apiVersion: v1
       data:
@@ -402,20 +481,34 @@ Then, your resource is scanned once every hour. In addition, Watch Keeper adds a
       ```
 
    2. Apply the configmap in your cluster.
+
       ```bash
       kubectl apply -f configmap.yaml
       ```
 
-   3. Wait a few minutes for Razeedash to update the cluster ID and display the name that you chose in your configmap.
+   3. Wait a few minutes for Razeedash to update the cluster ID and display the
+    name that you chose in your configmap.
 
 ## Step 3: Automatically deploy Kubernetes resources with RemoteResources
 
-RemoteResource and RemoteResourceS3 are razeedeploy components that you can use to automatically deploy Kubernetes resources that are stored in a source repository. Simply define the source repository in your remote resource and create the remote resource in your cluster. The remote resource controller automatically connects to your source repository, downloads the Kubernetes configuration file, and applies the file to your cluster. This process repeats about every two minutes. All you have to do is to keep your source file up-to-date and let your cluster auto-deploy it.
+RemoteResource and RemoteResourceS3 are razeedeploy components that you can use
+to automatically deploy Kubernetes resources that are stored in a source
+repository. Simply define the source repository in your remote resource and
+create the remote resource in your cluster. The remote resource controller
+automatically connects to your source repository, downloads the Kubernetes
+configuration file, and applies the file to your cluster. This process
+repeats about every two minutes. All you have to do is to keep your source
+file up-to-date and let your cluster auto-deploy it.
 
-**Tip:** Use RemoteResource to specify a URL to your source repository and RemoteResourceS3 to connect to a Cloud Object Storage instance.
+**Tip:** Use RemoteResource to specify a URL to your source repository and
+ RemoteResourceS3 to connect to a Cloud Object Storage instance.
 
-1. Create a configuration file for your remote resource and include the information of the source repository where your YAML file is stored. You can create one remote resource for your cluster, or you can use one remote resource
-per Kubernetes namespace if, for example, you use namespaces to separate teams or environments. If the YAML file that is stored in your source repository does not specify a namespace, the resource is automatically deployed in the same
+1. Create a configuration file for your remote resource and include the
+information of the source repository where your YAML file is stored. You can
+create one remote resource for your cluster, or you can use one remote resource
+per Kubernetes namespace if, for example, you use namespaces to separate teams
+or environments. If the YAML file that is stored in your source repository does
+not specify a namespace, the resource is automatically deployed in the same
 namespace as your remote resource.
 
    ```yaml
@@ -480,8 +573,11 @@ namespace as your remote resource.
    kubectl apply -f remoteresource.yaml
    ```
 
-3. Verify that the remote resource is created successfully. After the remote resource is created, the remote resource establishes a connection to the source repository, downloads the specified file, and applies the file to the cluster.
-This process repeats about every 2 minutes. If an error occurs, you can review the error message in the **Status** section of your CLI output.
+3. Verify that the remote resource is created successfully. After the remote
+resource is created, the remote resource establishes a connection to the source
+repository, downloads the specified file, and applies the file to the cluster.
+This process repeats about every 2 minutes. If an error occurs, you can review
+the error message in the **Status** section of your CLI output.
 
     ```bash
     kubectl describe remoteresource <remote_resource_name> -n <namespace>
@@ -490,7 +586,7 @@ This process repeats about every 2 minutes. If an error occurs, you can review t
     Example output:
     <!--Markdownlint-disable MD013-->
 
-    ```
+    ```bash
     Name:         myremoteresource
     Namespace:    razee
     Labels:       <none>
@@ -524,15 +620,20 @@ verify a deployment, run the following command.
    kubectl describe deployment <deployment_name> -n <namespace>
    ```
 
-5. Change the configuration of your YAML file in your source repository. For example, if you have a deployment, you can change or add a label to the `metadata` section of your YAML file.
+5. Change the configuration of your YAML file in your source repository.
+For example, if you have a deployment, you can change or add a label to the
+`metadata` section of your YAML file.
 
-6. Wait about 2 minutes for the remote resource to get restarted by Kubernetes, download the latest version of your Kubernetes resource and apply the change to your resource. Then, verify that the change is rolled out successfully.
+6. Wait about 2 minutes for the remote resource to get restarted by Kubernetes,
+download the latest version of your Kubernetes resource and apply the change to
+your resource. Then, verify that the change is rolled out successfully.
 
    ```bash
    kubectl describe deployment <deployment_name> -n <namespace>
    ```
 
-7. Optional: To remove a Kubernetes resource, you can either remove the source repository's URL from the remote resource, or remove the remote resource entirely.
+7. Optional: To remove a Kubernetes resource, you can either remove the source
+repository's URL from the remote resource, or remove the remote resource entirely.
 
 ## Step 4: Add version control or replace YAML file variables with MustacheTemplates
 
