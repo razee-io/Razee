@@ -132,7 +132,7 @@ To deploy Razee in your cluster, your cluster must meet the following requiremen
    remoteresources3-controller-59b5c454bd-r2pr9   1/1     Running   0          71s
    ```
 
-3. Install the Razeedash components in your cluster. To store data that is sent to the Razeedash API, you must set up a MongoDB instance. You can choose to set up Razeedash and a single MongoDB instance by using the provided `resource.yaml` file or to set up Razeedash with an existing MongoDB instance that runs in your cluster. 
+3. Install the Razeedash components in your cluster. To store data that is sent to the Razeedash API, you must set up a MongoDB instance. You can choose to set up Razeedash and a single MongoDB instance by using the provided `resource.yaml` file or to set up Razeedash with an existing MongoDB instance that runs in your cluster.
 
     - **To install Razeedash and a single MongoDB instance**:
 
@@ -150,7 +150,7 @@ To deploy Razee in your cluster, your cluster must meet the following requiremen
         secret/razeedash-secret created
         remoteresource.deploy.razee.io/razeedash created
         service/razeedash-lb created
-        service/razeedash-api-lb created 
+        service/razeedash-api-lb created
         ```
 
     - **To use an existing MongoDB instance**:
@@ -207,9 +207,8 @@ To deploy Razee in your cluster, your cluster must meet the following requiremen
     {"name":"razeedash-api","hostname":"razeedash-api-55fd67ddb9-cnbf4","pid":16,"level":30,"msg":"razeedash-api listening on port 3333","time":"2019-05-22T03:15:14.257Z","v":0}
     ```
 
-5. Retrieve the external IP address of your `razeedash-lb` and `razeedash-api-lb` load balancer services that are automatically created during the Razeedash API setup. `razeedash-lb` serves as the public endpoint for your Razeedash instance, and `razeedash-api-lb` serves as the public endpoint for your Razeedash API instance. By using the public IP addresses that were assigned, you can build the public URLs that you use to access the Razeedash and the Razeedash API components. To finish the setup of Razeedash, the two URLs must be stored in the Razeedash config map. 
-  
-   Use the following Bash commands to retrieve the public IP addresses, build the public URLs, and store the URLs in the Razeedash config map. You can also execute the Bash script [`bin/kc_create_razeedash_config.sh`](https://github.com/razee-io/Kube-cloud-scripts/blob/master/bin/kc_create_razeedash_config_map.sh). Note that you must include the trailing `/` at the end of the `root_url` and `razeedash_api_url` in your Razeedash config map. 
+5. Retrieve the external IP address of your `razeedash-lb` and `razeedash-api-lb` load balancer services that are automatically created during the Razeedash API setup. `razeedash-lb` serves as the public endpoint for your Razeedash instance, and `razeedash-api-lb` serves as the public endpoint for your Razeedash API instance. By using the public IP addresses that were assigned, you can build the public URLs that you use to access the Razeedash and the Razeedash API components. To finish the setup of Razeedash, the two URLs must be stored in the Razeedash config map.
+   Use the following Bash commands to retrieve the public IP addresses, build the public URLs, and store the URLs in the Razeedash config map. You can also execute the Bash script [`bin/kc_create_razeedash_config.sh`](https://github.com/razee-io/Kube-cloud-scripts/blob/master/bin/kc_create_razeedash_config_map.sh). Note that you must include the trailing `/` at the end of the `root_url` and `razeedash_api_url` in your Razeedash config map.
 
    ```bash
    # Amazon EKS uses host names, IBM Cloud Kubernetes Service uses Ingress IP addresses. This handle both.
@@ -252,48 +251,50 @@ To deploy Razee in your cluster, your cluster must meet the following requiremen
    open http://"${RAZEEDASH_LB}":8080
    ```
 
-8. Integrate Razeedash with GitHub, GitHub Enterprise, or Bitbucket. 
-   - **GitHub**: 
-     1. From the Razeedash welcome screen, select the **GitHub** tile and click **Configure Github**. 
-     2. Follow the [link](https://github.com/settings/applications/new) in the pop-up window to register a new `OAuth` application in GitHub. 
+8. Integrate Razeedash with GitHub, GitHub Enterprise, or Bitbucket.
+   - **GitHub**:
+     1. From the Razeedash welcome screen, select the **GitHub** tile and click **Configure Github**.
+     2. Follow the [link](https://github.com/settings/applications/new) in the pop-up window to register a new `OAuth` application in GitHub.
      3. Enter a name for your GitHub application, a description, and use the **Homepage URL** and **Authorization callback URL** that are displayed in the pop-up window.
      4. Click **Register application**.
      5. Copy the **Client ID** and the **Client Secret** and add these values to the pop-up window.
      6. Click **Save configuration**.
      7. If you do not own a GitHub organization, [create one](https://help.github.com/en/articles/creating-a-new-organization-from-scratch).
      8. From the Razeedash welcome screen, click **Sign in with GitHub**. A pop-up window opens.
-     9. In the **Organization access** section, find your organization and click **Grant**. Enter your GitHub password when prompted. 
+     9. In the **Organization access** section, find your organization and click **Grant**. Enter your GitHub password when prompted.
      10. Click **Authorize <github_user_name>**. The RazeeDash console opens and shows the name of the organization that you granted access to.
-     
-   - **GitHub Enterprise**: 
-     1. From the Razeedash welcome screen, select the **GitHub Enterprise** tile and click **Configure Ghe**. 
-     2. Follow the [link](https://github.com/settings/applications/new) in the pop-up window to register a new `OAuth` application in GitHub. 
-     3. Enter a name for your GitHub application, a description, and use the **Homepage URL** and **Authorization callback URL** that are displayed in the pop-up window.
-     
-   - **Bitbucket**: 
-     1. From the Razeedash welcome screen, select the **Bitbucket** tile and click **Configure Bitbucket**. 
-     2. Follow the link in the pop-up window to register a new `OAuth` application in Bitbucket. 
-     3. Click on your user profile and select **View profile** to open your user profile. 
-     4. Select the **Settings** tab and select **OAuth** from the **Access management** section.  
-     5. Click **Add consumer**. 
-     6. Enter a name for your Bitbucket application, a description, and enter the **Callback URL** that you can find in the pop-up window of your Razeedash welcome screen.
-     7. In the **Permissions** section, select **Read** access in the **Account** and **Team membership** categories. 
-     9. Click **Save** to store your configuration. 
-     10. Expand the `OAuth` application that you created to view the **Key** and the **Secret**. 
-     11. Copy the **Key** and the **Secret**, and add these values to the pop-up window. 
-     12. Click **Save configuration**. 
 
-10. Install Watch Keeper in every cluster that you want to monitor. The cluster where you install Watch Keeper can be a different cluster than the one where you installed Razeedash. 
+   - **GitHub Enterprise**:
+     1. From the Razeedash welcome screen, select the **GitHub Enterprise** tile and click **Configure Ghe**.
+     2. Follow the [link](https://github.com/settings/applications/new) in the pop-up window to register a new `OAuth` application in GitHub.
+     3. Enter a name for your GitHub application, a description, and use the **Homepage URL** and **Authorization callback URL** that are displayed in the pop-up window.
+
+   - **Bitbucket**:
+     1. From the Razeedash welcome screen, select the **Bitbucket** tile and click **Configure Bitbucket**.
+     2. Follow the link in the pop-up window to register a new `OAuth` application in Bitbucket.
+     3. Click on your user profile and select **View profile** to open your user profile.
+     4. Select the **Settings** tab and select **OAuth** from the **Access management** section.
+     5. Click **Add consumer**.
+     6. Enter a name for your Bitbucket application, a description, and enter the **Callback URL** that you can find in the pop-up window of your Razeedash welcome screen.
+     7. In the **Permissions** section, select **Read** access in the **Account** and **Team membership** categories.
+     9. Click **Save** to store your configuration.
+     10. Expand the `OAuth` application that you created to view the **Key** and the **Secret**, and copy the values to the Razeedash pop-up window.
+     11. Click **Save configuration**.
+     12. From the Razeedash welcome screen, click **Sign in with Bitbucket**. A pop-up window opens. 
+     13. Click **Grant access** to allow your bucket to access Razeedash. 
+     14. If you don't have a team in Bitbucket, [create one](https://bitbucket.org/account/create-team/). 
+
+10. Install Watch Keeper in every cluster that you want to monitor. The cluster where you install Watch Keeper can be a different cluster than the one where you installed Razeedash.
     1. From the Razeedash console, click **Register**.
     2. Click **Manage**.
     3. Copy the **Install Razee Agent** `kubectl` command.
-    4. Run the command in the cluster that you want to monitor to create the Watch Keeper components. If you install Watch Keeper in the same cluster where you installed Razeedash, you see messages that some of the Watch Keeper components already exist in your cluster. You can ignore these messages. 
+    4. Run the command in the cluster that you want to monitor to create the Watch Keeper components. If you install Watch Keeper in the same cluster where you installed Razeedash, you see messages that some of the Watch Keeper components already exist in your cluster. You can ignore these messages.
 
        ```bash
        kubectl create -f http://<razeedash-api-lb_external_IP>:8081/api/install/cluster?orgKey=orgApiKey-<org_api_key>
        ```
-       
-       Example output for a cluster where Razeedash is installed: 
+
+       Example output for a cluster where Razeedash is installed:
        ```
        deployment.apps/remoteresource-controller created
        configmap/watch-keeper-config created
@@ -308,7 +309,7 @@ To deploy Razee in your cluster, your cluster must meet the following requiremen
        Error from server (AlreadyExists): error when creating "http://4e0ef59e-us-south.lb.appdomain.cloud:8081/api/install/cluster?orgKey=orgApiKey-d52b52fc-38ae-4da0-b187-6e097e5bfe5c": configmaps "razeedeploy-delta-resource-uris" already exists
        Error from server (AlreadyExists): error when creating "http://4e0ef59e-us-south.lb.appdomain.cloud:8081/api/install/cluster?orgKey=orgApiKey-d52b52fc-38ae-4da0-b187-6e097e5bfe5c": deployments.apps "razeedeploy-delta" already exists
        ````
-       
+
        Example output for a cluster where Razeedash is not installed:
 
        ```
@@ -374,19 +375,19 @@ Then, your resource is scanned once every hour. In addition, Watch Keeper adds a
 
    For more info on labeling resources and namespaces, see [docs here](https://github.com/razee-io/Watch-keeper/#collecting-resources)
 
-3. Verify that your Kubernetes resource is displayed in Razeedash. 
+3. Verify that your Kubernetes resource is displayed in Razeedash.
    1. Open Razeedash. **Tip**: To find the public IP address that is assigned to your RazeeDash service, run `kubectl get service razeedash-lb -n razee`.
       ```
       open http://"${RAZEEDASH_LB}":8080
-      ```   
+      ```
    2. Click **Sign in with GitHub**.
-   3. Select the GitHub organization that you connected Razeedash to. The Razeedash console opens automatically. 
-   4. Verify that you can access deployment information about your Kubernetes resource in Razeedash. 
+   3. Select the GitHub organization that you connected Razeedash to. The Razeedash console opens automatically.
+   4. Verify that you can access deployment information about your Kubernetes resource in Razeedash.
 
-4. Optional: Configure Razeedash to display the cluster name instead of the cluster ID. By default, all Kubernetes resources that you watch in a cluster are listed with their cluster ID in the Razeedash console. You can change this setting and instead display the cluster name or any other string to help you find the Kubernetes resources of a cluster more quickly. 
-   1. In your cluster, create a Kubernetes configmap that looks similar to the following. Enter the name that you want to display in Razeedash in the `data.name` section. In the following example, you change the cluster ID to `razee-1`. 
-      
-      Example configmap: 
+4. Optional: Configure Razeedash to display the cluster name instead of the cluster ID. By default, all Kubernetes resources that you watch in a cluster are listed with their cluster ID in the Razeedash console. You can change this setting and instead display the cluster name or any other string to help you find the Kubernetes resources of a cluster more quickly.
+   1. In your cluster, create a Kubernetes configmap that looks similar to the following. Enter the name that you want to display in Razeedash in the `data.name` section. In the following example, you change the cluster ID to `razee-1`.
+
+      Example configmap:
       ```yaml
       apiVersion: v1
       data:
@@ -399,13 +400,13 @@ Then, your resource is scanned once every hour. In addition, Watch Keeper adds a
         name: razee1-cluster-metadata
         namespace: default
       ```
-   
-   2. Apply the configmap in your cluster. 
+
+   2. Apply the configmap in your cluster.
       ```bash
       kubectl apply -f configmap.yaml
       ```
-     
-   3. Wait a few minutes for Razeedash to update the cluster ID and display the name that you chose in your configmap. 
+
+   3. Wait a few minutes for Razeedash to update the cluster ID and display the name that you chose in your configmap.
 
 ## Step 3: Automatically deploy Kubernetes resources with RemoteResources
 
@@ -727,7 +728,7 @@ Razee project as a template to connect to your own feature flagging service.
 account lets you try out the Launch Darkly features for 30 days for free. When
 you start your trial version, Launch Darkly is automatically launched and a
 `test` and `production` project are set up for you.
-2. [Create your first feature flag](https://docs.launchdarkly.com/docs/creating-a-feature-flag). 
+2. [Create your first feature flag](https://docs.launchdarkly.com/docs/creating-a-feature-flag).
 3. [Enable targeting for your feature flag](https://docs.launchdarkly.com/docs/the-kill-switch#section-turning-flags-on). Feature flags cannot be retrieved by Razee if targeting is disabled.
 4. Retrieve the Launch Darkly SDK key.
    1. From the Launch Darkly console, click **Account settings**.
