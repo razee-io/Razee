@@ -1,4 +1,4 @@
-<img src="images/razee_icon.png">
+![Razee logo](images/razee_icon.png")
 
 [Razee](http://www.razee.io/) is an open-source project that was developed by IBM to automate and manage the deployment of Kubernetes resources across clusters, environments, and cloud providers, and to visualize deployment information for your resources so that you can monitor the rollout process and find deployment issues more quickly.
 
@@ -23,7 +23,7 @@ Razee consists of two modules, RazeeDash and RazeeDeploy, that are loosely coupl
 
 Take a look at the Razee architecture to see how Razee components interact, and how you can visualize and control your deployment process.
 
-![Razee architecture](images/razee_ov.png)s
+![Razee architecture](images/razee_ov.png)
 
 ### RazeeDash components
 
@@ -65,7 +65,8 @@ Take a look at the Razee architecture to see how Razee components interact, and 
          <td>RazeeDeploy Delta is a component of RazeeDeploy Core that runs in your cluster and keeps the custom resource definitions and Kubernetes controllers of the RazeeDeploy components up-to-date. </td>
       </tr>
       <tr>
-         <td><a href="https://github.com/razee-io/RemoteResource">RemoteResource</a> and <a href="https://github.com/razee-io/RemoteResourceS3">Remote Resource S3</a></td>
+         <td><a href="https://github.com/razee-io/RemoteResource">RemoteResource</a>
+        and <a href="https://github.com/razee-io/RemoteResourceS3">Remote Resource S3</a></td>
          <td>RemoteResource and RemoteResourceS3 are custom resource definitions and controllers that you can use to automatically deploy Kubernetes resources that are stored in a source repository. Rather than manually applying these YAML files in each cluster, environment, or across clouds every time an update is made, simply define the source repository in your remote resource and create the remote resource in your cluster. The remote resource controller automatically connects to your source repository, downloads the Kubernetes configuration file and applies the file to your cluster. </td>
       </tr>
       <tr>
@@ -252,59 +253,14 @@ column of your CLI output.
    open http://"${RAZEEDASH_LB}":8080
    ```
 
-8. Integrate Razeedash with GitHub, GitHub Enterprise, or Bitbucket.
-   - **GitHub**:
-     1. From the Razeedash welcome screen, select the **GitHub** tile and
-     click **Configure Github**.
-     2. Follow the [link](https://github.com/settings/applications/new) in the
-     pop-up window to register a new `OAuth` application in GitHub.
-     3. Enter a name for your GitHub application, a description, and use the
-     **Homepage URL** and **Authorization callback URL** that are displayed in
-     the pop-up window.
-     4. Click **Register application**.
-     5. Copy the **Client ID** and the **Client Secret** and add these values to
-     the pop-up window.
-     6. Click **Save configuration**.
-     7. If you do not own a GitHub organization, [create one](https://help.github.com/en/articles/creating-a-new-organization-from-scratch).
-     8. From the Razeedash welcome screen, click **Sign in with GitHub**. A
-     pop-up window opens.
-     9. In the **Organization access** section, find your organization and click
-      **Grant**. Enter your GitHub password when prompted.
-     10. Click **Authorize <github_user_name>**. The RazeeDash console opens and
-      shows the name of the organization that you granted access to.
-
-   - **GitHub Enterprise**:
-     1. From the Razeedash welcome screen, select the **GitHub Enterprise** tile
-      and click **Configure Ghe**.
-     2. Follow the [link](https://github.com/settings/applications/new) in the
-      pop-up window to register a new `OAuth` application in GitHub.
-     3. Enter a name for your GitHub application, a description, and use the
-      **Homepage URL** and **Authorization callback URL** that are displayed in
-       the pop-up window.
-
-   - **Bitbucket**:
-     1. From the Razeedash welcome screen, select the **Bitbucket** tile and
-      click **Configure Bitbucket**.
-     2. Follow the link in the pop-up window to register a new `OAuth`
-      application in Bitbucket.
-     3. Click on your user profile and select **View profile** to open your
-      user profile.
-     4. Select the **Settings** tab and select **OAuth** from the
-      **Access management** section.
-     5. Click **Add consumer**.
-     6. Enter a name for your Bitbucket application, a description, and enter
-      the **Callback URL** that you can find in the pop-up window of your
-       Razeedash welcome screen.
-     7. In the **Permissions** section, select **Read** access in the
-      **Account** and **Team membership** categories.
-     8. Click **Save** to store your configuration.
-     9. Expand the `OAuth` application that you created to view the **Key** and
-      the **Secret**, and copy the values to the Razeedash pop-up window.
-     10. Click **Save configuration**.
-     11. From the Razeedash welcome screen, click **Sign in with Bitbucket**.
-      A pop-up window opens.
-     12. Click **Grant access** to allow your bucket to access Razeedash.
-     13. If you don't have a team in Bitbucket, [create one](https://bitbucket.org/account/create-team/).
+8. Create an `OAuth` application for Razeedash in GitHub, GitHub Enterprise, or Bitbucket.
+   1. From the Razeedash welcome screen, select the tile of the tool where you
+    want to create the `OAuth` application.
+   2. Follow the instructions in the pop-up window to create the `OAuth` application.
+   3. Click **Save configuration**.
+   4. From the Razeedash welcome screen, click **Sign in with <integration_tool>**.
+   5. Follow the instructions in the pop-up window to grant Razeedash access to
+    the integration tool that you chose.
 
 9. Install Watch Keeper in every cluster that you want to monitor. The cluster
  where you install Watch Keeper can be a different cluster than the one where
@@ -555,7 +511,9 @@ namespace as your remote resource.
          you use, you can include credentials in your URL to authenticate with
          the source repository. If credentials must be passed in as header
          information, add these headers in <code>spec.requests.options.headers
-         </code>. For example to use a file that is stored in a public GitHub repository, use <code>https://raw.githubusercontent.com/myorg/myrepo/master/deployment.yaml</code>. </td>
+         </code>. For example to use a file that is stored in a public GitHub
+        repository, use
+        <code>https://raw.githubusercontent.com/myorg/myrepo/master/deployment.yaml</code>. </td>
       </tr>
       <tr>
          <td><code>spec.requests.options.headers</code></td>
@@ -637,12 +595,20 @@ repository's URL from the remote resource, or remove the remote resource entirel
 
 ## Step 4: Add version control or replace YAML file variables with MustacheTemplates
 
-When you develop an app, you must manage multiple versions of an app. For example, you might have an app that is considered stable and that runs in your production environment. At the same time, you work on a new version for your app
-that adds new features or enhances existing features. To keep your app versions separate, you might include the app version in your file name, or use different image tags and labels for Kubernetes resources that belong to the same app,
+When you develop an app, you must manage multiple versions of an app. For
+example, you might have an app that is considered stable and that runs in your
+production environment. At the same time, you work on a new version for your app
+that adds new features or enhances existing features. To keep your app versions
+separate, you might include the app version in your file name, or use different
+image tags and labels for Kubernetes resources that belong to the same app,
 team, or environment.
 
-With MustacheTemplates, you can define environment variables and use Kubernetes config maps, secrets, or feature flags to determine the value of each environment variable. Then, you can replace variables in your YAML files with
-the value of your environment variable. For example, substitute the app version number in the URL of your remote resource that points to your file, or replace labels, image tags, and other YAML file pieces in your Kubernetes resources.
+With MustacheTemplates, you can define environment variables and use Kubernetes
+config maps, secrets, or feature flags to determine the value of each
+environment variable. Then, you can replace variables in your YAML files with
+the value of your environment variable. For example, substitute the app version
+number in the URL of your remote resource that points to your file, or replace
+labels, image tags, and other YAML file pieces in your Kubernetes resources.
 
 1. Create a configuration file for your mustache template.
 
@@ -798,19 +764,23 @@ occurs, you can review the error message in the **Status** section of your CLI o
     ```
     <!--Markdownlint-enable MD013-->
 
-4. Verify that your remote resource is created successfully and that variables are successfully replaced by the mustache template.
+4. Verify that your remote resource is created successfully and that variables
+are successfully replaced by the mustache template.
 
    ```bash
    kubectl describe rrs <remote_resource_name> -n <namespace>
    ```
 
-5. Verify that the Kubernetes resource from your source repository is created or updated. For example to verify a deployment, run the following command.
+5. Verify that the Kubernetes resource from your source repository is created or
+updated. For example to verify a deployment, run the following command.
 
    ```bash
    kubectl describe deployment <deployment_name> -n <namespace>
    ```
 
-**Note**: If you delete a mustache template, all resources that you defined in the `spec.templates` section are removed at the same time. To keep the Kubernetes resources, add the `deploy.razee.io/Reconcile: false` label to all
+**Note**: If you delete a mustache template, all resources that you defined in
+the `spec.templates` section are removed at the same time. To keep the
+Kubernetes resources, add the `deploy.razee.io/Reconcile: false` label to all
 your YAML files.
 
 ## Step 5: Control deployments with FeatureFlagSetsLD
@@ -830,7 +800,8 @@ account lets you try out the Launch Darkly features for 30 days for free. When
 you start your trial version, Launch Darkly is automatically launched and a
 `test` and `production` project are set up for you.
 2. [Create your first feature flag](https://docs.launchdarkly.com/docs/creating-a-feature-flag).
-3. [Enable targeting for your feature flag](https://docs.launchdarkly.com/docs/the-kill-switch#section-turning-flags-on). Feature flags cannot be retrieved by Razee if targeting is disabled.
+3. [Enable targeting for your feature flag](https://docs.launchdarkly.com/docs/the-kill-switch#section-turning-flags-on).
+Feature flags cannot be retrieved by Razee if targeting is disabled.
 4. Retrieve the Launch Darkly SDK key.
    1. From the Launch Darkly console, click **Account settings**.
    2. Note the **SDK key** of your production project.
@@ -888,7 +859,7 @@ your CLI output.
 
    Example output:
 
-   ```
+   ```bash
    Name:         myfeatureflag
    Namespace:    razee
    Labels:       client=<launch_darkly_sdk_key>
@@ -1091,7 +1062,7 @@ can see them in the **Status** section of your CLI output.
 
    Example output:
 
-   ```
+   ```bash
    Name:         mymanagedset
    Namespace:    razee
    Labels:       <none>
