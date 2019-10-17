@@ -513,7 +513,8 @@ namespace as your remote resource.
          information, add these headers in <code>spec.requests.options.headers
          </code>. For example to use a file that is stored in a public GitHub
         repository, use
-        <code>https://raw.githubusercontent.com/myorg/myrepo/master/deployment.yaml</code>. </td>
+        <code>https://raw.githubusercontent.com/myorg/myrepo/master/deployment.yaml</code>.
+        </td>
       </tr>
       <tr>
          <td><code>spec.requests.options.headers</code></td>
