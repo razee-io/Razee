@@ -262,6 +262,10 @@ column of your CLI output.
    5. Follow the instructions in the pop-up window to grant Razeedash access to
     the integration tool that you chose.
 
+      If you need to reset any of the `OAuth` credentials then you can start over
+      by opening a mongo shell to your instance and running
+      `db.meteor_accounts_loginServiceConfiguration.remove({})`.
+
 9. Install Watch Keeper in every cluster that you want to monitor. The cluster
  where you install Watch Keeper can be a different cluster than the one where
   you installed Razeedash.
