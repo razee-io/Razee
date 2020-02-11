@@ -1253,7 +1253,7 @@ version of your resource to Razee after all checks have passed.
    <table>
    <caption>Understanding the API request</caption>
    <thead>
-   <th colspan=2><img src="images/idea.png" alt="Idea icon"/> Understanding the API request</th>
+   <th colspan=2>Understanding the API request</th>
   </thead>
        <tbody>
        <tr>
