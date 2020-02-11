@@ -1,1338 +1,631 @@
-![Razee logo](images/razee_icon.png)
+---
 
-[Razee](http://www.razee.io/) is an open-source project that was developed by IBM to automate and manage the deployment of Kubernetes resources across clusters, environments, and cloud providers, and to visualize deployment information for your resources so that you can monitor the rollout process and find deployment issues more quickly.
+copyright:
+  years: 2014, 2020
+lastupdated: "2020-01-22"
 
-See the following links to get started with Razee:
+keywords: kubernetes, iks, release notes
 
-- [Architecture overview](#architecture-overview)
-  - [RazeeDash components](#razeedash-components)
-  - [RazeeDeploy components](#RazeeDeploy-components)
-- [Prerequisites](#prerequisites)
-- [Step 1: Install Razee](#step-1-install-razee)
-- [Step 2: Visualize deployment information in RazeeDash](#step-2-visualize-deployment-information-in-razeedash)
-- [Step 3: Automatically deploy Kubernetes resources with RemoteResources](#step-3-automatically-deploy-kubernetes-resources-with-remoteresources)
-- [Step 4: Add version control or replace YAML file variables with MustacheTemplates](#step-4-add-version-control-or-replace-yaml-file-variables-with-mustachetemplates)
-- [Step 5: Control deployments with FeatureFlagSetsLD](#step-5-control-deployments-with-featureflagsetsld)
-- [Step 6: Organize resources in a ManagedSet](#step-6-organize-resources-in-a-managedset)
-- [Stay connected](#stay-connected)
-- [License](#license)
+subcollection: containers
 
-## Architecture overview
+---
 
-Razee consists of two modules, RazeeDash and RazeeDeploy, that are loosely coupled and that can be used independently. With RazeeDash, you can dynamically create a live inventory of your Kubernetes resources and use the powerful filter and alerting capabilities to visualize configuration information and troubleshoot issues in your deployment process more quickly. RazeeDeploy components are designed to simplify multi-cluster deployments by templatizing Kubernetes resources, grouping resources and clusters, and defining rules for these groupings so that you can create a flexible configuration that is enforced across clusters, environments, and clouds.
+{:codeblock: .codeblock}
+{:deprecated: .deprecated}
+{:download: .download}
+{:external: target="_blank" .external}
+{:faq: data-hd-content-type='faq'}
+{:gif: data-image-type='gif'}
+{:help: data-hd-content-type='help'}
+{:important: .important}
+{:new_window: target="_blank"}
+{:note: .note}
+{:pre: .pre}
+{:preview: .preview}
+{:screen: .screen}
+{:shortdesc: .shortdesc}
+{:support: data-reuse='support'}
+{:table: .aria-labeledby="caption"}
+{:tip: .tip}
+{:troubleshoot: data-hd-content-type='troubleshoot'}
+{:tsCauses: .tsCauses}
+{:tsResolve: .tsResolve}
+{:tsSymptoms: .tsSymptoms}
 
-Take a look at the Razee architecture to see how Razee components interact, and how you can visualize and control your deployment process.
 
-![Razee architecture](images/razee_ov.png)
+# Release notes
+{: #iks-release}
 
-### RazeeDash components
+Use the release notes to learn about the latest changes to the {{site.data.keyword.containerlong}} documentation that are grouped by month.
+{:shortdesc}
 
-<table>
-   <thead>
-      <th>Component</th>
-      <th>Description</th>
-   </thead>
-   <tbody>
-      <tr>
-         <td><a href="https://github.com/razee-io/watch-keeper">Watch Keeper</a></td>
-         <td>Watch Keeper is responsible to retrieve configuration information for Kubernetes resources and to send this data to the RazeeDash API. To use Watch Keeper, simply install this component in your cluster and add the <code>razee/watch-resource</code> label to all resources that you want to monitor. After you add the label, Watch Keeper retrieves configuration information from the Kubernetes API server and immediately sends this data to the RazeeDash API. This process repeats once every hour. In addition, Watch Keeper adds a Kubernetes event watcher to your resource so that Watch Keeper is notified by Kubernetes when the configuration of your resource changes. </td>
-      </tr>
-      <tr>
-         <td><a href="https://github.com/razee-io/razeedash-api">RazeeDash API</a></td>
-         <td>RazeeDash API is a service that receives Kubernetes resource configurations and resource definitions from Watch Keeper. Data that is sent to the RazeeDash API is automatically stored in MongoDB.  </td>
-      </tr>
-      <tr>
-         <td><a href="https://github.com/razee-io/razeedash">RazeeDash</a></td>
-         <td>RazeeDash visualizes data that is retrieved by Watch Keeper and dynamically creates an inventory of your Kubernetes resources in your cluster. You can use the intelligent filter and alerting capabilities to analyze this data and quickly identify and resolve issues in your deployment process. </td>
-      </tr>
-   </tbody>
+## January 2020
+{: #jan20}
+
+| Date | Description |
+| ---- | ----------- |
+| 22 January 2020 | **Kubernetes 1.15**: [Kubernetes 1.15](/docs/containers?topic=containers-cs_versions#version_types) is now the default version. |
+| 21 January 2020 | **Default {{site.data.keyword.containerlong}} settings**: Review the [default settings](/docs/containers?topic=containers-service-settings) for Kubernetes components, such as the `kube-apiserver`, `kubelet`, or `kube-proxy`. |
+| 20 January 2020 | <ul><li>**Helm version 3**: Updated [Adding services by using Helm charts](/docs/containers?topic=containers-helm) to include steps for installing Helm v3 in your cluster. Migrate to Helm v3 today for several advantages over Helm v2, such as the removal of the Helm server, Tiller.</li><li>**Ingress ALB changelog**: Updated the [`nginx-ingress` image build to 621](/docs/containers?topic=containers-cluster-add-ons-changelog#alb_changelog).</li><li>**Version changelog**: Patch updates are available for Kubernetes [1.16.5_1522](/docs/containers?topic=containers-changelog#1165_1522), [1.15.8_1529](/docs/containers?topic=containers-changelog#1158_1529), [1.14.10_1545](/docs/containers?topic=containers-changelog#11410_1545), and [1.13.12_1548](/docs/containers?topic=containers-changelog#11312_1548).</li></ul> |
+| 13 January 2020 | **{{site.data.keyword.blockstorageshort}}**: Added steps for [adding raw {{site.data.keyword.blockstorageshort}} to VPC worker nodes](/docs/containers?topic=containers-utilities#vpc_api_attach). |
+| 06 January 2020 | **Ingress ALB changelog**: Updated the [`ingress-auth` image to build 373](/docs/containers?topic=containers-cluster-add-ons-changelog#alb_changelog).|
+| 03 January 2020 | **Version changelog**: Worker node patch updates are available for Kubernetes [1.16.3_1521](/docs/containers?topic=containers-changelog#1163_1521), [1.15.6_1528](/docs/containers?topic=containers-changelog#1156_1528), [1.14.9_1544](/docs/containers?topic=containers-changelog#1149_1544), and [1.13.12_1547](/docs/containers?topic=containers-changelog#11312_1547).|
+
+
+## December 2019
+{: #dec19}
+
+| Date | Description |
+| ---- | ----------- |
+| 18 December 2019 | **Ingress ALB changelog**: Updated the [`nginx-ingress` image build to 615 and the `ingress-auth` image to build 372](/docs/containers?topic=containers-cluster-add-ons-changelog#alb_changelog). |
+| 17 December 2019 | <ul><li>**Version changelog**: Master patch updates are available for Kubernetes [1.16.3_1520](/docs/containers?topic=containers-changelog#1163_1520), [1.15.6_1527](/docs/containers?topic=containers-changelog#1156_1527), [1.14.9_1543](/docs/containers?topic=containers-changelog#1149_1543), and [1.13.12_1546](/docs/containers?topic=containers-changelog#11312_1546).</li><li>**Adding classic infrastructure servers to gateway-enabled clusters**: [Adding classic IBM Cloud infrastructure server instances to your cluster network](/docs/containers?topic=containers-add_workers#gateway_vsi) is now generally available for classic gateway-enabled clusters.</li><li>**Assigning access**: Updated the steps to [assign access to your clusters through the {{site.data.keyword.cloud_notm}} IAM console](/docs/containers?topic=containers-users#add_users).</li></ul>|
+| 12 December 2019 | **Setting up a service mesh with Istio**: Includes the following new pages:<ul><li>[About the managed Istio add-on](/docs/containers?topic=containers-istio-about)</li><li>[Setting up Istio](/docs/containers?topic=containers-istio)</li><li>[Managing apps in the service mesh](/docs/containers?topic=containers-istio-mesh)</li><li>[Observing Istio traffic](/docs/containers?topic=containers-istio-health)</li></ul>|
+| 11 December 2019 | <ul><li>**CLI changelog**: Updated the {{site.data.keyword.containerlong_notm}} CLI plug-in changelog page for the [release of version 0.4.64](/docs/containers?topic=containers-cs_cli_changelog).</li><li>**Configuring VPC subnets**: [Added information](/docs/containers?topic=containers-vpc-subnets) about configuring VPC subnets, public gateways, and network segmentation for your VPC clusters.</li><li>**Kubernetes version lifecyles**: Added information about [the release lifecycle of supported Kubernetes versions](/docs/containers?topic=containers-cs_versions#release_lifecycle).</li><li>**Managed Knative add-on**: Added information about [Istio version support](/docs/containers?topic=containers-serverless-apps-knative#kn_limitations).</li></ul>|
+| 09 December 2019 | **Version changelog**: Worker node patch updates are available for Kubernetes [1.16.3_1519](/docs/containers?topic=containers-changelog#1163_1519_worker), [1.15.6_1526](/docs/containers?topic=containers-changelog#1156_1526_worker), [1.14.9_1542](/docs/containers?topic=containers-changelog#1149_1542_worker), and [1.13.12_1545](/docs/containers?topic=containers-changelog#11312_1545_worker). |
+| 04 December 2019 | <ul><li>**Exposing apps with load balancers or Ingress ALBs**: Added quick start pages to help you get up and running with [load balancers](/docs/containers?topic=containers-loadbalancer-qs) and [Ingress ALBs](/docs/containers?topic=containers-ingress-qs).</li><li>**Kubernetes web terminal for VPC clusters**: To use the Kubernetes web terminal for VPC clusters, make sure to [configure access to external endpoints](/docs/containers?topic=containers-cs_cli_install#cli_web).</li><li>**Monitoring Istio**: Added [steps](/docs/containers?topic=containers-istio-health#istio_inspect) to launch the ControlZ component inspection and Envoy sidecar dashboards for the Istio managed add-on.</li><li>**Tuning network performance**: Added [steps](/docs/containers?topic=containers-kernel#calico-portmap) for disabling the `portmap` plugin for for the Calico container network interface (CNI).</li><li>**Use the internal KVDB in Portworx**: Automatically set up a key-value database (KVDB) during the Portworx installation to store your Portworx metadata. For more information, see [Using the Portworx KVDB](/docs/containers?topic=containers-portworx#portworx-kvdb).</li></ul>|
+{: summary="The table shows release notes. Rows are to be read from the left to right, with the date in column one, the title of the feature in column two and a description in column three."}
+{: caption="Documentation updates in December 2019"}
+
+## November 2019
+{: #nov19}
+
+<table summary="The table shows release notes. Rows are to be read from the left to right, with the date in column one, the title of the feature in column two and a description in column three.">
+<caption>Documentation updates in November 2019</caption>
+<thead>
+<th>Date</th>
+<th>Description</th>
+</thead>
+<tbody>
+<tr>
+  <td>26 November 2019</td>
+  <td><ul><li><strong>CLI changelog</strong>: Updated the {{site.data.keyword.containerlong_notm}} CLI plug-in changelog page for the [release of version 0.4.61](/docs/containers?topic=containers-cs_cli_changelog).</li>
+  <li><strong>Cluster autoscaling for VPC clusters</strong>: You can [set up the cluster autoscaler](/docs/containers?topic=containers-ca#ca_helm) on clusters that run on the first generation of compute for Virtual Private Cloud (VPC).</li>
+  <li><strong>New! Reservations and limits for PIDs</strong>: Worker nodes that run Kubernetes version 1.14 or later set [process ID (PID) reservations and limits that vary by flavor](/docs/containers?topic=containers-planning_worker_nodes#resource_limit_node), to help prevent malicious or runaway apps from consuming all available PIDs.</li>
+  <li><strong>Version changelog</strong>: Worker node patch updates are available for Kubernetes [1.16.3_1518](/docs/containers?topic=containers-changelog#1163_1518_worker), [1.15.6_1525](/docs/containers?topic=containers-changelog#1156_1525_worker), [1.14.9_1541](/docs/containers?topic=containers-changelog#1149_1541_worker), and [1.13.12_1544](/docs/containers?topic=containers-changelog#11312_1544_worker).</li></ul></td>
+</tr>
+<tr>
+<td>22 November 2019</td>
+<td><ul>
+<li><strong>Bring your own DNS for load balancers</strong>: Added steps for bringing your own custom domain for [NLBs](/docs/containers?topic=containers-loadbalancer_hostname#loadbalancer_hostname_dns) in classic clusters and [VPC load balancers](/docs/containers?topic=containers-vpc-lbaas#vpc_lb_dns) in VPC clusters.</li>
+<li><strong>Gateway appliance firewalls</strong>: Updated the [required IP addresses and ports](/docs/containers?topic=containers-firewall#vyatta_firewall) that you must open in a public gateway device firewall</li>
+<li><strong>Ingress ALB subdomain format</strong>: [Changes are made to the Ingress subdomain](/docs/containers?topic=containers-ingress-about#ingress-resource). New clusters are assigned an Ingress subdomain in the format `<cluster_name>.<globally_unique_account_HASH>-0000.<region>.containers.appdomain.cloud` and an Ingress secret in the format `<cluster_name>.<globally_unique_account_HASH>-0000`. Any existing clusters that use the `<cluster_name>.<region>.containers.mybluemix.net` subdomain are assigned a CNAME record that maps to a `<cluster_name>.<region_or_zone>.containers.appdomain.cloud` subdomain.</li>
+</ul></td>
+</tr>
+<tr>
+<td>21 November 2019</td>
+<td><ul>
+<li><strong>Ingress ALB changelog</strong>: Updated the [ALB `nginx-ingress` image to 597 and the `ingress-auth` image to build 353](/docs/containers?topic=containers-cluster-add-ons-changelog#alb_changelog).</li>
+<li><strong>Version changelog</strong>: Master patch updates are available for Kubernetes [1.16.3_1518](/docs/containers?topic=containers-changelog#1163_1518), [1.15.6_1525](/docs/containers?topic=containers-changelog#1156_1525), [1.14.9_1541](/docs/containers?topic=containers-changelog#1149_1541), and [1.13.12_1544](/docs/containers?topic=containers-changelog#11312_1544).</li>
+</ul></td>
+</tr>
+<tr>
+<td>19 November 2019</td>
+<td><ul>
+<li><strong>Istio managed add-on GA</strong>: The Istio managed add-on is generally available for Kubernetes version 1.16 clusters. In Kubernetes version 1.16 clusters, you can [install the Istio add-on](/docs/containers?topic=containers-istio#install_116) or [update your existing beta add-on to the latest version](/docs/containers?topic=containers-istio#istio_update).</li>
+<li><strong>Fluentd component changes</strong>: The Fluentd component is created for your cluster only if you [create a logging configuration to forward logs to a syslog server](/docs/containers?topic=containers-health#configuring). If no logging configurations for syslog exist in your cluster, the Fluentd component is removed automatically. If you do not forward logs to syslog and want to ensure that the Fluentd component is removed from your cluster, [automatic updates to Fluentd must be enabled](/docs/containers?topic=containers-update#logging-up).</li>
+<li><strong>Bringing your own Ingress controller in VPC clusters</strong>: Added [steps](/docs/containers?topic=containers-ingress-user_managed#user_managed_vpc) for exposing your Ingress controller by creating a VPC load balancer and subdomain.</li>
+</ul></td>
+</tr>
+<tr>
+<td>14 November 2019</td>
+<td><strong>New! Diagnostics and Debug Tool add-on</strong>: The [{{site.data.keyword.containerlong_notm}} Diagnostics and Debug Tool](/docs/containers?topic=containers-cs_troubleshoot#debug_utility) is now available as a cluster add-on.</td>
+</tr>
+<tr>
+<td>11 November 2019</td>
+<td><ul>
+<li><strong>Accessing your cluster</strong>: Added an [Accessing Kubernetes clusters page](/docs/containers?topic=containers-access_cluster).</li>
+<li><strong>Exposing apps that are external to your cluster by using Ingress</strong>: Added information for how to use the [`proxy-external-service` Ingress annotation](/docs/containers?topic=containers-ingress#proxy-external) to include an app that is external to your cluster in Ingress application load balancing.</li>
+<li><strong>Version changelog</strong>: Worker node patch updates are available for Kubernetes [1.16.2_1515](/docs/containers?topic=containers-changelog#1162_1515_worker), [1.15.5_1522](/docs/containers?topic=containers-changelog#1155_1522_worker), [1.14.8_1538](/docs/containers?topic=containers-changelog#1148_1538_worker), and [1.13.12_1541](/docs/containers?topic=containers-changelog#11312_1541_worker).</li>
+</ul></td>
+</tr>
+<tr>
+<td>07 November 2019</td>
+<td><ul><li><strong>CLI changelog</strong>: Updated the {{site.data.keyword.containerlong_notm}} CLI plug-in changelog page for the [release of version 0.4.51](/docs/containers?topic=containers-cs_cli_changelog).</li>
+<li><strong>Ingress ALB changelog</strong>: Updated the [ALB `ingress-auth` image to build 345](/docs/containers?topic=containers-cluster-add-ons-changelog#alb_changelog).</li></ul></td>
+</tr>
+<tr>
+<td>05 November 2019</td>
+<td><strong>New! Adding classic infrastructure servers to gateway-enabled classic clusters (Beta)</strong>: If you have non-containerized workloads on a classic IBM Cloud infrastructure virtual server or bare metal server, you can connect those workloads to the workloads in your gateway-enabled classic cluster by [adding the server instance to your cluster network](/docs/containers?topic=containers-add_workers#gateway_vsi).</td>
+</tr>
+<tr>
+<td>04 November 2019</td>
+<td><ul><li><strong>New! Kubernetes version 1.16</strong>: You can now create clusters that run Kubernetes version 1.16. To update an existing cluster, see the [Version 1.16 preparation actions](/docs/containers?topic=containers-cs_versions#cs_v116).</li>
+<li><strong>Deprecated: Kubernetes version 1.13</strong>: With the release of version 1.16, clusters that run version 1.13 are deprecated. Consider [updating to 1.14](/docs/containers?topic=containers-cs_versions#cs_v114) today.</li>
+<li><strong>Unsupported: Kubernetes version 1.12</strong>: With the release of version 1.16, clusters that run version 1.12 are unsupported. To continue receiving important security updates and support, you must [update the cluster to a supported version](/docs/containers?topic=containers-cs_versions#prep-up) immediately.</li></ul></td>
+</tr>
+<tr>
+<td>01 November 2019</td>
+<td><strong>New! Keep your own key (KYOK) support (beta)</strong>: You can now [enable several key management service (KMS) providers](/docs/containers?topic=containers-encryption#kms), so that you can use your own root key to encrypt the secrets in your cluster.</td>
+</tr>
+</tbody>
 </table>
 
-### RazeeDeploy components
-
-<table>
-   <thead>
-      <th>Component</th>
-      <th>Description</th>
-   </thead>
-   <tbody>
-      <tr>
-         <td><a href="https://github.com/razee-io/RazeeDeploy-core">RazeeDeploy Core</a></td>
-         <td>RazeeDeploy Core is a Continuous Delivery tool that runs in your cluster and that you can use to set up the <code>CustomResourceDefinitions</code> (CRD), Kubernetes controllers, and dependencies for the RazeeDeploy components. </td>
-      </tr>
-      <tr>
-         <td><a href="https://github.com/razee-io/RazeeDeploy-delta">RazeeDeploy Delta</a></td>
-         <td>RazeeDeploy Delta is a component of RazeeDeploy Core that runs in your cluster and keeps the custom resource definitions and Kubernetes controllers of the RazeeDeploy components up-to-date. </td>
-      </tr>
-      <tr>
-         <td><a href="https://github.com/razee-io/RemoteResource">RemoteResource</a>
-        and <a href="https://github.com/razee-io/RemoteResourceS3">Remote Resource S3</a></td>
-         <td>RemoteResource and RemoteResourceS3 are custom resource definitions and controllers that you can use to automatically deploy Kubernetes resources that are stored in a source repository. Rather than manually applying these YAML files in each cluster, environment, or across clouds every time an update is made, simply define the source repository in your remote resource and create the remote resource in your cluster. The remote resource controller automatically connects to your source repository, downloads the Kubernetes configuration file and applies the file to your cluster. </td>
-      </tr>
-      <tr>
-         <td><a href="https://github.com/razee-io/MustacheTemplate">MustacheTemplate</a></td>
-         <td>MustacheTemplate is a custom resource definition and controller to define environment variables that you can use to replace YAML file pieces in other Kubernetes YAML files. For example, use the environment variables of your mustache template to build the URL for your remote resource so that you can point to the app version that you want to deploy. </td>
-      </tr>
-      <tr>
-         <td><a href="https://github.com/razee-io/FeatureFlagSetLD">FeatureFlagSetLD</a></td>
-         <td>FeatureFlagSetLD is a custom resource definition and controller to automatically retrieve feature flag values from <a href="https://launchdarkly.com">Launch Darkly</a>. With feature flags, you can control what code is deployed to your cluster and manage multiple versions of Kubernetes resources across clusters, environments, or clouds. </td>
-      </tr>
-      <tr>ˇ
-         <td><a href="https://github.com/razee-io/ManagedSet">ManagedSet</a></td>
-         <td>ManagedSet is a custom resource definition and controller to group Kubernetes resources that you want to create and apply to the cluster at the same time.  </td>
-      </tr>
-      <tr>
-         <td><a href="https://github.com/razee-io/Kubernetes-util">Kubernetes utilities</a></td>
-        <td>Kubernetes utilities is an <code>npm</code> package that you can use to simplify the communication with Kubernetes. </td>
-      </tr>
-   </tbody>
-</table>
-
-## Prerequisites
-
-To deploy Razee in your cluster, your cluster must meet the following requirements:
-
-- Your cluster must run Kubernetes version 1.11 or later.
-- Your cluster have at least two worker nodes.
-- Your cluster must be set up with public network access.
-
-## Step 1: Install Razee
-
-1. Install razeedeploy in your cluster. Razeedeploy automatically creates the Kubernetes `CustomResourceDefinitions` (CRD) and controllers for each razeedeploy component, the `razee` namespace, service account, and RBAC roles and role bindings in your cluster.
-
-   ```bash
-   kubectl apply -f https://github.com/razee-io/RazeeDeploy-delta/releases/latest/download/resource.yaml
-   ```
-
-   Example output:
-
-   ```bash
-   namespace/razee created
-   serviceaccount/razeedeploy-sa created
-   clusterrole.rbac.authorization.k8s.io/razeedeploy-admin-cr created
-   clusterrolebinding.rbac.authorization.k8s.io/razeedeploy-rb created
-   configmap/razeedeploy-delta-resource-uris created
-   deployment.apps/razeedeploy-delta created
-   ```
-
-2. Verify that the razeedeploy components are deployed successfully. You must see one pod per component and each pod must be in a `Running` state before you proceed with the next step.
-
-   ```bash
-   kubectl get pods -n razee
-   ```
-
-   Example output:
-
-   ```bash
-   NAME                                           READY   STATUS    RESTARTS   AGE
-   featureflagsetld-controller-8d86b95bf-lrpln    1/1     Running   0          76s
-   managedset-controller-74876947db-bhrjt         1/1     Running   0          75s
-   mustachetemplate-controller-674fdd9498-ntlgs   1/1     Running   0          74s
-   razeedeploy-delta-6d7859b7cc-rd57f             1/1     Running   0          104s
-   remoteresource-controller-756bdbf544-t87sz     1/1     Running   0          72s
-   remoteresources3-controller-59b5c454bd-r2pr9   1/1     Running   0          71s
-   ```
-
-3. Install the Razeedash components in your cluster. To store data that is sent to the Razeedash API, you must set up a MongoDB instance. You can choose to set up Razeedash and a single MongoDB instance by using the provided `resource.yaml` file or to set up Razeedash with an existing MongoDB instance that runs in your cluster.
-
-    - **To install Razeedash and a single MongoDB instance**:
-
-        ```bash
-        kubectl apply -f https://github.com/razee-io/Razee/releases/latest/download/resource.yaml
-        ```
-
-        Example output:
-
-        ```bash
-        persistentvolume/mongo-pv-volume created
-        persistentvolumeclaim/mongo-pv-claim created
-        deployment.apps/mongo created
-        service/mongo created
-        secret/razeedash-secret created
-        remoteresource.deploy.razee.io/razeedash created
-        service/razeedash-lb created
-        service/razeedash-api-lb created
-        ```
-
-    - **To use an existing MongoDB instance**:
-
-        Create the razeedash secret for the mongo_url.  Substitute in the command below
-        with the actual username and password along with 3 host instances for mongo-0,
-        mongo-1 and mongo-3 along with the correct ports.  Make sure the end of the
-        mongo URL has `/razeedash?ssh=true`.
-
-        Example :
-
-        ```bash
-        kubectl -n razee create secret generic razeedash-secret --from-literal "mongo_url=mongodb://username:password@mongo‑0:27017,mongo‑1:27017,mongo‑2:27017/razeedash?ssl=true"
-        kubectl apply -f https://github.com/razee-io/Razee/releases/latest/download/razeedash.yaml
-        ```
-
-4. Wait for the `razeedash-api` deployment to complete. If you chose to create Razeedash by using the provided `resource.yaml` file in the previous step, an instance of MongoDB is created in your cluster and connected to the Razeedash API instance. The setup of MongoDB takes a few of minutes to complete and might lead to intermittent `MongoNetworkError` errors in your Razeedash API deployment. When MongoDB is fully set up, Kubernetes automatically finishes the setup of your Razeedash API instance.
-
-    <!--Markdownlint-disable MD013-->
-    ```bash
-    kubectl logs deploy/razeedash-api -n razee
-    ```
-
-    Example output if MongoDB is not yet set up:
-
-    ```bash
-    > razeedash-api@0.0.1 start /usr/src
-    > node app/index.js
-
-    (node:16) UnhandledPromiseRejectionWarning: MongoNetworkError: getaddrinfo
-    ENOTFOUND mongo
-      at Socket.<anonymous> (/usr/src/node_modules/mongodb-core/lib/connection/connect.js:287:16)
-      at Object.onceWrapper (events.js:284:20)
-      at Socket.emit (events.js:196:13)
-      at emitErrorNT (internal/streams/destroy.js:91:8)
-      at emitErrorAndCloseNT (internal/streams/destroy.js:59:3)
-      at processTicksAndRejections (internal/process/task_queues.js:84:9)
-    (node:16) UnhandledPromiseRejectionWarning: Unhandled promise rejection. This error originated either by throwing inside of an async function without a catch block, or by rejecting a promise which was not handled with .catch(). (rejection id: 1)
-    (node:16) [DEP0018] DeprecationWarning: Unhandled promise rejections are deprecated. In the future, promise rejections that are not handled will terminate the Node.js process with a non-zero exit code.
-    ```
-
-    Example output if Razeedash API is fully set up:
-
-    ```bash
-    > razeedash-api@0.0.1 start /usr/src
-    > node app/index.js
-
-    {"name":"/","parseUA":false,"excludes":["req-headers","res-headers","referer","url","body","short-body"],"hostname":"razeedash-api-55fd67ddb9-cnbf4","pid":16,"level":30,"msg":"Created new collection deployments index deployments","time":"2019-05-22T03:15:11.526Z","v":0}
-    {"name":"/","parseUA":false,"excludes":["req-headers","res-headers","referer","url","body","short-body"],"hostname":"razeedash-api-55fd67ddb9-cnbf4","pid":16,"level":30,"msg":"Created new collection resources index resources","time":"2019-05-22T03:15:11.528Z","v":0}
-    {"name":"/","parseUA":false,"excludes":["req-headers","res-headers","referer","url","body","short-body"],"hostname":"razeedash-api-55fd67ddb9-cnbf4", "pid":16,"level":30,"msg":"Created new collection clusters index clusters","time":"2019-05-22T03:15:12.172Z","v":0}
-    {"name":"/","parseUA":false,"excludes":["req-headers","res-headers","referer","url","body","short-body"],"hostname":"razeedash-api-55fd67ddb9-cnbf4","pid":16,"level":30,"msg":"Created new collection orgs index orgs","time":"2019-05-22T03:15:12.172Z","v":0}
-    {"name":"/","parseUA":false,"excludes":["req-headers","res-headers","referer","url","body","short-body"],"hostname":"razeedash-api-55fd67ddb9-cnbf4","pid":16,"level":30,"msg":"Created new collection resourceStats index resourceStats","time":"2019-05-22T03:15:12.173Z","v":0}
-    {"name":"/","parseUA":false,"excludes":["req-headers","res-headers","referer","url","body","short-body"],"hostname":"razeedash-api-55fd67ddb9-cnbf4","pid":16,"level":30,"msg":"Created new collection messages index messages","time":"2019-05-22T03:15:14.253Z","v":0}
-    {"name":"razeedash-api","hostname":"razeedash-api-55fd67ddb9-cnbf4","pid":16,"level":30,"msg":"razeedash-api listening on port 3333","time":"2019-05-22T03:15:14.257Z","v":0}
-    ```
-
-5. Retrieve the external IP address of your `razeedash-lb` and `razeedash-api-lb` load balancer services that are automatically created during the Razeedash API setup. `razeedash-lb` serves as the public endpoint for your Razeedash instance, and `razeedash-api-lb` serves as the public endpoint for your Razeedash API instance. By using the public IP addresses that were assigned, you can build the public URLs that you use to access the Razeedash and the Razeedash API components. To finish the setup of Razeedash, the two URLs must be stored in the Razeedash config map.
-   Use the following Bash commands to retrieve the public IP addresses, build the public URLs, and store the URLs in the Razeedash config map. You can also execute the Bash script [`bin/kc_create_razeedash_config.sh`](https://github.com/razee-io/Kube-cloud-scripts/blob/master/bin/kc_create_razeedash_config_map.sh). Note that you must include the trailing `/` at the end of the `root_url` and `razeedash_api_url` in your Razeedash config map.
-
-   ```bash
-   # Amazon EKS uses host names, IBM Cloud Kubernetes Service uses Ingress IP addresses. This handle both.
-   RAZEEDASH_LB_IP=$(kubectl get service razeedash-lb -n razee -o jsonpath="{.status.loadBalancer.ingress[*].ip}")
-   RAZEEDASH_API_LB_IP=$(kubectl get service razeedash-api-lb -n razee -o jsonpath="{.status.loadBalancer.ingress[*].ip}")
-   RAZEEDASH_LB_HOSTNAME=$(kubectl get service razeedash-lb -n razee -o jsonpath="{.status.loadBalancer.ingress[*].hostname}")
-   RAZEEDASH_API_LB_HOSTNAME=$(kubectl get service razeedash-api-lb -n razee -o jsonpath="{.status.loadBalancer.ingress[*].hostname}")
-   RAZEEDASH_LB=${RAZEEDASH_LB_HOSTNAME} && [[ "${RAZEEDASH_LB_IP}" != "" ]] && RAZEEDASH_LB=${RAZEEDASH_LB_IP}
-   RAZEEDASH_API_LB=${RAZEEDASH_API_LB_HOSTNAME} && [[ "${RAZEEDASH_API_LB_IP}" != "" ]] && RAZEEDASH_API_LB=${RAZEEDASH_API_LB_IP}
-   kubectl create configmap razeedash-config -n razee \
-     --from-literal=root_url=http://"${RAZEEDASH_LB}":8080/ \
-     --from-literal=razeedash_api_url=http://"${RAZEEDASH_API_LB}":8081/
-   ```
-    <!--Markdownlint-enable MD013-->
-
-6. Verify that all Razee components are deployed and show `1/1` in the **READY**
-column of your CLI output.
-
-   ```bash
-   kubectl get deployments -n razee
-   ```
-
-   Example output:
-
-   ```bash
-   NAME                          READY   UP-TO-DATE   AVAILABLE   AGE
-   featureflagsetld-controller   1/1     1            1           53m
-   managedset-controller         1/1     1            1           53m
-   mongo                         1/1     1            1           34m
-   mustachetemplate-controller   1/1     1            1           53m
-   razeedash                     1/1     1            1           25m
-   razeedash-api                 1/1     1            1           25m
-   razeedeploy-delta             1/1     1            1           53m
-   remoteresource-controller     1/1     1            1           53m
-   remoteresources3-controller   1/1     1            1           53m
-   ```
-
-7. Open the Razeedash welcome screen.
-
-   ```bash
-   open http://"${RAZEEDASH_LB}":8080
-   ```
-
-8. Create an `OAuth` application for Razeedash in GitHub, GitHub Enterprise, or Bitbucket.
-   1. From the Razeedash welcome screen, select the tile of the tool where you
-    want to create the `OAuth` application.
-   2. Follow the instructions in the pop-up window to create the `OAuth` application.
-   3. Click **Save configuration**.
-   4. From the Razeedash welcome screen, click **Sign in with <integration_tool>**.
-   5. Follow the instructions in the pop-up window to grant Razeedash access to
-    the integration tool that you chose.
-
-      If you need to reset any of the `OAuth` credentials then you can start over
-      by opening a mongo shell to your instance and running
-      `db.meteor_accounts_loginServiceConfiguration.remove({})`.
-
-9. Install Watch Keeper in every cluster that you want to monitor. The cluster
- where you install Watch Keeper can be a different cluster than the one where
-  you installed Razeedash.
-    1. From the Razeedash console, click **Register**.
-    2. Click **Manage**.
-    3. Copy the **Install Razee Agent** `kubectl` command.
-    4. Run the command in the cluster that you want to monitor to create the
-     Watch Keeper components. If you install Watch Keeper in the same cluster
-      where you installed Razeedash, you see messages that some of the Watch
-       Keeper components already exist in your cluster. You can ignore these messages.
-
-       ```bash
-       kubectl create -f http://<razeedash-api-lb_external_IP>:8081/api/install/cluster?orgKey=orgApiKey-<org_api_key>
-       ```
-
-       Example output for a cluster where Razeedash is installed:
-
-       ```bash
-       deployment.apps/remoteresource-controller created
-       configmap/watch-keeper-config created
-       secret/watch-keeper-secret created
-       remoteresource.deploy.razee.io/watch-keeper-rr created
-       Error from server (AlreadyExists): error when creating
-        "http://4e0ef59e-us-south.lb.appdomain.cloud:8081/api/install/cluster?
-        orgKey=orgApiKey-d52b52fc-38ae-4da0-b187-6e097e5bfe5c": namespaces
-         "razee" already exists
-       Error from server (AlreadyExists): customresourcedefinitions.
-       apiextensions.k8s.io "remoteresources.deploy.razee.io" already exists
-       Error from server (AlreadyExists): error when creating
-        "http://4e0ef59e-us-south.lb.appdomain.cloud:8081/api/install/cluster?
-        orgKey=orgApiKey-d52b52fc-38ae-4da0-b187-6e097e5bfe5c": namespaces
-         "razee" already exists
-       Error from server (AlreadyExists): error when creating
-        "http://4e0ef59e-us-south.lb.appdomain.cloud:8081/api/install/cluster?
-        orgKey=orgApiKey-d52b52fc-38ae-4da0-b187-6e097e5bfe5c": serviceaccounts
-         "razeedeploy-sa" already exists
-       Error from server (AlreadyExists): error when creating
-        "http://4e0ef59e-us-south.lb.appdomain.cloud:8081/api/install/cluster?
-        orgKey=orgApiKey-d52b52fc-38ae-4da0-b187-6e097e5bfe5c": clusterroles.
-        rbac.authorization.k8s.io "razeedeploy-admin-cr" already exists
-       Error from server (AlreadyExists): error when creating
-        "http://4e0ef59e-us-south.lb.appdomain.cloud:8081/api/install/cluster?
-        orgKey=orgApiKey-d52b52fc-38ae-4da0-b187-6e097e5bfe5c":
-        clusterrolebindings.rbac.authorization.k8s.io "razeedeploy-rb" already exists
-       Error from server (AlreadyExists): error when creating
-        "http://4e0ef59e-us-south.lb.appdomain.cloud:8081/api/install/cluster?
-        orgKey=orgApiKey-d52b52fc-38ae-4da0-b187-6e097e5bfe5c": configmaps
-         "razeedeploy-delta-resource-uris" already exists
-       Error from server (AlreadyExists): error when creating
-        "http://4e0ef59e-us-south.lb.appdomain.cloud:8081/api/install/cluster?
-        orgKey=orgApiKey-d52b52fc-38ae-4da0-b187-6e097e5bfe5c": deployments.apps
-         "razeedeploy-delta" already exists
-       ````
-
-       Example output for a cluster where Razeedash is not installed:
-
-       ```bash
-       configmap/watch-keeper-config created
-       secret/watch-keeper-secret created
-       clusterrole.rbac.authorization.k8s.io/cluster-reader created
-       serviceaccount/watch-keeper-sa created
-       clusterrolebinding.rbac.authorization.k8s.io/watch-keeper-rb created
-       networkpolicy.networking.k8s.io/watch-keeper-deny-ingress created
-       deployment.apps/watch-keeper created
-       Error from server (AlreadyExists): namespaces "razee" already exists
-       ```
-
-    5. Wait for the Watch Keeper deployment to finish.
-
-       ```bash
-       kubectl get deployment -n razee | grep watch-keeper
-       ```
-
-       Example output:
-
-       ```bash
-       watch-keeper                  1/1     1            1           2m5s
-       ```
-
-10. From the Razeedash console, click **RazeeDash** to open the Razeedash
- details page and verify that you can see deployment information for your Watch
-  Keeper pod.
-
-## Step 2: Visualize deployment information in RazeeDash
-
-With Watch Keeper set up in your cluster, you can retrieve deployment
- information for other Kubernetes resources that you want to monitor. Data is
-  automatically sent to the Razeedash API and you can access, monitor, and
-   analyze this data with Razeedash.
-
-1. Decide what information you want Watch Keeper to retrieve by choosing among
- the following information detail levels:
-
-    - `lite`: Retrieves the `metadata` and `status` section of your Kubernetes
-     resource configuration.
-    - `detail`: Retrieves all configuration data of a Kubernetes resource, but
-     leaves out environment variables and the `data` section of config maps and secrets.
-    - `debug`: Retrieves all configuration data of a Kubernetes resource,
-     including environment variables and the `data`.
-    section of config maps and secrets. This information might include
-     sensitive information so use this option with care.
-
-2. Add the `razee/watch-resource` label to the **labels** section of all
- Kubernetes resources that you want to monitor and specify the information
-  detail level. For example, if you want to monitor a Kubernetes deployment, use
-   the following command. After you add the label to your resource, Watch Keeper
-    automatically scans your resource and sends data to the Razeedash API.
-Then, your resource is scanned once every hour. In addition, Watch Keeper adds a
- Kubernetes event watcher to your resource so that Watch Keeper is notified by
-  Kubernetes when the configuration of your resource changes.
-
-   ```bash
-   kubectl edit deployment <deployment_name>
-   ```
-
-   Example YAML file:
-
-   ```yaml
-   apiVersion: extensions/v1beta1
-   kind: Deployment
-   metadata:
-     annotations:
-       deployment.kubernetes.io/revision: "1"
-       kubectl.kubernetes.io/last-applied-configuration: |
-      {"apiVersion":"apps/v1","kind":"Deployment","metadata":{"annotations":{},"labels":{"app":"myapp"},"name":"expandpvc","namespace":"default"},"spec":{"selector":{"matchLabels":{"app":"myapp"}},"template":{"metadata":{"labels":{"app":"myapp"}},"spec":{"containers":[{"image":"nginx","name":"expandpvc","volumeMounts":[{"mountPath":"/test","name":"myvol"}]}],"volumes":[{"name":"myvol","persistentVolumeClaim":{"claimName":"expandpvc"}}]}}}}
-     creationTimestamp: "2019-04-30T15:31:24Z"
-     generation: 1
-     labels:
-       app: myapp
-       razee/watch-resource: "lite"
-   ...
-   ```
-
-   For more info on labeling resources and namespaces, see [docs here](https://github.com/razee-io/Watch-keeper/#collecting-resources)
-
-3. Verify that your Kubernetes resource is displayed in Razeedash.
-   1. Open Razeedash. **Tip**: To find the public IP address that is assigned to
-    your RazeeDash service, run `kubectl get service razeedash-lb -n razee`.
-
-      ```bash
-      open http://"${RAZEEDASH_LB}":8080
-      ```
-
-   2. Click **Sign in with GitHub**.
-   3. Select the GitHub organization that you connected Razeedash to. The
-    Razeedash console opens automatically.
-   4. Verify that you can access deployment information about your Kubernetes
-    resource in Razeedash.
-
-4. Optional: Configure Razeedash to display the cluster name instead of the
-cluster ID. By default, all Kubernetes resources that you watch in a cluster
-are listed with their cluster ID in the Razeedash console. You can change this
-setting and instead display the cluster name or any other string to help you
-find the Kubernetes resources of a cluster more quickly.
-   1. In your cluster, create a Kubernetes configmap that looks similar to the
-    following. Enter the name that you want to display in Razeedash in the
-     `data.name` section. In the following example, you change the cluster ID to
-      `razee-1`.
-
-      Example configmap:
-
-      ```yaml
-      apiVersion: v1
-      data:
-        name: razee-1
-      kind: ConfigMap
-      metadata:
-        labels:
-          razee/cluster-metadata: "true"
-          razee/watch-resource: debug
-        name: razee1-cluster-metadata
-        namespace: default
-      ```
-
-   2. Apply the configmap in your cluster.
-
-      ```bash
-      kubectl apply -f configmap.yaml
-      ```
-
-   3. Wait a few minutes for Razeedash to update the cluster ID and display the
-    name that you chose in your configmap.
-
-## Step 3: Automatically deploy single Kubernetes resources with RemoteResources
-
-RemoteResource and RemoteResourceS3 are razeedeploy components that you can use
-to automatically deploy single Kubernetes resources that are stored in a source
-repository. Simply define the source repository in your remote resource and
-create the remote resource in your cluster. The remote resource controller
-automatically connects to your source repository, downloads the Kubernetes
-configuration file, and applies the file to your cluster. This process
-repeats about every two minutes. All you have to do is to keep your source
-file up-to-date and let your cluster auto-deploy it.
-
-**Tip:** Use RemoteResource to specify a URL to your source repository and
- RemoteResourceS3 to connect to a Cloud Object Storage instance.
-
-1. Create a configuration file for your remote resource and include the
-information of the source repository where your YAML file is stored. You can
-create one remote resource for your cluster, or you can use one remote resource
-per Kubernetes namespace if, for example, you use namespaces to separate teams
-or environments. If the YAML file that is stored in your source repository does
-not specify a namespace, the resource is automatically deployed in the same
-namespace as your remote resource.
-
-   ```yaml
-   apiVersion: "deploy.razee.io/v1alpha1"
-   kind: RemoteResource
-   metadata:
-     name: <remote_resource_name>
-     namespace: <namespace>
-   spec:
-     requests:
-       - options:
-           url: https://<source_repo_url>/<file_name1>
-           headers:
-             <header_key1>: <header_value1>
-             <header_key2>: <header_value2>
-       - options:
-           url: https://<source_repo_url>/<file_name2>
-   ```
-
-   <table>
-   <caption>Understanding the YAML file components</caption>
-   <thead>
-   <th colspan=2>Understanding the YAML file components</th>
-   </thead>
-   <tbody>
-      <tr>
-         <td><code>metadata.name</code></td>
-         <td>Enter a name for your Razee remote resource. </td>
-      </tr>
-      <tr>
-         <td><code>metadata.namespace</code></td>
-         <td>Enter the namespace where you want to deploy your remote resource.
-         You can deploy your remote resource to any namespace in your cluster.
-         If the YAML file in your source repository that you link to does not
-         define a namespace, the Kubernetes resource is deployed to the same
-         namespace as your remote resource.</td>
-      </tr>
-      <tr>
-         <td><code>spec.requests.options.url</code></td>
-         <td>Enter the URLs to the YAML files that you want to deploy in your
-         cluster. Each URL must be included as a separate entry in
-         <code>spec.requests.options</code> and can point to one file only, not
-         a collection of files. Depending on the type of source repository that
-         you use, you can include credentials in your URL to authenticate with
-         the source repository. If credentials must be passed in as header
-         information, add these headers in <code>spec.requests.options.headers
-         </code>. For example to use a file that is stored in a public GitHub
-        repository, use
-        <code>https://raw.githubusercontent.com/myorg/myrepo/master/deployment.yaml</code>.
-        </td>
-      </tr>
-      <tr>
-         <td><code>spec.requests.options.headers</code></td>
-         <td>Enter any header information, such as credentials, that you want
-         the remote resource to pass along when connecting to your source
-         repository. You must enter a key and a value for each header that you
-         want to add. </td>
-      </tr>
-   </tbody>
-   </table>
-
-2. Create your remote resource in the cluster.
-
-   ```bash
-   kubectl apply -f remoteresource.yaml
-   ```
-
-3. Verify that the remote resource is created successfully. After the remote
-resource is created, the remote resource establishes a connection to the source
-repository, downloads the specified file, and applies the file to the cluster.
-This process repeats about every 2 minutes. If an error occurs, you can review
-the error message in the **Status** section of your CLI output.
-
-    ```bash
-    kubectl describe remoteresource <remote_resource_name> -n <namespace>
-    ```
-
-    Example output:
-    <!--Markdownlint-disable MD013-->
-
-    ```bash
-    Name:         myremoteresource
-    Namespace:    razee
-    Labels:       <none>
-    Annotations:  kubectl.kubernetes.io/last-applied-configuration:
-                  {"apiVersion":"deploy.razee.io/v1alpha1","kind":"RemoteResource","metadata":{"annotations":{},"name":"myremoteresource","namespace":"...
-    API Version:  deploy.razee.io/v1alpha1
-    Kind:         RemoteResource
-    Metadata:
-      Creation Timestamp:  2019-05-14T18:47:26Z
-      Finalizers:
-        children.downloads.deploy.razee.io
-      Generation:        1
-      Resource Version:  37572078
-      Self Link:         /apis/deploy.razee.io/v1alpha1/namespaces/razee/remoteresourcess3/myremoteresource
-      UID:               b81caa1f-7678-11e9-8e55-26f9979820ea
-    Spec:
-      Requests:
-        Options:
-          URL:  https://mysourcerepo.com/app.yaml
-    Status:
-      Children:
-        /Apis/Apps/V1/Namespaces/Razee/Deployments/Perfpvc: deploy.Razee.Io/Reconcile: true
-    Events: <none>
-    ```
-    <!--Markdownlint-enable MD013-->
-
-4. Verify that the Kubernetes resource is created or updated. For example, to
-verify a deployment, run the following command.
-
-   ```bash
-   kubectl describe deployment <deployment_name> -n <namespace>
-   ```
-
-5. Change the configuration of your YAML file in your source repository.
-For example, if you have a deployment, you can change or add a label to the
-`metadata` section of your YAML file.
-
-6. Wait about 2 minutes for the remote resource to get restarted by Kubernetes,
-download the latest version of your Kubernetes resource and apply the change to
-your resource. Then, verify that the change is rolled out successfully.
-
-   ```bash
-   kubectl describe deployment <deployment_name> -n <namespace>
-   ```
-
-7. Optional: To remove a Kubernetes resource, you can either remove the source
-repository's URL from the remote resource, or remove the remote resource entirely.
-
-## Step 4: Add version control or replace YAML file variables with MustacheTemplates
-
-When you develop an app, you must manage multiple versions of an app. For
-example, you might have an app that is considered stable and that runs in your
-production environment. At the same time, you work on a new version for your app
-that adds new features or enhances existing features. To keep your app versions
-separate, you might include the app version in your file name, or use different
-image tags and labels for Kubernetes resources that belong to the same app,
-team, or environment.
-
-With MustacheTemplates, you can define environment variables and use Kubernetes
-config maps, secrets, or feature flags to determine the value of each
-environment variable. Then, you can replace variables in your YAML files with
-the value of your environment variable. For example, substitute the app version
-number in the URL of your remote resource that points to your file, or replace
-labels, image tags, and other YAML file pieces in your Kubernetes resources.
-
-1. Create a configuration file for your mustache template.
-
-   ```yaml
-   apiVersion: "deploy.razee.io/v1alpha1"
-   kind: MustacheTemplate
-   metadata:
-     name: <mustache_template_name>
-     namespace: <namespace>
-   spec:
-     env:
-     - name: sample-app-version
-       value: "3.0"
-     - name: prod-label
-       valueFrom:
-         configMapKeyRef:
-            name: myconfigmap
-            key: prod
-     templates:
-     - apiVersion: "deploy.razee.io/v1alpha1"
-       kind: RemoteResource
-       metadata:
-         name: <remote_resource_name>
-         namespace: <namespace>
-       spec:
-         requests:
-         - options:
-             url: https://mysourcerepo.com/{{sample-app-version}}-sample-app.yaml
-   ```
-
-   <table>
-   <thead>
-   <th colspan=2>Understanding the YAML file components</th>
-   </thead>
-   <tbody>
-      <tr>
-         <td><code>metadata.name</td></td>
-         <td>Enter a name for your mustache template resource. </td>
-      </tr>
-      <tr>
-         <td><code>metadata.namespace</code></td>
-         <td>Enter the namespace where you want to deploy your mustache
-         template. You can deploy your mustache template to any namespace in
-         your cluster. </td>
-      </tr>
-      <tr>
-         <td><code>spec.env.name</code></td>
-         <td>Enter the name of the environment variable that you want to specify
-         in your mustache template. If you define a name, you must define a
-         value at the same time. You can use the name of your environment
-         variable in the <code>spec.templates</code> section of your mustache
-         template to replace a variable with the environment variable's value.</td>
-      </tr>
-      <tr>
-         <td><code>spec.env.value</code></td>
-         <td>Enter the value of the environment variable. You can choose to enter
-          the value directly as shown in this example, retrieve the value from a
-          Kubernetes secret, or reference a Kubernetes config map or Razee
-          FeatureFlagSetLD.  </td>
-      </tr>
-       <tr>
-         <td><code>spec.env.valueFrom.configMapKeyRef.name</code></td>
-         <td>Required for config maps only. Enter the name of the config map
-         that holds the information that you want to retrieve.
-         </td>
-      </tr>
-       <tr>
-         <td><code>spec.env.valueFrom.configMapKeyRef.namespace</code></td>
-         <td>Required for config maps only. Enter the namespace of the config
-           map that holds the information that you want to retrieve.
-         </td>
-      </tr>
-      <tr>
-         <td><code>spec.env.valueFrom.configMapKeyRef.key</code></td>
-         <td>Required for config maps only. Enter the key of the key-value pair
-         that you want to retrieve from your config map. In this example, the
-         mustache template retrieves the value of the <code>prod</code> key from
-         your config map. You can use this value to replace any variable with
-         the name <code>prod-label</code> in the YAML files that you added to
-         the <code>spec.templates</code> section of your mustache template. </td>
-      </tr>
-      <tr>
-         <td><code>spec.templates</code></td>
-         <td>Specify any YAML file that you want to deploy in your cluster and
-         where you want to replace variables with the value of the environment
-         variables that you defined in your mustache template. For example,
-         specify your remote resource and use the environment variable of your
-         mustache template to replace the version number of the app so that you
-         point to the URL that is specific to the app version. Every YAML file
-         that you specify in this section is automatically created when you
-         create the mustache template.    </td>
-      </tr>
-   </tbody>
-   </thead>
-   </table>
-
-2. Create the mustache template in your cluster. When you create the mustache
-template, the values for all environment variables are automatically retrieved
-and replaced in the YAML files that you listed in the `spec.templates` section.
-Then, these YAML files are applied to your cluster.
-
-   ```bash
-   kubectl apply -f mustachetemplate.yaml
-   ```
-
-3. Verify that your mustache template is created successfully. If an error
-occurs, you can review the error message in the **Status** section of your CLI output.
-
-    ```bash
-    kubectl describe mustachetemplate <mustache_template_name> -n <namespace>
-    ```
-
-    Example output:
-    <!--Markdownlint-disable MD013-->
-
-    ```yaml
-    Name:         mymustachetemplate
-    Namespace:    razee
-    Labels:       <none>
-    Annotations:  kubectl.kubernetes.io/last-applied-configuration:
-                  {"apiVersion":"deploy.razee.io/v1alpha1","kind":"MustacheTemplate","metadata":{"annotations":{},"name":"demo-mustachetemplate","namespace...
-    API Version:  deploy.razee.io/v1alpha1
-    Kind:         MustacheTemplate
-    Metadata:
-      Creation Timestamp:  2019-05-14T20:55:46Z
-      Finalizers:
-        children.mustachetemplate.deploy.razee.io
-      Generation:        5
-      Resource Version:  37762378
-      Self Link:         /apis/deploy.razee.io/v1alpha1/namespaces/razee/mustachetemplates/demo-mustachetemplate
-      UID:               a53e82c8-768a-11e9-8e55-26f9979820ea
-    Spec:
-      Env:
-        Name:  sample-app-version
-        Value: "3.0"
-        Name: prod-label
-        Value: myapp-prod
-      Templates:
-        API Version:  deploy.razee.io/v1alpha1
-        Kind:         RemoteResource
-        Metadata:
-          Name:       myremoteresource
-          Namespace:  default
-        Spec:
-          Requests:
-            Options:
-              URL:  https://mysourcerepo.com/{{sample-app-version}}-app.yaml
-    Status:
-      Children:
-        /Apis/Deploy.Razee.Io/V1Alpha1/Namespaces/Default/Remoteresourcess3/Cos:
-        Deploy.Razee.Io/Reconcile: true
-    Events: <none>
-    ```
-    <!--Markdownlint-enable MD013-->
-
-4. Verify that your remote resource is created successfully and that variables
-are successfully replaced by the mustache template.
-
-   ```bash
-   kubectl describe rrs <remote_resource_name> -n <namespace>
-   ```
-
-5. Verify that the Kubernetes resource from your source repository is created or
-updated. For example to verify a deployment, run the following command.
-
-   ```bash
-   kubectl describe deployment <deployment_name> -n <namespace>
-   ```
-
-**Note**: If you delete a mustache template, all resources that you defined in
-the `spec.templates` section are removed at the same time. To keep the
-Kubernetes resources, add the `deploy.razee.io/Reconcile: false` label to all
-your YAML files.
-
-## Step 5: Control deployments with FeatureFlagSetsLD
-
-Connect a feature flagging service to your cluster so that you can pull
-environment variables and version control information into your mustache
-template to control the deployment of Kubernetes resources based on the feature
-flags that you enable.
-
-Razee FeatureFlagSetLD is a custom resource definition and controller that are
-designed to connect and retrieve feature flag information from
-[Launch Darkly](https://launchdarkly.com). But you can use the resources in the
-Razee project as a template to connect to your own feature flagging service.
-
-1. Create a [Launch Darkly trial account](https://launchdarkly.com). The trial
-account lets you try out the Launch Darkly features for 30 days for free. When
-you start your trial version, Launch Darkly is automatically launched and a
-`test` and `production` project are set up for you.
-2. [Create your first feature flag](https://docs.launchdarkly.com/docs/creating-a-feature-flag).
-3. [Enable targeting for your feature flag](https://docs.launchdarkly.com/docs/the-kill-switch#section-turning-flags-on).
-Feature flags cannot be retrieved by Razee if targeting is disabled.
-4. Retrieve the Launch Darkly SDK key.
-   1. From the Launch Darkly console, click **Account settings**.
-   2. Note the **SDK key** of your production project.
-
-5. Create a configuration file for your feature flag set.
-
-   ```yaml
-   apiVersion: deploy.razee.io/v1alpha1
-   kind: FeatureFlagSetLD
-   metadata:
-     name: <name>
-     namespace: <namespace>
-   spec:
-     sdk-key: "<launch_darkly_sdk_key>"
-   ```
-
-   <table>
-   <thead>
-   <th colspan=2>Understanding the YAML file components</th>
-   </thead>
-   <tbody>
-   <tr>
-   <td><code>metadata.name</code></td>
-   <td>Enter a name for your feature flag set. </td>
-   </tr>
-   <tr>
-   <td><code>metadata.namespace</code></td>
-   <td>Enter the namespace where you want to deploy your feature flag set. The
-   feature flag set must be deployed in the same namespace as your mustache
-   template so that the mustache template can retrieve information from Launch
-   Darkly.  </td>
-   </tr>
-   <tr>
-   <td><code>spec.sdk-key</code></td>
-   <td>Enter the Launch Darkly SDK key for your production project that you
-   retrieved earlier. </td>
-   </tr>
-   </tbody>
-   </table>
-
-6. Create the feature flag set in your cluster.
-
-   ```bash
-   kubectl apply -f featureflagset.yaml
-   ```
-
-7. Verify that your feature flag set is created successfully. When you create
-the feature flag set, a connection to your Launch Darkly SDK is established. If
-an error occurs, you can review the error message in the **Status** section of
-your CLI output.
-
-   ```bash
-   kubectl describe featureflagsetsld <feature_flag_name> -n <namespace>
-   ```
-
-   Example output:
-
-   ```bash
-   Name:         myfeatureflag
-   Namespace:    razee
-   Labels:       client=<launch_darkly_sdk_key>
-   Annotations:  kubectl.kubernetes.io/last-applied-configuration:
-                {"apiVersion":"deploy.razee.io/v1alpha1","kind":"FeatureFlagSetLD","metadata":{"annotations":{},"name":"myfeatureflag","namespace":"razee...
-   API Version:  deploy.razee.io/v1alpha1
-   Data:
-     Razee:  3
-     Test:   false
-   Kind:     FeatureFlagSetLD
-   Metadata:
-     Creation Timestamp:  2019-05-15T17:03:19Z
-     Finalizers:
-       client.featureflagset.deploy.razee.io
-     Generation:        2
-     Resource Version:  37760364
-     Self Link:         /apis/deploy.razee.io/v1alpha1/namespaces/razee/featureflagsetsld/myfeatureflag
-     UID:               56d90220-7733-11e9-9100-66cbb576408c
-   Spec:
-    Sdk - Key:  <launch_darkly_sdk_key>
-   Status:
-   Events:  <none>
-   ```
-
-8. Use your existing Razee mustache template to replace the value of your
-environment variables with the values of your Launch Darkly feature flags.
-
-   ```yaml
-   apiVersion: "deploy.razee.io/v1alpha1"
-   kind: MustacheTemplate
-   metadata:
-     name: <mustache_template_name>
-     namespace: <namespace>
-   spec:
-     env:
-     - name: sample-app-version
-       valueFrom:
-         genericKeyRef:
-           apiVersion: deploy.razee.io/v1alpha1
-           kind: FeatureFlagSetLD
-           name: myfeatureflag
-           key: version
-     templates:
-     - apiVersion: "deploy.razee.io/v1alpha1"
-       kind: RemoteResource
-       metadata:
-         name: <remote_resource_name>
-         namespace: <namespace>
-       spec:
-         requests:
-         - options:
-             url: https://mysourcerepo.com/{{sample-app-version}}-sample-app.yaml
-   ```
-
-   <table>
-   <thead>
-   <th colspan=2>Understanding the YAML file components</th>
-   </thead>
-   <tbody>
-      <tr>
-         <td><code>spec.env.name</code></td>
-         <td>Enter the name of the environment variable that you want to specify
-         in your mustache template. If you define a name, you must define a
-         value at the same time. You can use the name of your environment
-         variable in the <code>spec.templates</code> section of your mustache
-         template to replace a variable with the environment variable's value.</td>
-      </tr>
-      <tr>
-         <td><code>spec.env.valueFrom.genericKeyRef.name</code></td>
-         <td>Enter the name of the feature flag set that you created earlier.   </td>
-      </tr>
-      <tr>
-         <td><code>spec.env.valueFrom.genericKeyRef.key</code></td>
-         <td>Enter the key of the feature flag for which you want to retrieve
-         the value from Launch Darkly. In this example, the mustache template
-         retrieves the value of the <code>version</code> feature flag in Launch
-         Darkly. You can use this value to replace any variable with the name
-         <code>sample-app-version</code> in the YAML files that you added to
-         the <code>spec.templates</code> section of your mustache template. </td>
-      </tr>
-   </tbody>
-   </table>
-
-9. Apply the change to your mustache template.
-
-   ```bash
-   kubectl apply -f mustachetemplate.yaml
-   ```
-
-10. Verify that the mustache template successfully retrieved the values from
-Launch Darkly. If errors occur, you can see them in the **Status** section of
-your CLI output.
-
-    ```bash
-    kubectl describe mustachetemplate <mustache_template_name> -n <namespace>
-    ```
-
-11. Verify that your remote resource is created successfully and that variables
-are successfully replaced by the mustache template.
-
-    ```bash
-    kubectl describe rrs <remote_resource_name> -n <namespace>
-    ```
-
-**Note**: If you delete a mustache template, all resources that you defined in
-the `spec.templates` section are removed at the same time. To keep the
-Kubernetes resources, add the `deploy.razee.io/Reconcile: false` label to all
-your YAML files.
-
-## Step 6: Organize resources in a ManagedSet
-
-Use ManagedSets to group all the Kubernetes resources that you want to deploy or
-remove at the same time in one list. You can include all Razee deployment
-components that you used in previous steps and combine them with other
-Kubernetes resources, such as config maps, PVCs, or secrets.
-
-1. Create a configuration file for your managed set and define all Kubernetes
-resources that you want to create with Razee.
-
-   ```yaml
-   kind: ManagedSet
-   apiVersion: deploy.razee.io/v1alpha1
-   metadata:
-     name: <managed_set_name>
-     namespace: <namespace>
-   spec:
-     resources:
-       - apiVersion: deploy.razee.io/v1alpha1
-         kind: FeatureFlagSetLD
-         metadata:
-           name: <feature_flag_set_name>
-           namespace: <namespace>
-         spec:
-           sdk-key: "<launch_darkly_sdk_key>"
-       - apiVersion: "deploy.razee.io/v1alpha1"
-         kind: MustacheTemplate
-         metadata:
-           name: <mustache_template_name>
-           namespace: <namespace>
-         spec:
-           env:
-           - name: <env_name>
-             valueFrom:
-               genericKeyRef:
-                 apiVersion: deploy.razee.io/v1alpha1
-                 kind: FeatureFlagSetLD
-                 name: <feature_flag_set_name>
-                 key: <launch_darkly_feature_flag>
-           templates:
-           - apiVersion: "deploy.razee.io/v1alpha1"
-             kind: RemoteResourceS3
-             metadata:
-               name: <remote_resource_name>
-               namespace: <namespace>
-             spec:
-               auth:
-                 hmac:
-                   access_key_id: <cos_access_key_ID>
-                   secret_access_key: <cos_secret_access_key>
-               requests:
-               - options:
-                   url: https://<cos_bucket_public_url>/<bucket_name>/{{<env_name>}}-app.yaml
-   ```
-
-   <table>
-   <thead>
-   <th colspan=2>Understanding the YAML file components</th>
-   </thead>
-   <tbody>
-   <tr>
-         <td><code>metadata.name</code></td>
-         <td>Enter the name your managed set. </td>
-      </tr>
-       <tr>
-         <td><code>metadata.namespace</code></td>
-         <td>Enter the namespace where you want to deploy your managed set. The
-         managed set can be deployed to a different namespace than the resources
-         that you want to create with it.  </td>
-      </tr>
-      <tr>
-         <td><code>spec.resources</code></td>
-         <td>Add the YAML file configuration of each Kubernetes resources that
-         you want to create with the managed set.    </td>
-      </tr>
-   </tbody>
-   </table>
-
-2. Create the managed set in your cluster.
-
-   ```bash
-   kubectl apply -f managedset.yaml
-   ```
-
-3. Verify that your managed set is created successfully. If errors occur, you
-can see them in the **Status** section of your CLI output.
-
-   ```bash
-   kubectl describe managedset <managedset_name> -n <namespace>
-   ```
-
-   Example output:
-
-   ```bash
-   Name:         mymanagedset
-   Namespace:    razee
-   Labels:       <none>
-   Annotations:  kubectl.kubernetes.io/last-applied-configuration:
-                {"apiVersion":"deploy.razee.io/v1alpha1","kind":"ManagedSet","metadata":{"annotations":{},"name":"ms","namespace":"razee"},"spec":{"resou...
-   API Version:  deploy.razee.io/v1alpha1
-   Kind:         ManagedSet
-   Metadata:
-     Creation Timestamp:  2019-05-16T18:22:13Z
-     Finalizers:
-       children.managedsets.deploy.razee.io
-     Generation:        1
-     Resource Version:  37976193
-     Self Link:         /apis/deploy.razee.io/v1alpha1/namespaces/razee/managedsets/ms
-     UID:               87136536-7807-11e9-9159-42b4d0e9ec96
-   Spec:
-     Resources:
-       API Version:  deploy.razee.io/v1alpha1
-       Kind:         FeatureFlagSetLD
-       Metadata:
-         Name:       myfeatureflag
-         Namespace:  default
-       Spec:
-         Sdk - Key:  <sdk_key>
-   Status:
-     Children:
-    /Apis/Deploy.Razee.Io/V1Alpha1/Namespaces/Default/Featureflagsetsld/Ffs:
-    Deploy.Razee.Io/Reconcile: true
-   Events: <none>
-   ```
-
-4. Verify that all the Kubernetes resources that you defined in your managed set
-are created successfully.
-
-5. Delete the managed set. **Tip**: To keep Kubernetes resources of your managed
-set, even after you delete the managed set, add the `deploy.razee.io/Reconcile:
-false` label to Kubernetes resource configuration.
-
-   ```bash
-   kubectl delete managedset <managedset_name> -n <namespace>
-   ```
-
-6. Verify that all Kubernetes resources of your managed set are removed.
-
-## Automate the deployment of Kubernetes resources across clusters with Razee Deployables
-
-Integrate Razee into your existing CI/CD pipeline and easily control the rollout
-of Kubernetes resources across multiple clusters.
-Razee Deployables consists of two components, the Razee channel
-and the Razee subscription.
-
-**What is a Razee channel?**</br>
-A Razee channel is a component in RazeeDash that let's you upload new versions
-of a Kubernetes resource from any source repository or your local machine
-directly to Razee by using the Razee API. The channel keeps track of the
-different versions, but the versions are not yet applied to your clusters. To
-apply the versions, you must create Razee subscriptions and specify the version
-that you want to apply.
-
-**What is a Razee subscription?**</br>
-A Razee subscription is based on a Razee channel and specifies which version of the
-Kubernetes resource that you uploaded to the channel is applied to the cluster
-based on a set of tags that are present in the cluster. To specify the tags in your
-cluster, you use the `clustersubscription` configmap that you create in your cluster
-as part of the Razee Deployables installation. For example, you might
-have a development cluster and want to apply all Kubernetes resources that you created
-for your test environment. To do that, you first push the appropriate Kubernetes
-resource version to Razee by using a Razee channel. Then, you create a
-Razee subscription that points to the channel, select the right Kubernetes resource
-version, and add the `dev` tag to your subscription. Now you just need to add the
-same tag to your `clustersubscription` configmap. Razee uses the configmap to
-connect to your Razee instance, look up the `dev` subscriptions and apply the
-version of your Kubernetes resource that the subsciption points to.
-
-To use the Razee Deployables module:
-
-1. Install the Razee Deployables module.
-
-   ```bash
-   https://github.com/razee-io/ClusterSubscription/releases/download/0.1.2/resource.yaml
-   ```
-
-   Example output:
-
-   ```bash
-   deployment.apps/clustersubscription created
-   ```
-
-2. Create a configuration file for your Razee Deployables configmap.
-
-   1. Create a configuration file for your Razee Deployables configmap.
-
-      ```bash
-      apiVersion: v1
-      kind: ConfigMap
-      metadata:
-       name: clustersubscription
-       namespace: razee
-      data:
-       RAZEE_ORG_KEY: "<razee_org_key>"
-       RAZEE_TAGS: "<tags>"
-       RAZEE_API: "<razee_api>"
-      ```
-
-      <table>
-      <thead>
-      <th colspan=2>Understanding the YAML file components</th>
-      </thead>
-      <tbody>
-      <tr>
-      <td><code>data.RAZEE_ORG_KEY/code></td>
-      <td>Enter the Razee organization key. To retrieve this value, follow these
-      steps: <ol><li>From the Razeedash console, click the Razee icon in the upper
-      left corner. The <strong>Select an org</strong> screen opens. </li>
-      <li>Find your Razee organization, and click <strong>Manage</strong>.</li>
-      <li>Copy the <strong>Api Key</strong> value.</li></ol></td>
-      </tr>
-      <tr>
-      <td><code>data.RAZEE_TAGS</code></td>
-      <td>Enter a list of tags that you want to apply to the cluster. If you want
-      to enter multiple tags, separate them with a comma. Razee uses these tags to
-      look up any active Razee subscriptions. If subscriptions are found, Razee
-      automatically applies all associated Kubernetes resources to the cluster.
-      Note that you set up Razee subscriptions in a later step of these instructions.</td>
-      </tr>
-      <tr>
-      <td><code>data.RAZEE_API</code></td>
-      <td>Enter the URL to the Razee API that you want to connect to. To retrieve
-      this value, follow these steps: <ol><li>From the Razeedash console, click
-      the Razee icon in the upper left corner. The <strong>Select an org</strong>
-      screen opens. </li><li>Find your Razee organization, and click <strong>Manage</strong>.
-      </li><li>In the <strong>Install Razee Agent</strong> field, you can find
-      the Razee API as part of the kubectl command that is displayed to you.
-      The Razee API follows a format that is similar to the following:
-      <code>https://&lt;razee_org&gt;.us-east.containers.appdomain.cloud</code>.
-       </li></ol></td>
-      </tr>
-      </tbody>
-      </table>
-   2. Create the configmap in your cluster.
-
-      ```bash
-      kubectl apply -f configmap.yaml
-      ```
-
-3. In your preferred web browser, open the Deployables console in Razeedash.
-
-   ```bash
-   <razeedash_url>/deployables
-   ```
-
-4. Create a Razee channel.
-   1. From the **Channels** card, click **Add**.
-   2. Enter a name for your channel and click **Save**. You can choose any name
-for your channel that you want, but make sure to give it a descriptive
-name so that you can find the channel more easily afterwards.
-
-5. Upload a version of your Kubernetes resource from your source repository or
-local machine to the channel. To upload a file, you must use the Razee API. You
-can call the API directly as shown in the following example, or you can also
-include the upload as part of your existing automation. For example, you might
-have a GitHub source repository and use Travis to automatically check your files
-when you commit a change. You can extend the Travis script to push the new
-version of your resource to Razee after all checks have passed.
-
-   ```bash
-   curl \
-       --url "<razee_api_url>/api/v1/channels/<razee_channel>/version" \
-       --header "content-type: text/yaml" \
-       --header "razee-org-key: <razee_org_key>" \
-       --header "resource-name: <resource_version>" \
-       --header "x-api-key: <razee_apikey>" \
-       --header "x-user-id: <razee_userID>" \
-       --data-binary @./resource.yaml
-   ```
-
-   Example output:
-
-   ```bash
-   {"status":"success","version":{"uuid":"bc29119c-5b72-4fc8-9eee-a4dd5be9e1e3","name":"myversion","location":"s3"}}
-   ```
-
-   <table>
-   <caption>Understanding the API request</caption>
-   <thead>
-   <th colspan=2><img src="images/idea.png" alt="Idea icon"/> Understanding the API request</th>
-  </thead>
-       <tbody>
-       <tr>
-       <td><code>&lt;razee_api_key&gt;</code></td>
-       <td>Enter the URL to your Razee API deployment. To retrieve this value:
-       <ol><li>From the Razeedash console, click the Razee icon in the upper
-       left corner. The <strong>Select an org</strong> screen opens. </li>
-       <li>Find your Razee organization, and click <strong>Manage</strong>.</li>
-       <li>Copy the <strong>Api Key</strong> value.</li></ol></td>
-       </tr>
-       <tr>
-       <td><code>&lt;razee_channel&gt;</code></td>
-       <td>Enter the name of the Razee channel that you created earlier.</td>
-       </tr>
-       <tr>
-       <td><code>&lt;razee_org_key&gt;</code></td>
-       <td>Enter the Razee organization key. To retrieve this value, follow these
-      steps: <ol><li>From the Razeedash console, click the Razee icon in the
-      upper left corner. The <strong>Select an org</strong> screen opens. </li>
-      <li>Find your Razee organization, and click <strong>Manage</strong>.</li>
-      <li>Copy the <strong>Api Key</strong> value.</li></ol></td>
-       </tr>
-       <tr>
-       <td><code>&lt;resource_version&gt;</code></td>
-       <td>Enter a name for the version of the Kubernetes resource that you want
-      to upload from your source repository or local machine. </td>
-       </tr>
-       <tr>
-       <td><code>&lt;razee_apikey&gt;</code></td>
-       <td>Enter the API key to authenticate with Razeedash. To retrieve this
-      value, follow these steps: <ol><li>From the Razeedash console, click the
-      arrow icon in the upper right corner. Then, select <strong>Profile</strong>.
-      </li><li>Copy the <strong>API key</strong> value. If no API key exists,
-      click <strong>Generate</strong> to generate one.</li></ol></td>
-       </tr>
-       <tr>
-       <td><code>&lt;razee_userID&gt;</code></td>
-       <td>Enter your Razee user ID. To retrieve this value, follow these steps:
-      <ol><li>From the Razeedash console, click the arrow icon in the upper
-      right corner. Then, select <strong>Profile</strong>. </li>
-      <li>Copy the <strong>User ID</strong> value. </li></ol></td>
-       </tr>
-       <tr>
-       <td><code>resource.yaml</code></td>
-       <td>Enter the full path to the Kubernetes resource YAML file that you want
-       to upload to Razee. Make sure to include the <code>@</code> sign before the
-       URL. You can upload any Kubernetes resource YAML file to Razee, but make
-       sure that the YAML file has the correct format to avoid errors later when
-       the file is applied to your Kubernetes cluster by using the Razee subscription.</td>
-       </tr>
-       </tbody>
-       </table>
-6. After your initial version of your Kubernetes resource is uploaded to Razee,
-create a Razee subscription to apply the version in your cluster based on the tags
-that you defined in your Razee Deployables configmap.
-   1. From the Razee Deployables console, in the **Subscriptions** card, click **Add**.
-   2. Enter a name for your subscription. You can enter any name, but make sure
-    to enter a descriptive name so that you can find the subscription more
-    easily afterwards.
-   3. Enter the same tag that you specified in the Razee Deployables configmap that
-   you created earlier.
-   4. Select the channel that you created earlier.
-   5. Select the version of the Kubernetes resource that you uploaded to Razee earlier.
-   6. Click **Save** to save your changes. After you save your subscription,
-   Razee automatically pulls the version of the Kubernetes resource that you
-   uploaded to Razee and applies the file in your cluster.
-7. Verify that the Kubernetes resource was applied in your cluster.
-   **Tip**: If you find that your resource was not applied in your cluster, verify
-  that your YAML file has the correct format. Then, check the logs of the
-  `clustersubscription-*` and `remoteresource-controller-*` pods in the Razee namespace.
-
-## Stay connected
-
-If you encounter an issue with using Razee, or want to learn more about Razee
-components and how to use them for your own Continuous Delivery pipeline, join
-the Razee development team in the [IBM Cloud Kubernetes Service Slack](https://ibm-container-service.slack.com)
-and post your question in the `#razee` channel. Click [here](https://cloud.ibm.com/kubernetes/slack)
-to request access to this Slack.
-
-## License
-
-All Razee components are licensed under the [Apache License 2.0](https://github.com/razee-io/RazeeDeploy-core/blob/master/LICENSE).
+## October 2019
+{: #oct19}
+
+<table summary="The table shows release notes. Rows are to be read from the left to right, with the date in column one, the title of the feature in column two and a description in column three.">
+<caption>Documentation updates in October 2019</caption>
+<thead>
+<th>Date</th>
+<th>Description</th>
+</thead>
+<tbody>
+<tr>
+<td>28 October 2019</td>
+<td><ul>
+<li><strong>New! Resource groups for VPC clusters</strong>: You can now [create Kubernetes clusters](/docs/containers?topic=containers-vpc_ks_tutorial) in different resource groups than the resource group of the Virtual Private Cloud (VPC).</li>
+<li><strong>Version changelogs</strong>: Worker node patch updates are available for Kubernetes [1.15.5_1521](/docs/containers?topic=containers-changelog#1155_1521), [1.14.8_1537](/docs/containers?topic=containers-changelog#1148_1537), [1.13.12_1540](/docs/containers?topic=containers-changelog#11312_15409), [1.12.10_1570](/docs/containers?topic=containers-changelog#11210_1570), and OpenShift [3.11.153_1529_openshift](/docs/openshift?topic=openshift-openshift_changelog#311153_1528).</li></ul></td>
+</tr><tr>
+<td>24 October 2019</td>
+  <td><ul>
+    <li><strong>CLI changelog</strong>: Updated the {{site.data.keyword.containerlong_notm}} CLI plug-in changelog page for the [release of version 0.4.42](/docs/containers?topic=containers-cs_cli_changelog).</li>
+    <li><strong>Scaling down file storage</strong>: Added steps for [scaling down the default file storage plug-in](/docs/containers?topic=containers-file_storage#file_scaledown_plugin) in classic clusters.</li>
+    <li><strong>Ingress subdomain troubleshooting</strong>: Added troubleshooting steps for when [no Ingress subdomain exists after cluster creation](/docs/containers?topic=containers-cs_troubleshoot_network#ingress_subdomain)</li>
+  </ul></td>
+</tr>
+<tr>
+<td>23 October 2019</td>
+  <td><ul>
+    <li><strong>Ingress ALB changelog</strong>: Updated the ALB [`nginx-ingress` image to build 584 and `ingress-auth` image build to 344](/docs/containers?topic=containers-cluster-add-ons-changelog#alb_changelog).</li>
+    <li><strong>Ingress annotations</strong>: Added the [`proxy-ssl-verify-depth` and `proxy-ssl-name` optional parameters to the `ssl-services` annotation](/docs/containers?topic=containers-ingress_annotation#ssl-services).</li></ul></td>
+</tr>
+<tr>
+  <td>22 October 2019</td>
+  <td><strong>Version changelogs</strong>: Master patch updates are available for Kubernetes [1.15.5_1520](/docs/containers?topic=containers-changelog#1155_1520), [1.14.8_1536](/docs/containers?topic=containers-changelog#1148_1536), [1.13.12_1539](/docs/containers?topic=containers-changelog#11312_1539), and OpenShift [3.11.146_1528_openshift](/docs/openshift?topic=openshift-openshift_changelog#311146_1528).</td>
+</tr>
+<tr>
+  <td>17 October 2019</td>
+  <td><ul><li><strong>New! Cluster autoscaler</strong>: The cluster autoscaler is available for [private network-only clusters](/docs/containers?topic=containers-ca#ca_private_cluster). To get started, [update to the latest Helm chart version](/docs/containers?topic=containers-ca#ca_helm_up).</li>
+  <li><strong>New DevOps tutorial</strong>: Learn how to [set up your own DevOps toolchain](/docs/containers?topic=containers-tutorial-byoc-kube) and configure continuous delivery pipeline stages to deploy your containerized app that is stored in GitHub to a cluster in {{site.data.keyword.containerlong_notm}}.</li></ul></td>
+</tr>
+<tr>
+  <td>14 October 2019</td>
+  <td><ul>
+  <li><strong>Calico MTU</strong>: Added [steps](/docs/containers?topic=containers-kernel#calico-mtu) for changing the Calico plug-in maximum transmission unit (MTU) to meet the network throughput requirements of your environment.</li>
+  <li><strong>CLI changelog</strong>: Updated the {{site.data.keyword.containerlong_notm}} CLI plug-in changelog page for the [release of version 0.4.38](/docs/containers?topic=containers-cs_cli_changelog).</li>
+  </li>
+  <li><strong>Creating DNS subdomains for VPC load balancers and private Ingress ALBs</strong>: Added steps for [registering a VPC load balancer hostname with a DNS subdomain](/docs/containers?topic=containers-vpc-lbaas#vpc_dns) and for [exposing apps to a private network](/docs/containers?topic=containers-ingress#ingress_expose_vpc_private) in VPC clusters.</li>
+  <li><strong>Let's Encrypt rate limits for Ingress</strong>: Added [troubleshooting steps] for when no subdomain or secret is generated for the Ingress ALB when you create or delete clusters of the same name.</li>
+  <li><strong>Version changelogs</strong>: Worker node patch updates are available for Kubernetes [1.15.4_1519](/docs/containers?topic=containers-changelog#1154_1519_worker), [1.14.7_1535](/docs/containers?topic=containers-changelog#1147_1535_worker), [1.13.11_1538](/docs/containers?topic=containers-changelog#11311_1538_worker), [1.12.10_1569](/docs/containers?topic=containers-changelog#11210_1569_worker), and OpenShift [3.11.146_1527_openshift](/docs/openshift?topic=openshift-openshift_changelog#311146_1527).</li>
+  </ul></td>
+</tr>
+<tr>
+  <td>03 October 2019</td>
+  <td><ul>
+  <li><strong>Ingress ALB changelog</strong>: Updated the ALB [`nginx-ingress` image to build 579 and `ingress-auth` image build to 341](/docs/containers?topic=containers-cluster-add-ons-changelog#alb_changelog).</li>
+  <li><strong>DevOps toolchain</strong>: You can now use the **DevOps** tab on the cluster details page to configure your DevOps toolchain. For more information, see [Setting up a continuous delivery pipeline for a cluster](/docs/containers?topic=containers-app#continuous-delivery-pipeline).</li>
+  <li><strong>Security for VPC clusters</strong>: Added information for how to achieve [network segmentation and privacy in VPC clusters](/docs/containers?topic=containers-security#network_segmentation_vpc).</li>
+  </ul>
+  </td>
+</tr>
+<tr>
+  <td>01 October 2019</td>
+  <td><ul>
+    <li><strong>End of service of {{site.data.keyword.loganalysislong_notm}} and {{site.data.keyword.monitoringlong_notm}}</strong>: Removed steps for using {{site.data.keyword.loganalysislong_notm}} and {{site.data.keyword.monitoringlong_notm}} to work with cluster logs and metrics. You can collect logs and metrics for your cluster by setting up [{{site.data.keyword.la_full_notm}}](/docs/containers?topic=containers-health#logdna) and [{{site.data.keyword.mon_full_notm}}](/docs/services/Monitoring-with-Sysdig/tutorials?topic=Sysdig-kubernetes_cluster#kubernetes_cluster) instead.</li>
+    <li><strong>New! Gateway-enabled classic clusters</strong>: Keep your compute workloads private and allow limited public connectivity to your classic cluster by enabling a gateway. You can enable a gateway only on standard, Kubernetes clusters during cluster creation.<br><br>
+    When you enable a gateway on a classic cluster, the cluster is created with a `compute` worker pool of compute worker nodes that are connected to a private VLAN only, and a `gateway` worker pool of gateway worker nodes that are connected to public and private VLANs. Traffic into or out of the cluster is routed through the gateway worker nodes, which provide your cluster with limited public access. For more information, check out the following links:<ul>
+      <li>[Using a gateway-enabled cluster](/docs/containers?topic=containers-plan_clusters#gateway)</li>
+      <li>[Isolating networking workloads to edge nodes in classic gateway-enabled clusters](/docs/containers?topic=containers-edge#edge_gateway)</li>
+      <li>Flow of traffic to apps when using an [NLB 1.0](/docs/containers?topic=containers-loadbalancer-about#v1_gateway), an [NLB 2.0](/docs/containers?topic=containers-loadbalancer-about#v2_gateway), or [Ingress ALBs](/docs/containers?topic=containers-ingress-about#classic-gateway)</li></ul>
+    Ready to get started? [Create a standard classic cluster with a gateway in the CLI.](/docs/containers?topic=containers-clusters#gateway_cluster_cli)</li>
+    <li><strong>Using the {{site.data.keyword.cos_full_notm}} plug-in in a VPC cluster</strong>: To work with the {{site.data.keyword.cos_full_notm}} plug-in in a VPC cluster, added steps for [creating a customized storage class](/docs/containers?topic=containers-object_storage#customized_storageclass_vpc) that uses the `direct` service endpoint of your {{site.data.keyword.cos_full_notm}} service instance.</li>
+    <li><strong>Version changelogs</strong>: Patch updates are available for Kubernetes [1.15.4_1518](/docs/containers?topic=containers-changelog#1154_1518), [1.14.7_1534](/docs/containers?topic=containers-changelog#1147_1534), [1.13.11_1537](/docs/containers?topic=containers-changelog#11311_1537), and [1.12.10_1568](/docs/containers?topic=containers-changelog#11210_1568_worker).</li>
+  </ul>
+  </td>
+</tr>
+</tbody></table>
+
+<br />
+
+
+## September 2019
+{: #sept19}
+
+<table summary="The table shows release notes. Rows are to be read from the left to right, with the date in column one, the title of the feature in column two and a description in column three.">
+<caption>Documentation updates in September 2019</caption>
+<thead>
+<th>Date</th>
+<th>Description</th>
+</thead>
+<tbody>
+<tr>
+  <td>27 September 2019</td>
+  <td><strong>{{site.data.keyword.cos_full_notm}} supported in VPC clusters</strong>: You can now provision {{site.data.keyword.cos_full_notm}} for your apps that run in a VPC cluster. For more information, see [Storing data on {{site.data.keyword.cos_full_notm}}](/docs/containers?topic=containers-object_storage).</td>
+</tr>
+<tr>
+  <td>24 September 2019</td>
+  <td><ul>
+  <li><strong>CLI changelog</strong>: Updated the {{site.data.keyword.containerlong_notm}} CLI plug-in changelog page for the [release of version 0.4.31](/docs/containers?topic=containers-cs_cli_changelog).</li>
+  <li><strong>Ingress ALB changelog</strong>: Updated the ALB [`nginx-ingress` image to build 566](/docs/containers?topic=containers-cluster-add-ons-changelog#alb_changelog).</li>
+  <li><strong>Managing cluster network traffic for VPC clusters</strong>: Includes the following new content:<ul>
+    <li>[Opening required ports and IP addresses in your firewall for VPC clusters](/docs/containers?topic=containers-vpc-firewall)</li>
+    <li>[Controlling traffic with VPC ACLs and network policies](/docs/containers?topic=containers-vpc-network-policy)</li>
+    <li>[Setting up VPC VPN connectivity](/docs/containers?topic=containers-vpc-vpnaas)</li>
+    <li>[Configuring CoreDNS for VPC clusters](/docs/containers?topic=containers-vpc_dns)</li></ul></li>
+  <li><strong>Customizing PVC settings for VPC Block Storage</strong>: You can create a customized storage class or use a Kubernetes secret to create VPC Block Storage with the configuration that you want. For more information, see [Customizing the default settings](/docs/containers?topic=containers-vpc-block#vpc-customize-default).</li>
+  </ul></td>
+</tr>
+<tr>
+  <td>19 September 2019</td>
+  <td><strong>Sending custom Ingress certificates to legacy clients</strong>: Added [steps](/docs/containers?topic=containers-ingress-settings#default_server_cert) for ensuring that your custom certificate, instead of the default IBM-provided certificate, is sent by the Ingress ALB to legacy clients that do not support SNI.</td>
+</tr>
+<tr>
+  <td>16 September 2019</td>
+  <td><ul><li><strong>CLI changelog</strong>: Updated the {{site.data.keyword.containerlong_notm}} CLI plug-in changelog page for the [release of version 0.4.23](/docs/containers?topic=containers-cs_cli_changelog).</li>
+  <li><strong>{{site.data.keyword.at_full_notm}} events</strong>: Added information about [which {{site.data.keyword.at_short}} location your events are sent to](/docs/containers?topic=containers-at_events#at-ui) based on the {{site.data.keyword.containerlong_notm}} location where the cluster is located.</li>
+  <li><strong>Version changelogs</strong>: Worker node patch updates are available for Kubernetes [1.15.3_1517](/docs/containers?topic=containers-changelog#1153_1517_worker), [1.14.6_1533](/docs/containers?topic=containers-changelog#1146_1533_worker), [1.13.10_1536](/docs/containers?topic=containers-changelog#11310_1536_worker), and [1.12.10_1567](/docs/containers?topic=containers-changelog#11210_1567_worker).</li></ul>
+  </td>
+</tr>
+<tr>
+  <td>13 September 2019</td>
+  <td><ul>
+    <li><strong>Entitled software</strong>: If you have licensed products from your [MyIBM.com ![External link icon](../icons/launch-glyph.svg "External link icon")](https://myibm.ibm.com) container software library, you can [set up your cluster to pull images from the entitled registry](/docs/containers?topic=containers-images#secret_entitled_software).</li>
+  <li><strong>`script update` command</strong>: Added [steps for using the `script update` command](/docs/containers?topic=containers-cli-plugin-kubernetes-service-cli#script_update) to prepare your automation scripts for the release of version 1.0 of the {{site.data.keyword.containerlong_notm}} plug-in.</li></ul></td>
+</tr>
+<tr>
+  <td>12 September 2019</td>
+  <td><strong>Ingress ALB changelog</strong>: Updated the ALB [`nginx-ingress` image to build 552](/docs/containers?topic=containers-cluster-add-ons-changelog#alb_changelog).</td>
+</tr>
+<tr>
+  <td>05 September 2019</td>
+  <td><strong>Ingress ALB changelog</strong>: Updated the ALB [`ingress-auth` image to build 340](/docs/containers?topic=containers-cluster-add-ons-changelog#alb_changelog).</td>
+</tr>
+<tr>
+  <td>04 September 2019</td>
+  <td><ul><li><strong>CLI changelog</strong>: Updated the {{site.data.keyword.containerlong_notm}} CLI plug-in changelog page for the [release of version 0.4.3](/docs/containers?topic=containers-cs_cli_changelog).</li>
+  <li><strong>IAM whitelisting</strong>: If you use an IAM whitelist, you must [whitelist the CIDRs of the {{site.data.keyword.containerlong_notm}} control plane](/docs/containers?topic=containers-firewall#iam_whitelist) for the zones in the region where your cluster is located so that {{site.data.keyword.containerlong_notm}} can create Ingress ALBs and `LoadBalancers` in your cluster.</li></ul></td>
+</tr>
+<tr>
+  <td>03 September 2019</td>
+  <td><ul><li><strong>New! {{site.data.keyword.containerlong_notm}} plug-in version `0.4`</strong>: Updated the {{site.data.keyword.containerlong_notm}} CLI plug-in changelog page for multiple changes in the [release of version 0.4.1](/docs/containers?topic=containers-cs_cli_changelog).</li>
+  <li><strong>Version changelog</strong>: Worker node patch updates are available for Kubernetes [1.15.3_1516](/docs/containers?topic=containers-changelog#1153_1516_worker), [1.14.6_1532](/docs/containers?topic=containers-changelog#1146_1532_worker), [1.13.10_1535](/docs/containers?topic=containers-changelog#11310_1535_worker), [1.12.10_1566](/docs/containers?topic=containers-changelog#11210_1566_worker), and OpenShift [3.11.135_1523](/docs/openshift?topic=openshift-openshift_changelog#311135_1523_worker).</li></ul></td>
+</tr>
+</tbody></table>
+
+<br />
+
+
+## August 2019
+{: #aug19}
+
+<table summary="The table shows release notes. Rows are to be read from the left to right, with the date in column one, the title of the feature in column two and a description in column three.">
+<caption>Documentation updates in August 2019</caption>
+<thead>
+<th>Date</th>
+<th>Description</th>
+</thead>
+<tbody>
+<tr>
+  <td>29 August 2019</td>
+  <td><strong>Forwarding Kubernetes API audit logs to {{site.data.keyword.la_full_notm}}</strong>: Added steps to [create an audit webhook in your cluster](/docs/containers?topic=containers-health#webhook_logdna) to collect Kubernetes API audit logs from your cluster and forward them to {{site.data.keyword.la_full_notm}}.</td>
+</tr>
+<tr>
+  <td>28 August 2019</td>
+  <td><ul>
+  <li><strong>CLI changelog</strong>: Updated the {{site.data.keyword.containerlong_notm}} CLI plug-in changelog page for the [release of version 0.3.112](/docs/containers?topic=containers-cs_cli_changelog).</li>
+  <li><strong>Version changelogs</strong>: Updated the changelogs for [1.15.3_1515](/docs/containers?topic=containers-changelog#1153_1515), [1.14.6_1531](/docs/containers?topic=containers-changelog#1146_1531), [1.13.10_1534](/docs/containers?topic=containers-changelog#11310_1534), and [1.12.10_1565](/docs/containers?topic=containers-changelog#11210_1565) master fix pack updates.</li>
+  </ul></td>
+</tr>
+<tr>
+  <td>26 August 2019</td>
+  <td><ul>
+  <li><strong>Cluster autoscaler</strong>: With the latest version of the cluster autoscaler, you can [enable autoscaling for worker pools during the Helm chart installation](/docs/containers?topic=containers-ca#ca_helm) instead of modifying the config map after installation.</li>
+  <li><strong>Ingress ALB changelog</strong>: Updated the ALB [`nginx-ingress` image to build 524 and `ingress-auth` image to build 337](/docs/containers?topic=containers-cluster-add-ons-changelog#alb_changelog).</li></ul></td>
+</tr>
+<tr>
+  <td>23 August 2019</td>
+  <td><ul>
+  <li><strong>App networking in VPC</strong>: Updated the [Planning in-cluster and external networking for apps](/docs/containers?topic=containers-cs_network_planning) topic with information for planning app networking in a VPC cluster.</li>
+  <li><strong>Istio in VPC</strong>: Updated the [managed Istio add-on](/docs/containers?topic=containers-istio) topic with information for using Istio in a VPC cluster.</li>
+  <li><strong>Remove bound services from cluster</strong>: Added instructions for how to remove an {{site.data.keyword.cloud_notm}} service that you added to a cluster by using service binding. For more information, see [Removing a service from a cluster](/docs/containers?topic=containers-service-binding#unbind-service).</li></ul></td>
+</tr>
+<tr>
+  <td>20 August 2019</td>
+  <td><strong>Ingress ALB changelog</strong>: Updated the ALB [`nginx-ingress` image to build 519](/docs/containers?topic=containers-cluster-add-ons-changelog#alb_changelog) for a `custom-ports` bug fix.</td>
+</tr>
+<tr>
+  <td>19 August 2019</td>
+  <td><ul>
+  <li><strong>New! Virtual Private Cloud</strong>: You can create standard Kubernetes clusters on classic infrastructure in the next generation of the {{site.data.keyword.cloud_notm}} platform, in your [Virtual Private Cloud](/docs/vpc-on-classic?topic=vpc-on-classic-about). VPC gives you the security of a private cloud environment with the dynamic scalability of a public cloud. Classic on VPC clusters are available for only standard, Kubernetes clusters and are not supported in free or OpenShift clusters.<br><br>
+  With classic clusters in VPC, {{site.data.keyword.containerlong_notm}} introduces version 2 of the API, which supports multiple infrastructure providers for your clusters. Your cluster network setup also changes, from worker nodes that use public and private VLANs and the public service endpoint to worker nodes that are on a private subnet only and have the private service endpoint enabled. For more information, check out the following links:<ul>
+    <li>[Overview of Classic and VPC infrastructure providers](/docs/containers?topic=containers-infrastructure_providers)</li>
+    <li>[About the v2 API](/docs/containers?topic=containers-cs_api_install#api_about)</li>
+    <li>[Comparison of Classic and VPC commands for the CLI](/docs/containers?topic=containers-cli-plugin-kubernetes-service-cli#cli_classic_vpc_about)</li>
+    <li>[Understanding network basics of VPC clusters](/docs/containers?topic=containers-plan_clusters#vpc_basics)</li></ul>
+  Ready to get started? Try out the [Creating a classic cluster in your VPC tutorial](/docs/containers?topic=containers-vpc_ks_tutorial).</li>
+  <li><strong>Kubernetes 1.14</strong>: [Kubernetes 1.14](/docs/containers?topic=containers-cs_versions#version_types) is now the default version.</li>
+  </ul>
+  </td>
+</tr>
+<tr>
+  <td>17 August 2019</td>
+  <td><ul>
+  <li><strong>{{site.data.keyword.at_full}}</strong>: The [{{site.data.keyword.at_full_notm}} service](/docs/containers?topic=containers-at_events) is now supported for you to view, manage, and audit user-initiated activities in your clusters.</li>
+  <li><strong>Version changelogs</strong>: Updated the changelogs for [1.15.2_1514](/docs/containers?topic=containers-changelog#1152_1514), [1.14.5_1530](/docs/containers?topic=containers-changelog#1145_1530), [1.13.9_1533](/docs/containers?topic=containers-changelog#1139_1533), and [1.12.10_1564](/docs/containers?topic=containers-changelog#11210_1564) master fix pack updates.</li></ul></td>
+</tr>
+<tr>
+  <td>15 August 2019</td>
+  <td><ul>
+  <li><strong>App deployments</strong>: Added steps for [copying deployments from one cluster to another](/docs/containers?topic=containers-app#copy_apps_cluster).</li>
+  <li><strong>FAQs</strong>: Added an FAQ about [free clusters](/docs/containers?topic=containers-faqs#faq_free).</li>
+  <li><strong>Istio</strong>: Added steps for [exposing Istio-managed apps with TLS termination](/docs/containers?topic=containers-istio-mesh#tls), [securing in-cluster traffic by enabling mTLS](/docs/containers?topic=containers-istio-mesh#mtls), and [Updating the Istio add-ons](/docs/containers?topic=containers-istio#istio_update).</li>
+  <li><strong>Knative</strong>: Added instructions for how to [use volumes to access secrets and config maps](/docs/containers?topic=containers-serverless-apps-knative#knative-access-volume), [pull images from a private registry](/docs/containers?topic=containers-serverless-apps-knative#knative-private-registry), [scale apps based on CPU usage](/docs/containers?topic=containers-serverless-apps-knative#scale-cpu-vs-number-requests), [change the default container port](/docs/containers?topic=containers-serverless-apps-knative#knative-container-port), and [change the `scale-to-zero-grace-period`](/docs/containers?topic=containers-serverless-apps-knative#knative-idle-time).</li>
+  <li><strong>Version changelogs</strong>: Updated the changelogs for [1.15.2_1513](/docs/containers?topic=containers-changelog#1152_1513), [1.14.5_1529](/docs/containers?topic=containers-changelog#1145_1529), [1.13.9_1532](/docs/containers?topic=containers-changelog#1139_1532), and [1.12.10_1563](/docs/containers?topic=containers-changelog#11210_1563) master fix pack updates.</li></ul></td>
+</tr>
+<tr>
+  <td>12 August 2019</td>
+  <td><ul>
+  <li><strong>CLI changelog</strong>: Updated the {{site.data.keyword.containerlong_notm}} CLI plug-in changelog page for the [release of version 0.3.103](/docs/containers?topic=containers-cs_cli_changelog).</li>
+  <li><strong>Ingress ALB changelog</strong>: Updated the ALB `ingress-auth` image to build 335 for [`musl libc` vulnerabilities](/docs/containers?topic=containers-cluster-add-ons-changelog#alb_changelog).</li></ul></td>
+</tr>
+<tr>
+  <td>05 August 2019</td>
+  <td><ul>
+  <li><strong>CLI changelog</strong>: Updated the {{site.data.keyword.containerlong_notm}} CLI plug-in changelog page for the [release of version 0.3.99](/docs/containers?topic=containers-cs_cli_changelog).</li>
+  <li><strong>New! `NodeLocal` DNS caching (beta)</strong>: For clusters that run Kubernetes 1.15 or later, you can set up improved cluster DNS performance with [`NodeLocal` DNS caching](/docs/containers?topic=containers-cluster_dns#dns_cache).</li>
+  <li><strong>New! Version 1.15</strong>: You can create community Kubernetes clusters that run version 1.15. To update from a previous version, review the [1.15 changes](/docs/containers?topic=containers-cs_versions#cs_v115).</li>
+  <li><strong>Deprecated: Version 1.12</strong>: Kubernetes version 1.12 is deprecated. Review the [changes across versions](/docs/containers?topic=containers-cs_versions), and update to a more recent version.</li>
+  <li><strong>Version changelogs</strong>: Updated the changelogs for [1.14.4_1527](/docs/containers?topic=containers-changelog#1144_1527_worker), [1.13.8_1530](/docs/containers?topic=containers-changelog#1138_1530_worker), and [1.12.10_1561](/docs/containers?topic=containers-changelog#11210_1561_worker) worker node patch updates.</li></ul></td>
+</tr>
+</tbody></table>
+
+## July 2019
+{: #jul19}
+
+<table summary="The table shows release notes. Rows are to be read from the left to right, with the date in column one, the title of the feature in column two and a description in column three.">
+<caption>{{site.data.keyword.containerlong_notm}} documentation updates in July 2019</caption>
+<thead>
+<th>Date</th>
+<th>Description</th>
+</thead>
+<tbody>
+<tr>
+  <td>30 July 2019</td>
+  <td><ul>
+  <li><strong>CLI changelog</strong>: Updated the {{site.data.keyword.containerlong_notm}} CLI plug-in changelog page for the [release of version 0.3.95](/docs/containers?topic=containers-cs_cli_changelog).</li>
+  <li><strong>Ingress ALB changelog</strong>: Updated the ALB `nginx-ingress` image to build 515 for the [ALB pod readiness check](/docs/containers?topic=containers-cluster-add-ons-changelog#alb_changelog).</li>
+  <li><strong>Removing subnets from a cluster</strong>: Added steps for removing subnets [in an IBM Cloud infrastructure account](/docs/containers?topic=containers-subnets#remove-sl-subnets) or [in an on-premises network](/docs/containers?topic=containers-subnets#remove-user-subnets) from a cluster. </li>
+  </ul></td>
+</tr>
+<tr>
+  <td>23 July 2019</td>
+  <td><strong>Fluentd changelog</strong>: Fixes [Alpine vulnerabilities](/docs/containers?topic=containers-cluster-add-ons-changelog#fluentd_changelog).</td>
+</tr>
+<tr>
+  <td>22 July 2019</td>
+  <td><ul>
+    <li><strong>Version policy</strong>: Increased the [version deprecation](/docs/containers?topic=containers-cs_versions#version_types) period from 30 to 45 days.</li>
+    <li><strong>Version changelogs</strong>: Updated the changelogs for [1.14.4_1526](/docs/containers?topic=containers-changelog#1144_1526_worker), [1.13.8_1529](/docs/containers?topic=containers-changelog#1138_1529_worker), and [1.12.10_1560](/docs/containers?topic=containers-changelog#11210_1560_worker) worker node patch updates.</li>
+    <li><strong>Version changelog</strong>: [Version 1.11](/docs/containers?topic=containers-changelog#111_changelog) is unsupported.</li></ul>
+  </td>
+</tr>
+<tr>
+  <td>17 July 2019</td>
+  <td><strong>Ingress ALB changelog</strong>: [Fixes `rbash` vulnerabilities](/docs/containers?topic=containers-cluster-add-ons-changelog#alb_changelog).
+  </td>
+</tr>
+<tr>
+  <td>15 July 2019</td>
+  <td><ul>
+  <li><strong>Cluster and worker node ID</strong>: The ID format for clusters and worker nodes is changed. Existing clusters and worker nodes keep their existing IDs. If you have automation that relies on the previous format, update it for new clusters.<ul>
+  <li>**Cluster ID**: In the regex format `{a-v0-9}[7]{a-z0-9}[2]{a-v0-9}[11]`</li>
+  <li>**Worker node ID**: In the format `kube-<cluster_ID>-<cluster_name_truncated>-<resource_group_truncated>-<worker_ID>`</li></ul></li>
+  <li><strong>Ingress ALB changelog</strong>: Updated the [ALB `nginx-ingress` image to build 497](/docs/containers?topic=containers-cluster-add-ons-changelog#alb_changelog).</li>
+  <li><strong>Troubleshooting clusters</strong>: Added [troubleshooting steps](/docs/containers?topic=containers-cs_troubleshoot_clusters#cs_totp) for when you cannot manage clusters and worker nodes because the time-based one-time passcode (TOTP) option is enabled for your account.</li>
+  <li><strong>Version changelogs</strong>: Updated the changelogs for [1.14.4_1526](/docs/containers?topic=containers-changelog#1144_1526), [1.13.8_1529](/docs/containers?topic=containers-changelog#1138_1529), and [1.12.10_1560](/docs/containers?topic=containers-changelog#11210_1560) master fix pack updates.</li></ul>
+  </td>
+</tr>
+<tr>
+  <td>08 July 2019</td>
+  <td><ul>
+  <li><strong>App networking</strong>: You can now find information about app networking with NLBs and Ingress ALBs in the following pages:
+    <ul><li>[Basic and DSR load balancing with network load balancers (NLB)](/docs/containers?topic=containers-cs_sitemap#sitemap-nlb)</li>
+    <li>[HTTPS load balancing with Ingress application load balancers (ALB)](/docs/containers?topic=containers-cs_sitemap#sitemap-ingress)</li></ul>
+  </li>
+  <li><strong>Version changelogs</strong>: Updated the changelogs for [1.14.3_1525](/docs/containers?topic=containers-changelog#1143_1525), [1.13.7_1528](/docs/containers?topic=containers-changelog#1137_1528), [1.12.9_1559](/docs/containers?topic=containers-changelog#1129_1559), and [1.11.10_1564](/docs/containers?topic=containers-changelog#11110_1564) worker node patch updates.</li></ul>
+  </td>
+</tr>
+<tr>
+  <td>02 July 2019</td>
+  <td><strong>CLI changelog</strong>: Updated the {{site.data.keyword.containerlong_notm}} CLI plug-in changelog page for the [release of version 0.3.58](/docs/containers?topic=containers-cs_cli_changelog).</td>
+</tr>
+<tr>
+  <td>01 July 2019</td>
+  <td><ul>
+  <li><strong>Infrastructure permissions</strong>: Updated the [classic infrastructure roles](/docs/containers?topic=containers-access_reference#infra) required for common use cases.</li>
+  <li><strong>Securing Istio-managed apps with {{site.data.keyword.appid_short_notm}}</strong>: Added information about the [App Identity and Access adapter](/docs/containers?topic=containers-istio-mesh#app-id).</li>
+  <li><strong>strongSwan VPN service</strong>: If you install strongSwan in a multizone cluster and use the `enableSingleSourceIP=true` setting, you can now [set `local.subnet` to the `%zoneSubnet` variable and use the `local.zoneSubnet` to specify an IP address as a /32 subnet for each zone of the cluster](/docs/containers?topic=containers-vpn#strongswan_4).</li>
+  </ul></td>
+</tr>
+</tbody></table>
+
+
+## June 2019
+{: #jun19}
+
+<table summary="The table shows release notes. Rows are to be read from the left to right, with the date in column one, the title of the feature in column two and a description in column three.">
+<caption>{{site.data.keyword.containerlong_notm}} documentation updates in June 2019</caption>
+<thead>
+<th>Date</th>
+<th>Description</th>
+</thead>
+<tbody>
+<tr>
+  <td>24 June 2019</td>
+  <td><ul>
+  <li><strong>Calico network policies</strong>: Added a set of [public Calico policies](/docs/containers?topic=containers-network_policies#isolate_workers_public) and expanded the set of [private Calico policies](/docs/containers?topic=containers-network_policies#isolate_workers) to protect your cluster on public and private networks.</li>
+  <li><strong>Ingress ALB changelog</strong>: Updated the [ALB `nginx-ingress` image to build 477](/docs/containers?topic=containers-cluster-add-ons-changelog#alb_changelog).</li>
+  <li><strong>Service limitations</strong>: Updated the [maximum number of pods per worker node limitation](/docs/containers?topic=containers-limitations#tech_limits). For worker nodes that run Kubernetes 1.13.7_1527, 1.14.3_1524, or later and that have more than 11 CPU cores, the worker nodes can support 10 pods per core, up to a limit of 250 pods per worker node.</li>
+  <li><strong>Version changelogs</strong>: Added changelogs for [1.14.3_1524](/docs/containers?topic=containers-changelog#1143_1524), [1.13.7_1527](/docs/containers?topic=containers-changelog#1137_1527), [1.12.9_1558](/docs/containers?topic=containers-changelog#1129_1558), and [1.11.10_1563](/docs/containers?topic=containers-changelog#11110_1563) worker node patch updates.</li>
+  </ul></td>
+</tr>
+<tr>
+  <td>21 June 2019</td>
+  <td>
+  <strong>Accessing the Kubernetes master through the private service endpoint</strong>: Added steps for [editing the local Kubernetes configuration file](/docs/containers?topic=containers-access_cluster#access_private_se) when both the public and private service endpoints are enabled, but you want to access the Kubernetes master through the private service endpoint only.
+  </td>
+</tr>
+<tr>
+  <td>18 June 2019</td>
+  <td><ul>
+  <li><strong>CLI changelog</strong>: Updated the {{site.data.keyword.containerlong_notm}} CLI plug-in changelog page for the [release of versions 0.3.47 and 0.3.49](/docs/containers?topic=containers-cs_cli_changelog).</li>
+  <li><strong>Ingress ALB changelog</strong>: Updated the [ALB `nginx-ingress` image to build 473 and `ingress-auth` image to build 331](/docs/containers?topic=containers-cluster-add-ons-changelog#alb_changelog).</li>
+  <li><strong>Managed add-on versions</strong>: Updated the version of the Istio managed add-on to 1.1.7 and the Knative managed add-on to 0.6.0.</li>
+  <li><strong>Removing persistent storage</strong>: Updated the information for how you are billed when you [delete persistent storage](/docs/containers?topic=containers-cleanup).</li>
+  <li><strong>Service bindings with private endpoint</strong>: [Added steps](/docs/containers?topic=containers-service-binding) for how to manually create service credentials with the private service endpoint when you bind the service to your cluster.</li>
+  <li><strong>Version changelogs</strong>: Updated the changelogs for [1.14.3_1523](/docs/containers?topic=containers-changelog#1143_1523), [1.13.7_1526](/docs/containers?topic=containers-changelog#1137_1526), [1.12.9_1557](/docs/containers?topic=containers-changelog#1129_1557), and [1.11.10_1562](/docs/containers?topic=containers-changelog#11110_1562) patch updates.</li>
+  </ul></td>
+</tr>
+<tr>
+  <td>14 June 2019</td>
+  <td><ul>
+  <li><strong>`kubectl` troubleshooting</strong>: Added a [troubleshooting topic](/docs/containers?topic=containers-cs_troubleshoot_clusters#kubectl_fails) for when you have a `kubectl` client version that is 2 or more versions apart from the server version or the OpenShift version of `kubectl`, which does not work with community Kubernetes clusters.</li>
+  <li><strong>Tutorials landing page</strong>: Replaced the related links page with a new [tutorials landing page](/docs/containers?topic=containers-tutorials-ov) for all tutorials that are specific to {{site.data.keyword.containershort_notm}}.</li>
+  <li><strong>Tutorial to create a cluster and deploy an app</strong>: Combined the tutorials for creating clusters and deploying apps into one comprehensive [tutorial](/docs/containers?topic=containers-cs_cluster_tutorial).</li>
+  <li><strong>Using existing subnets to create a cluster</strong>: To [reuse subnets from an unneeded cluster when you create a new cluster](/docs/containers?topic=containers-subnets#subnets_custom), the subnets must be user-managed subnets that you manually added from an on-premises network. All subnets that were automatically ordered during cluster creation are immediately deleted after you delete a cluster, and you cannot reuse these subnets to create a new cluster.</li>
+  </ul></td>
+</tr>
+<tr>
+  <td>12 June 2019</td>
+  <td><strong>Aggregating cluster roles</strong>: Added steps for [extending users' existing permissions by aggregating cluster roles](/docs/containers?topic=containers-users#rbac_aggregate).</td>
+</tr>
+<tr>
+  <td>07 June 2019</td>
+  <td><ul>
+  <li><strong>Access to the Kubernetes master through the private service endpoint</strong>: Added [steps](/docs/containers?topic=containers-access_cluster#access_private_se) to expose the private service endpoint through a private load balancer. After you complete these steps, your authorized cluster users can access the Kubernetes master from a VPN or {{site.data.keyword.cloud_notm}} Direct Link connection.</li>
+  <li><strong>{{site.data.keyword.BluDirectLink}}</strong>: Added {{site.data.keyword.cloud_notm}} Direct Link to the [VPN connectivity](/docs/containers?topic=containers-vpn) and [hybrid cloud](/docs/containers?topic=containers-hybrid_iks_icp) pages as a way to create a direct, private connection between your remote network environments and {{site.data.keyword.containerlong_notm}} without routing over the public internet.</li>
+  <li><strong>Ingress ALB changelog</strong>: Updated the [ALB `ingress-auth` image to build 330](/docs/containers?topic=containers-cluster-add-ons-changelog#alb_changelog).</li>
+  </ul></td>
+</tr>
+<tr>
+  <td>06 June 2019</td>
+  <td><ul>
+  <li><strong>Fluentd changelog</strong>: Added a [Fluentd version changelog](/docs/containers?topic=containers-cluster-add-ons-changelog#fluentd_changelog).</li>
+  <li><strong>Ingress ALB changelog</strong>: Updated the [ALB `nginx-ingress` image to build 470](/docs/containers?topic=containers-cluster-add-ons-changelog#alb_changelog).</li>
+  </ul></td>
+</tr>
+<tr>
+  <td>05 June 2019</td>
+  <td><strong>CLI reference</strong>: Updated the [CLI reference page](/docs/containers?topic=containers-cli-plugin-kubernetes-service-cli) to reflect multiple changes for the [release of version 0.3.34](/docs/containers?topic=containers-cs_cli_changelog) of the {{site.data.keyword.containerlong_notm}} CLI plug-in.</td>
+</tr>
+<tr>
+  <td>04 June 2019</td>
+  <td><strong>Version changelogs</strong>: Updated the changelogs for the [1.14.2_1521](/docs/containers?topic=containers-changelog#1142_1521), [1.13.6_1524](/docs/containers?topic=containers-changelog#1136_1524), [1.12.9_1555](/docs/containers?topic=containers-changelog#1129_1555), and [1.11.10_1561](/docs/containers?topic=containers-changelog#11110_1561) patch releases.
+  </td>
+</tr>
+<tr>
+  <td>03 June 2019</td>
+  <td><ul>
+  <li><strong>Bringing your own Ingress controller</strong>: Updated the [steps](/docs/containers?topic=containers-ingress-user_managed) to reflect changes to the default community controller and to require a health check for controller IP addresses in multizone clusters.</li>
+  <li><strong>{{site.data.keyword.cos_full_notm}}</strong>: Updated the [steps](/docs/containers?topic=containers-object_storage#install_cos) to install the {{site.data.keyword.cos_full_notm}} plug-in with or without the Helm server, Tiller.</li>
+  <li><strong>Ingress ALB changelog</strong>: Updated the [ALB `nginx-ingress` image to build 467](/docs/containers?topic=containers-cluster-add-ons-changelog#alb_changelog).</li>
+  <li><strong>Kustomize</strong>: Added an example of [reusing Kubernetes configuration files across multiple environments with Kustomize](/docs/containers?topic=containers-app#kustomize).</li>
+  <li><strong>Razee</strong>: Added [Razee ![External link icon](../icons/launch-glyph.svg "External link icon")](https://github.com/razee-io/Razee) to the supported integrations to visualize deployment information in the cluster and to automate the deployment of Kubernetes resources. </li></ul>
+  </td>
+</tr>
+</tbody></table>
+
+
+## May 2019
+{: #may19}
+
+<table summary="The table shows release notes. Rows are to be read from the left to right, with the date in column one, the title of the feature in column two and a description in column three.">
+<caption>{{site.data.keyword.containerlong_notm}} documentation updates in May 2019</caption>
+<thead>
+<th>Date</th>
+<th>Description</th>
+</thead>
+<tbody>
+<tr>
+  <td>30 May 2019</td>
+  <td><ul>
+  <li><strong>CLI reference</strong>: Updated the [CLI reference page](/docs/containers?topic=containers-cli-plugin-kubernetes-service-cli) to reflect multiple changes for the [release of version 0.3.33](/docs/containers?topic=containers-cs_cli_changelog) of the {{site.data.keyword.containerlong_notm}} CLI plug-in.</li>
+  <li><strong>Troubleshooting storage</strong>: <ul>
+  <li>Added a file and block storage troubleshooting topic for [PVC pending states](/docs/containers?topic=containers-cs_troubleshoot_storage#file_pvc_pending).</li>
+  <li>Added a block storage troubleshooting topic for when [an app cannot access or write to PVC](/docs/containers?topic=containers-cs_troubleshoot_storage#block_app_failures).</li>
+  </ul></li>
+  </ul></td>
+</tr>
+<tr>
+  <td>28 May 2019</td>
+  <td><ul>
+  <li><strong>Cluster add-ons changelog</strong>: Updated the [ALB `nginx-ingress` image to build 462](/docs/containers?topic=containers-cluster-add-ons-changelog).</li>
+  <li><strong>Troubleshooting registry</strong>: Added a [troubleshooting topic](/docs/containers?topic=containers-cs_troubleshoot_clusters#ts_image_pull_create) for when your cluster cannot pull images from {{site.data.keyword.registryfull}} due to an error during cluster creation.
+  </li>
+  <li><strong>Troubleshooting storage</strong>: <ul>
+  <li>Added a topic for [debugging persistent storage failures](/docs/containers?topic=containers-cs_troubleshoot_storage#debug_storage).</li>
+  <li>Added a troubleshooting topic for [PVC creation failures due to missing permissions](/docs/containers?topic=containers-cs_troubleshoot_storage#missing_permissions).</li>
+  </ul></li>
+  </ul></td>
+</tr>
+<tr>
+  <td>23 May 2019</td>
+  <td><ul>
+  <li><strong>CLI reference</strong>: Updated the [CLI reference page](/docs/containers?topic=containers-cli-plugin-kubernetes-service-cli) to reflect multiple changes for the [release of version 0.3.28](/docs/containers?topic=containers-cs_cli_changelog) of the {{site.data.keyword.containerlong_notm}} CLI plug-in.</li>
+  <li><strong>Cluster add-ons changelog</strong>: Updated the [ALB `nginx-ingress` image to build 457](/docs/containers?topic=containers-cluster-add-ons-changelog).</li>
+  <li><strong>Cluster and worker states</strong>: Updated the [Logging and monitoring page](/docs/containers?topic=containers-health#states) to add reference tables about cluster and worker node states.</li>
+  <li><strong>Cluster planning and creation</strong>: You can now find information about cluster planning, creation, and removal and network planning in the following pages:
+    <ul><li>[Planning your cluster network setup](/docs/containers?topic=containers-plan_clusters)</li>
+    <li>[Planning your cluster for high availability](/docs/containers?topic=containers-ha_clusters)</li>
+    <li>[Planning your worker node setup](/docs/containers?topic=containers-planning_worker_nodes)</li>
+    <li>[Creating clusters](/docs/containers?topic=containers-clusters)</li>
+    <li>[Adding worker nodes and zones to clusters](/docs/containers?topic=containers-add_workers)</li>
+    <li>[Removing clusters](/docs/containers?topic=containers-remove)</li>
+    <li>[Changing service endpoints or VLAN connections](/docs/containers?topic=containers-cs_network_cluster)</li></ul>
+  </li>
+  <li><strong>Cluster version updates</strong>: Updated the [unsupported versions policy](/docs/containers?topic=containers-cs_versions) to note that you cannot update clusters if the master version is three or more versions behind the oldest supported version. You can view if the cluster is **unsupported** by reviewing the **State** field when you list clusters.</li>
+  <li><strong>Istio</strong>: Updated the [Istio page](/docs/containers?topic=containers-istio) to remove the limitation that Istio does not work in clusters that are connected to a private VLAN only. Added a step to the [Updating managed add-ons topic](/docs/containers?topic=containers-managed-addons#updating-managed-add-ons) to re-create Istio gateways that use TLS sections after the update of the Istio managed add-on is complete.</li>
+  <li><strong>Popular topics</strong>: Replaced the popular topics with this release notes page for new features and updates that are specific to {{site.data.keyword.containershort_notm}}. For the latest information on {{site.data.keyword.cloud_notm}} products, check out the [Announcements](https://www.ibm.com/cloud/blog/announcements).</li>
+  </ul></td>
+</tr>
+<tr>
+  <td>20 May 2019</td>
+  <td><strong>Version changelogs</strong>: Added [worker node fix pack changelogs](/docs/containers?topic=containers-changelog).</td>
+</tr>
+<tr>
+  <td>16 May 2019</td>
+  <td><ul>
+  <li><strong>CLI reference</strong>: Updated the [CLI reference page](/docs/containers?topic=containers-cli-plugin-kubernetes-service-cli) to add COS endpoints for `logging collect` commands and to clarify that `cluster master refresh` restarts the Kubernetes master components.</li>
+  <li><strong>Unsupported: Kubernetes version 1.10</strong>: [Kubernetes version 1.10](/docs/containers?topic=containers-cs_versions#cs_v114) is now unsupported.</li>
+  </ul></td>
+</tr>
+<tr>
+  <td>15 May 2019</td>
+  <td><ul>
+  <li><strong>Default Kubernetes version</strong>: The default Kubernetes version is now 1.13.6.</li>
+  <li><strong>Service limits</strong>: Added a [service limitations topic](/docs/containers?topic=containers-limitations#tech_limits).</li>
+  </ul></td>
+</tr>
+<tr>
+  <td>13 May 2019</td>
+  <td><ul>
+  <li><strong>Version changelogs</strong>: Added that new patch updates are available for [1.14.1_1518](/docs/containers?topic=containers-changelog#1141_1518), [1.13.6_1521](/docs/containers?topic=containers-changelog#1136_1521), [1.12.8_1552](/docs/containers?topic=containers-changelog#1128_1552), [1.11.10_1558](/docs/containers?topic=containers-changelog#11110_1558), and [1.10.13_1558](/docs/containers?topic=containers-changelog#11013_1558).</li>
+  <li><strong>Worker node flavors</strong>: Removed all [virtual machine worker node flavors](/docs/containers?topic=containers-planning_worker_nodes#vm) that are 48 or more cores per [cloud status ![External link icon](../icons/launch-glyph.svg "External link icon")](https://cloud.ibm.com/status?component=containers-kubernetes&selected=status). You can still provision [bare metal worker nodes](/docs/containers?topic=containers-planning_worker_nodes#bm) with 48 or more cores.</li></ul></td>
+</tr>
+<tr>
+  <td>08 May 2019</td>
+  <td><ul>
+  <li><strong>API</strong>: Added a link to the [global API swagger docs ![External link icon](../icons/launch-glyph.svg "External link icon")](https://containers.cloud.ibm.com/global/swagger-global-api/#/).</li>
+  <li><strong>Cloud Object Storage</strong>: [Added a troubleshooting guide for Cloud Object Storage](/docs/containers?topic=containers-cs_troubleshoot_storage#cos_pvc_pending) in your {{site.data.keyword.containerlong_notm}} clusters.</li>
+  <li><strong>Kubernetes strategy</strong>: Added a topic about [What knowledge and technical skills are good to have before I move my apps to {{site.data.keyword.containerlong_notm}}?](/docs/containers?topic=containers-strategy#knowledge).</li>
+  <li><strong>Kubernetes version 1.14</strong>: Added that the [Kubernetes 1.14 release](/docs/containers?topic=containers-cs_versions#cs_v114) is certified.</li>
+  <li><strong>Reference topics</strong>: Updated information for various service binding, `logging`, and `nlb` operations in the [user access](/docs/containers?topic=containers-access_reference) and [CLI](/docs/containers?topic=containers-cli-plugin-kubernetes-service-cli) reference pages.</li></ul></td>
+</tr>
+<tr>
+  <td>07 May 2019</td>
+  <td><ul>
+  <li><strong>Cluster DNS provider</strong>: [Explained the benefits of CoreDNS](/docs/containers?topic=containers-cluster_dns) now that clusters that run Kubernetes 1.14 and later support only CoreDNS.</li>
+  <li><strong>Edge nodes</strong>: Added private load balancer support for [edge nodes](/docs/containers?topic=containers-edge).</li>
+  <li><strong>Free clusters</strong>: Clarified where [free clusters](/docs/containers?topic=containers-regions-and-zones#regions_free) are supported.</li>
+  <li><strong>New! Integrations</strong>: Added and restructure information about [{{site.data.keyword.cloud_notm}} services and third-party integrations](/docs/containers?topic=containers-ibm-3rd-party-integrations), [popular integrations](/docs/containers?topic=containers-supported_integrations), and [partnerships](/docs/containers?topic=containers-service-partners).</li>
+  <li><strong>New! Kubernetes version 1.14</strong>: Create or update your clusters to [Kubernetes 1.14](/docs/containers?topic=containers-cs_versions#cs_v114).</li>
+  <li><strong>Deprecated Kubernetes version 1.11</strong>: [Update](/docs/containers?topic=containers-update) any clusters that run [Kubernetes 1.11](/docs/containers?topic=containers-cs_versions#cs_v111) before they become unsupported.</li>
+  <li><strong>Permissions</strong>: Added an FAQ, [What access policies do I give my cluster users?](/docs/containers?topic=containers-faqs#faq_access)</li>
+  <li><strong>Worker pools</strong>: Added instructions for how to [apply labels to existing worker pools](/docs/containers?topic=containers-add_workers#worker_pool_labels).</li>
+  <li><strong>Reference topics</strong>: To support new features such as Kubernetes 1.14, [changelog](/docs/containers?topic=containers-changelog#changelog) reference pages are updated.</li></ul></td>
+</tr>
+<tr>
+  <td>01 May 2019</td>
+  <td><strong>Assigning infrastructure access</strong>: Revised the [steps to assign IAM permissions for opening support cases](/docs/containers?topic=containers-users#infra_access).</td>
+</tr>
+</tbody></table>
