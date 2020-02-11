@@ -1254,7 +1254,7 @@ version of your resource to Razee after all checks have passed.
    <caption>Understanding the API request</caption>
    <thead>
    <th colspan=2>Understanding the API request</th>
-  </thead>
+   </thead>
        <tbody>
        <tr>
        <td><code>&lt;razee_api_key&gt;</code></td>
