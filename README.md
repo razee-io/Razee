@@ -449,10 +449,10 @@ find the Kubernetes resources of a cluster more quickly.
    3. Wait a few minutes for Razeedash to update the cluster ID and display the
     name that you chose in your configmap.
 
-## Step 3: Automatically deploy Kubernetes resources with RemoteResources
+## Step 3: Automatically deploy single Kubernetes resources with RemoteResources
 
 RemoteResource and RemoteResourceS3 are razeedeploy components that you can use
-to automatically deploy Kubernetes resources that are stored in a source
+to automatically deploy single Kubernetes resources that are stored in a source
 repository. Simply define the source repository in your remote resource and
 create the remote resource in your cluster. The remote resource controller
 automatically connects to your source repository, downloads the Kubernetes
@@ -1111,6 +1111,219 @@ false` label to Kubernetes resource configuration.
    ```
 
 6. Verify that all Kubernetes resources of your managed set are removed.
+
+## Automate the deployment of Kubernetes resources across clusters with Razee Deployables
+
+Integrate Razee into your existing CI/CD pipeline and easily control the rollout
+of Kubernetes resources across multiple clusters.
+Razee Deployables consists of two components, the Razee channel
+and the Razee subscription.
+
+**What is a Razee channel?**</br>
+A Razee channel is a component in RazeeDash that let's you upload new versions
+of a Kubernetes resource from any source repository or your local machine
+directly to Razee by using the Razee API. The channel keeps track of the
+different versions, but the versions are not yet applied to your clusters. To
+apply the versions, you must create Razee subscriptions and specify the version
+that you want to apply.
+
+**What is a Razee subscription?**</br>
+A Razee subscription is based on a Razee channel and specifies which version of the
+Kubernetes resource that you uploaded to the channel is applied to the cluster
+based on a set of tags that are present in the cluster. To specify the tags in your
+cluster, you use the `clustersubscription` configmap that you create in your cluster
+as part of the Razee Deployables installation. For example, you might
+have a development cluster and want to apply all Kubernetes resources that you created
+for your test environment. To do that, you first push the appropriate Kubernetes
+resource version to Razee by using a Razee channel. Then, you create a
+Razee subscription that points to the channel, select the right Kubernetes resource
+version, and add the `dev` tag to your subscription. Now you just need to add the
+same tag to your `clustersubscription` configmap. Razee uses the configmap to
+connect to your Razee instance, look up the `dev` subscriptions and apply the
+version of your Kubernetes resource that the subsciption points to.
+
+To use the Razee Deployables module:
+
+1. Install the Razee Deployables module.
+
+   ```bash
+   https://github.com/razee-io/ClusterSubscription/releases/download/0.1.2/resource.yaml
+   ```
+
+   Example output:
+
+   ```bash
+   deployment.apps/clustersubscription created
+   ```
+
+2. Create a configuration file for your Razee Deployables configmap.
+
+   1. Create a configuration file for your Razee Deployables configmap.
+
+      ```bash
+      apiVersion: v1
+      kind: ConfigMap
+      metadata:
+       name: clustersubscription
+       namespace: razee
+      data:
+       RAZEE_ORG_KEY: "<razee_org_key>"
+       RAZEE_TAGS: "<tags>"
+       RAZEE_API: "<razee_api>"
+      ```
+
+      <table>
+      <thead>
+      <th colspan=2>Understanding the YAML file components</th>
+      </thead>
+      <tbody>
+      <tr>
+      <td><code>data.RAZEE_ORG_KEY/code></td>
+      <td>Enter the Razee organization key. To retrieve this value, follow these
+      steps: <ol><li>From the Razeedash console, click the Razee icon in the upper
+      left corner. The <strong>Select an org</strong> screen opens. </li>
+      <li>Find your Razee organization, and click <strong>Manage</strong>.</li>
+      <li>Copy the <strong>Api Key</strong> value.</li></ol></td>
+      </tr>
+      <tr>
+      <td><code>data.RAZEE_TAGS</code></td>
+      <td>Enter a list of tags that you want to apply to the cluster. If you want
+      to enter multiple tags, separate them with a comma. Razee uses these tags to
+      look up any active Razee subscriptions. If subscriptions are found, Razee
+      automatically applies all associated Kubernetes resources to the cluster.
+      Note that you set up Razee subscriptions in a later step of these instructions.</td>
+      </tr>
+      <tr>
+      <td><code>data.RAZEE_API</code></td>
+      <td>Enter the URL to the Razee API that you want to connect to. To retrieve
+      this value, follow these steps: <ol><li>From the Razeedash console, click
+      the Razee icon in the upper left corner. The <strong>Select an org</strong>
+      screen opens. </li><li>Find your Razee organization, and click <strong>Manage</strong>.
+      </li><li>In the <strong>Install Razee Agent</strong> field, you can find
+      the Razee API as part of the kubectl command that is displayed to you.
+      The Razee API follows a format that is similar to the following:
+      <code>https://&lt;razee_org&gt;.us-east.containers.appdomain.cloud</code>.
+       </li></ol></td>
+      </tr>
+      </tbody>
+      </table>
+   2. Create the configmap in your cluster.
+
+      ```bash
+      kubectl apply -f configmap.yaml
+      ```
+
+3. In your preferred web browser, open the Deployables console in Razeedash.
+
+   ```bash
+   <razeedash_url>/deployables
+   ```
+
+4. Create a Razee channel.
+   1. From the **Channels** card, click **Add**.
+   2. Enter a name for your channel and click **Save**. You can choose any name
+for your channel that you want, but make sure to give it a descriptive
+name so that you can find the channel more easily afterwards.
+
+5. Upload a version of your Kubernetes resource from your source repository or
+local machine to the channel. To upload a file, you must use the Razee API. You
+can call the API directly as shown in the following example, or you can also
+include the upload as part of your existing automation. For example, you might
+have a GitHub source repository and use Travis to automatically check your files
+when you commit a change. You can extend the Travis script to push the new
+version of your resource to Razee after all checks have passed.
+
+   ```bash
+   curl \
+       --url "<razee_api_url>/api/v1/channels/<razee_channel>/version" \
+       --header "content-type: text/yaml" \
+       --header "razee-org-key: <razee_org_key>" \
+       --header "resource-name: <resource_version>" \
+       --header "x-api-key: <razee_apikey>" \
+       --header "x-user-id: <razee_userID>" \
+       --data-binary @./resource.yaml
+   ```
+
+   Example output:
+
+   ```bash
+   {"status":"success","version":{"uuid":"bc29119c-5b72-4fc8-9eee-a4dd5be9e1e3","name":"myversion","location":"s3"}}
+   ```
+
+   <table>
+   <caption>Understanding the API request</caption>
+   <thead>
+   <th colspan=2><img src="images/idea.png" alt="Idea icon"/> Understanding the API request</th>
+  </thead>
+       <tbody>
+       <tr>
+       <td><code>&lt;razee_api_key&gt;</code></td>
+       <td>Enter the URL to your Razee API deployment. To retrieve this value:
+       <ol><li>From the Razeedash console, click the Razee icon in the upper
+       left corner. The <strong>Select an org</strong> screen opens. </li>
+       <li>Find your Razee organization, and click <strong>Manage</strong>.</li>
+       <li>Copy the <strong>Api Key</strong> value.</li></ol></td>
+       </tr>
+       <tr>
+       <td><code>&lt;razee_channel&gt;</code></td>
+       <td>Enter the name of the Razee channel that you created earlier.</td>
+       </tr>
+       <tr>
+       <td><code>&lt;razee_org_key&gt;</code></td>
+       <td>Enter the Razee organization key. To retrieve this value, follow these
+      steps: <ol><li>From the Razeedash console, click the Razee icon in the
+      upper left corner. The <strong>Select an org</strong> screen opens. </li>
+      <li>Find your Razee organization, and click <strong>Manage</strong>.</li>
+      <li>Copy the <strong>Api Key</strong> value.</li></ol></td>
+       </tr>
+       <tr>
+       <td><code>&lt;resource_version&gt;</code></td>
+       <td>Enter a name for the version of the Kubernetes resource that you want
+      to upload from your source repository or local machine. </td>
+       </tr>
+       <tr>
+       <td><code>&lt;razee_apikey&gt;</code></td>
+       <td>Enter the API key to authenticate with Razeedash. To retrieve this
+      value, follow these steps: <ol><li>From the Razeedash console, click the
+      arrow icon in the upper right corner. Then, select <strong>Profile</strong>.
+      </li><li>Copy the <strong>API key</strong> value. If no API key exists,
+      click <strong>Generate</strong> to generate one.</li></ol></td>
+       </tr>
+       <tr>
+       <td><code>&lt;razee_userID&gt;</code></td>
+       <td>Enter your Razee user ID. To retrieve this value, follow these steps:
+      <ol><li>From the Razeedash console, click the arrow icon in the upper
+      right corner. Then, select <strong>Profile</strong>. </li>
+      <li>Copy the <strong>User ID</strong> value. </li></ol></td>
+       </tr>
+       <tr>
+       <td><code>resource.yaml</code></td>
+       <td>Enter the full path to the Kubernetes resource YAML file that you want
+       to upload to Razee. Make sure to include the <code>@</code> sign before the
+       URL. You can upload any Kubernetes resource YAML file to Razee, but make
+       sure that the YAML file has the correct format to avoid errors later when
+       the file is applied to your Kubernetes cluster by using the Razee subscription.</td>
+       </tr>
+       </tbody>
+       </table>
+6. After your initial version of your Kubernetes resource is uploaded to Razee,
+create a Razee subscription to apply the version in your cluster based on the tags
+that you defined in your Razee Deployables configmap.
+   1. From the Razee Deployables console, in the **Subscriptions** card, click **Add**.
+   2. Enter a name for your subscription. You can enter any name, but make sure
+    to enter a descriptive name so that you can find the subscription more
+    easily afterwards.
+   3. Enter the same tag that you specified in the Razee Deployables configmap that
+   you created earlier.
+   4. Select the channel that you created earlier.
+   5. Select the version of the Kubernetes resource that you uploaded to Razee earlier.
+   6. Click **Save** to save your changes. After you save your subscription,
+   Razee automatically pulls the version of the Kubernetes resource that you
+   uploaded to Razee and applies the file in your cluster.
+7. Verify that the Kubernetes resource was applied in your cluster.
+   **Tip**: If you find that your resource was not applied in your cluster, verify
+  that your YAML file has the correct format. Then, check the logs of the
+  `clustersubscription-*` and `remoteresource-controller-*` pods in the Razee namespace.
 
 ## Stay connected
 
