@@ -1254,58 +1254,58 @@ version of your resource to Razee after all checks have passed.
    <caption>Understanding the API request</caption>
    <thead>
    <th colspan=2>Understanding the API request</th>
-  </thead>
-       <tbody>
-       <tr>
+   </thead>
+    <tbody>
+      <tr>
        <td><code>&lt;razee_api_key&gt;</code></td>
        <td>Enter the URL to your Razee API deployment. To retrieve this value:
        <ol><li>From the Razeedash console, click the Razee icon in the upper
        left corner. The <strong>Select an org</strong> screen opens. </li>
        <li>Find your Razee organization, and click <strong>Manage</strong>.</li>
        <li>Copy the <strong>Api Key</strong> value.</li></ol></td>
-       </tr>
-       <tr>
+      </tr>
+      <tr>
        <td><code>&lt;razee_channel&gt;</code></td>
        <td>Enter the name of the Razee channel that you created earlier.</td>
-       </tr>
-       <tr>
+      </tr>
+      <tr>
        <td><code>&lt;razee_org_key&gt;</code></td>
        <td>Enter the Razee organization key. To retrieve this value, follow these
-      steps: <ol><li>From the Razeedash console, click the Razee icon in the
-      upper left corner. The <strong>Select an org</strong> screen opens. </li>
-      <li>Find your Razee organization, and click <strong>Manage</strong>.</li>
-      <li>Copy the <strong>Api Key</strong> value.</li></ol></td>
-       </tr>
-       <tr>
+       steps: <ol><li>From the Razeedash console, click the Razee icon in the
+       upper left corner. The <strong>Select an org</strong> screen opens. </li>
+       <li>Find your Razee organization, and click <strong>Manage</strong>.</li>
+       <li>Copy the <strong>Api Key</strong> value.</li></ol></td>
+      </tr>
+      <tr>
        <td><code>&lt;resource_version&gt;</code></td>
        <td>Enter a name for the version of the Kubernetes resource that you want
-      to upload from your source repository or local machine. </td>
-       </tr>
-       <tr>
+       to upload from your source repository or local machine. </td>
+      </tr>
+      <tr>
        <td><code>&lt;razee_apikey&gt;</code></td>
        <td>Enter the API key to authenticate with Razeedash. To retrieve this
-      value, follow these steps: <ol><li>From the Razeedash console, click the
-      arrow icon in the upper right corner. Then, select <strong>Profile</strong>.
-      </li><li>Copy the <strong>API key</strong> value. If no API key exists,
-      click <strong>Generate</strong> to generate one.</li></ol></td>
-       </tr>
-       <tr>
+       value, follow these steps: <ol><li>From the Razeedash console, click the
+       arrow icon in the upper right corner. Then, select <strong>Profile</strong>.
+       </li><li>Copy the <strong>API key</strong> value. If no API key exists,
+       click <strong>Generate</strong> to generate one.</li></ol></td>
+      </tr>
+      <tr>
        <td><code>&lt;razee_userID&gt;</code></td>
        <td>Enter your Razee user ID. To retrieve this value, follow these steps:
-      <ol><li>From the Razeedash console, click the arrow icon in the upper
-      right corner. Then, select <strong>Profile</strong>. </li>
-      <li>Copy the <strong>User ID</strong> value. </li></ol></td>
-       </tr>
-       <tr>
+       <ol><li>From the Razeedash console, click the arrow icon in the upper
+       right corner. Then, select <strong>Profile</strong>. </li>
+       <li>Copy the <strong>User ID</strong> value. </li></ol></td>
+      </tr>
+      <tr>
        <td><code>resource.yaml</code></td>
        <td>Enter the full path to the Kubernetes resource YAML file that you want
        to upload to Razee. Make sure to include the <code>@</code> sign before the
        URL. You can upload any Kubernetes resource YAML file to Razee, but make
        sure that the YAML file has the correct format to avoid errors later when
        the file is applied to your Kubernetes cluster by using the Razee subscription.</td>
-       </tr>
-       </tbody>
-       </table>
+      </tr>
+   </tbody>
+   </table>
        
 6. After your initial version of your Kubernetes resource is uploaded to Razee,
 create a Razee subscription to apply the version in your cluster based on the tags
