@@ -1253,7 +1253,7 @@ version of your resource to Razee after all checks have passed.
    <table>
    <caption>Understanding the API request</caption>
    <thead>
-   <th colspan=2><img src="images/idea.png" alt="Idea icon"/> Understanding the API request</th>
+   <th colspan=2>Understanding the API request</th>
   </thead>
        <tbody>
        <tr>
@@ -1306,6 +1306,7 @@ version of your resource to Razee after all checks have passed.
        </tr>
        </tbody>
        </table>
+       
 6. After your initial version of your Kubernetes resource is uploaded to Razee,
 create a Razee subscription to apply the version in your cluster based on the tags
 that you defined in your Razee Deployables configmap.
@@ -1322,8 +1323,8 @@ that you defined in your Razee Deployables configmap.
    uploaded to Razee and applies the file in your cluster.
 7. Verify that the Kubernetes resource was applied in your cluster.
    **Tip**: If you find that your resource was not applied in your cluster, verify
-  that your YAML file has the correct format. Then, check the logs of the
-  `clustersubscription-*` and `remoteresource-controller-*` pods in the Razee namespace.
+   that your YAML file has the correct format. Then, check the logs of the
+   `clustersubscription-*` and `remoteresource-controller-*` pods in the Razee namespace.
 
 ## Stay connected
 
