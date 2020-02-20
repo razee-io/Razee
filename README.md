@@ -15,7 +15,7 @@ See the following links to get started with Razee:
   - [Installing Watch Keeper in every cluster that you want to monitor](#installing-watch-keeper-in-every-cluster-that-you-want-to-monitor)
   - [Visualizing deployment information in RazeeDash](#visualizing-deployment-information-in-razeedash)
 - [Automating the deployment of Kubernetes resources across clusters and environments](#automating-the-deployment-of-kubernetes-resources-across-clusters-and-environments)
-- [Templatizing, organizing, and controlling the deployment of your Kubernetes resources with RazeeDeploy](#templatizing-organizing-and-controlling-the-deployment-of-your-kubernetes-rources-with-razeedeploy)
+- [Templatizing, organizing, and controlling the deployment of your Kubernetes resources](#templatizing-organizing-and-controlling-the-deployment-of-your-kubernetes-rources)
   - [Automatically deploying Kubernetes resources from a source repository with RemoteResources](#automatically-deploying-kubernetes-resources-from-a-source-repository-with-remoteresources)
   - [Adding version control or replacing YAML file variables with MustacheTemplates](#adding-version-control-or-replacing-yaml-file-variables-with-mustachetemplates)
   - [Controlling deployments with FeatureFlagSetsLD](#controlling-deployments-with-featureflagsetsld)
@@ -683,7 +683,7 @@ that you defined in your RazeeDeployables configmap.
   that your YAML file has the correct format. Then, check the logs of the
   `clustersubscription-*` and `remoteresource-controller-*` pods in the `razee` namespace.
 
-## Templatizing, organizing, and controlling the deployment of your Kubernetes resources with RazeeDeploy
+## Templatizing, organizing, and controlling the deployment of your Kubernetes resources
 
 With RazeeDeploy, you can use custom resource definitions in Razee to templatize
 and organize your Kubernetes resources so that you can control and automate the
