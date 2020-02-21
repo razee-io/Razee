@@ -499,7 +499,7 @@ inventory list.
 2. Install the RazeeDeployables module.
 
    ```bash
-   https://github.com/razee-io/ClusterSubscription/releases/download/0.1.2/resource.yaml
+   https://github.com/razee-io/ClusterSubscription/releases/latest/download/resource.yaml
    ```
 
    Example output:
