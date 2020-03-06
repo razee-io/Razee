@@ -7,7 +7,6 @@ See the following links to get started with Razee:
 - [Key Features](#key-features)
 - [Architecture overview](#architecture-overview)
   - [RazeeDash components](#razeedash-components)
-  - [RazeeDeployables components](#razeedeployables-components)
   - [RazeeDeploy components](#RazeeDeploy-components)
 - [Prerequisites](#prerequisites)
 - [Creating a cluster inventory and visualize deployment information with RazeeDash](#creating-a-cluster-inventory-and-visualizing-deployment-information-with-razeedash)
