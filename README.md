@@ -44,11 +44,9 @@ these resources in your cluster. For more information about the RazeeDeploy comp
 
 Razee consists of three modules, RazeeDash, RazeeDeployables, and RazeeDeploy, that are loosely coupled and that can be used independently. With RazeeDash, you can dynamically create a live inventory of your Kubernetes resources and use the powerful filter and alerting capabilities to visualize configuration information and troubleshoot issues in your deployment process more quickly. RazeeDeploy components are designed to simplify multi-cluster deployments by templatizing Kubernetes resources, grouping resources and clusters, and defining rules for these groupings so that you can create a flexible configuration that is enforced across clusters, environments, and clouds.
 
-Take a look at the Razee architecture to see how Razee components interact, and how you can visualize and control your deployment process.
+### RazeeDash and RazeeDeployables components
 
-![Razee architecture](images/razee_ov.png)
-
-### RazeeDash components
+![RazeeDash and RazeeDeployables overview](images/razeedash_ov.png)
 
 <table>
    <thead>
@@ -68,25 +66,16 @@ Take a look at the Razee architecture to see how Razee components interact, and 
          <td><a href="https://github.com/razee-io/razeedash">RazeeDash</a></td>
          <td>RazeeDash visualizes data that is retrieved by Watch Keeper and dynamically creates an inventory of your Kubernetes resources in your cluster. You can use the intelligent filter and alerting capabilities to analyze this data and quickly identify and resolve issues in your deployment process. </td>
       </tr>
-   </tbody>
-</table>
-
-### RazeeDeployables components
-
-<table>
-   <thead>
-      <th>Component</th>
-      <th>Description</th>
-   </thead>
-   <tbody>
-      <tr>
+     <tr>
          <td><a href="https://github.com/razee-io/ClusterSubscription">ClusterSubscription</a></td>
          <td>ClusterSubscription is a Razee deployment that monitors subscriptions in Razee to check if active subscriptions for a cluster exist. If a subscription is found, the associated version of the Kubernetes resource is pulled from Razee and automatically applied in the cluster. </td>
       </tr>
-  </tbody>
-  </table>
+   </tbody>
+</table>
 
 ### RazeeDeploy components
+
+![RazeeDeploy](images/razeedeploy_ov.png)
 
 <table>
    <thead>
