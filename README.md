@@ -4,28 +4,48 @@
 
 See the following links to get started with Razee:
 
+- [Key Features](#key-features)
 - [Architecture overview](#architecture-overview)
   - [RazeeDash components](#razeedash-components)
   - [RazeeDeploy components](#RazeeDeploy-components)
 - [Prerequisites](#prerequisites)
-- [Step 1: Install Razee](#step-1-install-razee)
-- [Step 2: Visualize deployment information in RazeeDash](#step-2-visualize-deployment-information-in-razeedash)
-- [Step 3: Automatically deploy Kubernetes resources with RemoteResources](#step-3-automatically-deploy-kubernetes-resources-with-remoteresources)
-- [Step 4: Add version control or replace YAML file variables with MustacheTemplates](#step-4-add-version-control-or-replace-yaml-file-variables-with-mustachetemplates)
-- [Step 5: Control deployments with FeatureFlagSetsLD](#step-5-control-deployments-with-featureflagsetsld)
-- [Step 6: Organize resources in a ManagedSet](#step-6-organize-resources-in-a-managedset)
+- [Creating a cluster inventory and visualize deployment information with RazeeDash](#creating-a-cluster-inventory-and-visualizing-deployment-information-with-razeedash)
+  - [Installing RazeeDash](#installing-razeedash)
+  - [Installing Watch Keeper in every cluster that you want to monitor](#installing-watch-keeper-in-every-cluster-that-you-want-to-monitor)
+  - [Visualizing deployment information in RazeeDash](#visualizing-deployment-information-in-razeedash)
+- [Automating the deployment of Kubernetes resources across clusters and environments](#automating-the-deployment-of-kubernetes-resources-across-clusters-and-environments)
+- [Templatizing, organizing, and controlling the deployment of your Kubernetes resources](#templatizing-organizing-and-controlling-the-deployment-of-your-kubernetes-rources)
+  - [Automatically deploying Kubernetes resources from a source repository with RemoteResources](#automatically-deploying-kubernetes-resources-from-a-source-repository-with-remoteresources)
+  - [Adding version control or replacing YAML file variables with MustacheTemplates](#adding-version-control-or-replacing-yaml-file-variables-with-mustachetemplates)
+  - [Controlling deployments with FeatureFlagSetsLD](#controlling-deployments-with-featureflagsetsld)
+  - [Bundling Kubernetes resources in a ManagedSet](#bundling-kubernetes-resources-in-a-managedset)
 - [Stay connected](#stay-connected)
 - [License](#license)
 
+## Key features
+
+Review the key features of Razee and how you can leverage them to manage Kubernetes resources deployment for your cluster.
+
+1. **Cluster inventory management**: With RazeeDash and Watchkeeper, you can add
+your clusters to the Razee inventory list and start monitoring the deployment
+status of your Kubernetes resources by using intelligent filter and alerting
+capabilities. For more information about the RazeeDash components, see [RazeeDash components](#razeedash-components). For information about how to set up RazeeDash and start gaining visibility into your cluster deployments, see [Creating a cluster inventory and visualize deployment information with RazeeDash](#creating-a-cluster-inventory-and-visualizing-deployment-information-with-razeedash).
+2. **Continuous deployment across clusters and environments**: With RazeeDeployables, you can control and automate the rollout of your Kubernetes resources
+across clusters and environments. To do that, you simply add all your clusters to
+the Razee inventory list, and subscribe your clusters to the publication channel
+that holds the version of the Kubernetes resource that you want to roll out. For more information about the RazeeDeployables components, see [RazeeDeployables components](#razeedeployables-components). For information about how to set up RazeeDeployables, create publication channels and manage the deployment of Kubernetes resources across clusters and environments, see [Automating the deployment of Kubernetes resources across clusters and environments](#automating-the-deployment-of-kubernetes-resources-across-clusters-and-environments).
+3. **Templatizing of Kubernetes resources**: RazeeDeploy includes custom resource
+definitions (CRDs) that can help you to dynamically create Kubernetes resources
+based on feature flags or variables that you set and to group and automatically apply
+these resources in your cluster. For more information about the RazeeDeploy components, see [RazeeDeploy components](#RazeeDeploy-components). For information about how to install RazeeDeploy, and leverage the custom resource definitions to templateize, organize, and control the deployment of Kubernetes resources in your cluster, see [Templatizing, organizing, and controlling the deployment of your Kubernetes resources with RazeeDeploy](#templatizing-organizing-and-controlling-the-deployment-of-your-kubernetes-rources-with-razeedeploy).
+
 ## Architecture overview
 
-Razee consists of two modules, RazeeDash and RazeeDeploy, that are loosely coupled and that can be used independently. With RazeeDash, you can dynamically create a live inventory of your Kubernetes resources and use the powerful filter and alerting capabilities to visualize configuration information and troubleshoot issues in your deployment process more quickly. RazeeDeploy components are designed to simplify multi-cluster deployments by templatizing Kubernetes resources, grouping resources and clusters, and defining rules for these groupings so that you can create a flexible configuration that is enforced across clusters, environments, and clouds.
+Razee consists of three modules, RazeeDash, RazeeDeployables, and RazeeDeploy, that are loosely coupled and that can be used independently. With RazeeDash, you can dynamically create a live inventory of your Kubernetes resources and use the powerful filter and alerting capabilities to visualize configuration information and troubleshoot issues in your deployment process more quickly. RazeeDeploy components are designed to simplify multi-cluster deployments by templatizing Kubernetes resources, grouping resources and clusters, and defining rules for these groupings so that you can create a flexible configuration that is enforced across clusters, environments, and clouds.
 
-Take a look at the Razee architecture to see how Razee components interact, and how you can visualize and control your deployment process.
+### RazeeDash and RazeeDeployables components
 
-![Razee architecture](images/razee_ov.png)
-
-### RazeeDash components
+![RazeeDash and RazeeDeployables overview](images/razeedash_ov.png)
 
 <table>
    <thead>
@@ -45,10 +65,16 @@ Take a look at the Razee architecture to see how Razee components interact, and 
          <td><a href="https://github.com/razee-io/razeedash">RazeeDash</a></td>
          <td>RazeeDash visualizes data that is retrieved by Watch Keeper and dynamically creates an inventory of your Kubernetes resources in your cluster. You can use the intelligent filter and alerting capabilities to analyze this data and quickly identify and resolve issues in your deployment process. </td>
       </tr>
+     <tr>
+         <td><a href="https://github.com/razee-io/ClusterSubscription">ClusterSubscription</a></td>
+         <td>ClusterSubscription is a Razee deployment that monitors subscriptions in Razee to check if active subscriptions for a cluster exist. If a subscription is found, the associated version of the Kubernetes resource is pulled from Razee and automatically applied in the cluster. </td>
+      </tr>
    </tbody>
 </table>
 
 ### RazeeDeploy components
+
+![RazeeDeploy](images/razeedeploy_ov.png)
 
 <table>
    <thead>
@@ -93,49 +119,16 @@ Take a look at the Razee architecture to see how Razee components interact, and 
 To deploy Razee in your cluster, your cluster must meet the following requirements:
 
 - Your cluster must run Kubernetes version 1.11 or later.
-- Your cluster have at least two worker nodes.
+- Your cluster must have at least two worker nodes.
 - Your cluster must be set up with public network access.
 
-## Step 1: Install Razee
+## Creating a cluster inventory and visualizing deployment information with RazeeDash
 
-1. Install razeedeploy in your cluster. Razeedeploy automatically creates the Kubernetes `CustomResourceDefinitions` (CRD) and controllers for each razeedeploy component, the `razee` namespace, service account, and RBAC roles and role bindings in your cluster.
+### Installing RazeeDash
 
-   ```bash
-   kubectl apply -f https://github.com/razee-io/RazeeDeploy-delta/releases/latest/download/resource.yaml
-   ```
+1. Install the RazeeDash components in your cluster. To store data that is sent to the RazeeDash API, you must set up a MongoDB instance. You can choose to set up RazeeDash and a single MongoDB instance by using the provided `resource.yaml` file or to set up RazeeDash with an existing MongoDB instance that runs in your cluster. **Note**: If you already have a running instance of RazeeDash in one of your clusters, and instead want to just add another cluster to your inventory list, you can skip this step and continue with installing the Watchkeeper component in your cluster.
 
-   Example output:
-
-   ```bash
-   namespace/razee created
-   serviceaccount/razeedeploy-sa created
-   clusterrole.rbac.authorization.k8s.io/razeedeploy-admin-cr created
-   clusterrolebinding.rbac.authorization.k8s.io/razeedeploy-rb created
-   configmap/razeedeploy-delta-resource-uris created
-   deployment.apps/razeedeploy-delta created
-   ```
-
-2. Verify that the razeedeploy components are deployed successfully. You must see one pod per component and each pod must be in a `Running` state before you proceed with the next step.
-
-   ```bash
-   kubectl get pods -n razee
-   ```
-
-   Example output:
-
-   ```bash
-   NAME                                           READY   STATUS    RESTARTS   AGE
-   featureflagsetld-controller-8d86b95bf-lrpln    1/1     Running   0          76s
-   managedset-controller-74876947db-bhrjt         1/1     Running   0          75s
-   mustachetemplate-controller-674fdd9498-ntlgs   1/1     Running   0          74s
-   razeedeploy-delta-6d7859b7cc-rd57f             1/1     Running   0          104s
-   remoteresource-controller-756bdbf544-t87sz     1/1     Running   0          72s
-   remoteresources3-controller-59b5c454bd-r2pr9   1/1     Running   0          71s
-   ```
-
-3. Install the Razeedash components in your cluster. To store data that is sent to the Razeedash API, you must set up a MongoDB instance. You can choose to set up Razeedash and a single MongoDB instance by using the provided `resource.yaml` file or to set up Razeedash with an existing MongoDB instance that runs in your cluster.
-
-    - **To install Razeedash and a single MongoDB instance**:
+    - **To install RazeeDash and a single MongoDB instance**:
 
         ```bash
         kubectl apply -f https://github.com/razee-io/Razee/releases/latest/download/resource.yaml
@@ -168,7 +161,7 @@ To deploy Razee in your cluster, your cluster must meet the following requiremen
         kubectl apply -f https://github.com/razee-io/Razee/releases/latest/download/razeedash.yaml
         ```
 
-4. Wait for the `razeedash-api` deployment to complete. If you chose to create Razeedash by using the provided `resource.yaml` file in the previous step, an instance of MongoDB is created in your cluster and connected to the Razeedash API instance. The setup of MongoDB takes a few of minutes to complete and might lead to intermittent `MongoNetworkError` errors in your Razeedash API deployment. When MongoDB is fully set up, Kubernetes automatically finishes the setup of your Razeedash API instance.
+2. Wait for the `razeedash-api` deployment to complete. If you chose to create RazeeDash by using the provided `resource.yaml` file in the previous step, an instance of MongoDB is created in your cluster and connected to the RazeeDash API instance. The setup of MongoDB takes a few of minutes to complete and might lead to intermittent `MongoNetworkError` errors in your RazeeDash API deployment. When MongoDB is fully set up, Kubernetes automatically finishes the setup of your RazeeDash API instance.
 
     <!--Markdownlint-disable MD013-->
     ```bash
@@ -193,7 +186,7 @@ To deploy Razee in your cluster, your cluster must meet the following requiremen
     (node:16) [DEP0018] DeprecationWarning: Unhandled promise rejections are deprecated. In the future, promise rejections that are not handled will terminate the Node.js process with a non-zero exit code.
     ```
 
-    Example output if Razeedash API is fully set up:
+    Example output if RazeeDash API is fully set up:
 
     ```bash
     > razeedash-api@0.0.1 start /usr/src
@@ -208,8 +201,8 @@ To deploy Razee in your cluster, your cluster must meet the following requiremen
     {"name":"razeedash-api","hostname":"razeedash-api-55fd67ddb9-cnbf4","pid":16,"level":30,"msg":"razeedash-api listening on port 3333","time":"2019-05-22T03:15:14.257Z","v":0}
     ```
 
-5. Retrieve the external IP address of your `razeedash-lb` and `razeedash-api-lb` load balancer services that are automatically created during the Razeedash API setup. `razeedash-lb` serves as the public endpoint for your Razeedash instance, and `razeedash-api-lb` serves as the public endpoint for your Razeedash API instance. By using the public IP addresses that were assigned, you can build the public URLs that you use to access the Razeedash and the Razeedash API components. To finish the setup of Razeedash, the two URLs must be stored in the Razeedash config map.
-   Use the following Bash commands to retrieve the public IP addresses, build the public URLs, and store the URLs in the Razeedash config map. You can also execute the Bash script [`bin/kc_create_razeedash_config.sh`](https://github.com/razee-io/Kube-cloud-scripts/blob/master/bin/kc_create_razeedash_config_map.sh). Note that you must include the trailing `/` at the end of the `root_url` and `razeedash_api_url` in your Razeedash config map.
+3. Retrieve the external IP address of your `razeedash-lb` and `razeedash-api-lb` load balancer services that are automatically created during the RazeeDash API setup. `razeedash-lb` serves as the public endpoint for your RazeeDash instance, and `razeedash-api-lb` serves as the public endpoint for your RazeeDash API instance. By using the public IP addresses that were assigned, you can build the public URLs that you use to access the RazeeDash and the RazeeDash API components. To finish the setup of RazeeDash, the two URLs must be stored in the RazeeDash config map.
+   Use the following Bash commands to retrieve the public IP addresses, build the public URLs, and store the URLs in the RazeeDash config map. You can also execute the Bash script [`bin/kc_create_razeedash_config.sh`](https://github.com/razee-io/Kube-cloud-scripts/blob/master/bin/kc_create_razeedash_config_map.sh). Note that you must include the trailing `/` at the end of the `root_url` and `razeedash_api_url` in your Razeedash config map.
 
    ```bash
    # Amazon EKS uses host names, IBM Cloud Kubernetes Service uses Ingress IP addresses. This handle both.
@@ -225,7 +218,7 @@ To deploy Razee in your cluster, your cluster must meet the following requiremen
    ```
     <!--Markdownlint-enable MD013-->
 
-6. Verify that all Razee components are deployed and show `1/1` in the **READY**
+4. Verify that all Razee components are deployed and show `1/1` in the **READY**
 column of your CLI output.
 
    ```bash
@@ -247,13 +240,13 @@ column of your CLI output.
    remoteresources3-controller   1/1     1            1           53m
    ```
 
-7. Open the Razeedash welcome screen.
+5. Open the RazeeDash welcome screen.
 
    ```bash
    open http://"${RAZEEDASH_LB}":8080
    ```
 
-8. Create an `OAuth` application for Razeedash in GitHub, GitHub Enterprise, or Bitbucket.
+6. Create an `OAuth` application for Razeedash in GitHub, GitHub Enterprise, or Bitbucket.
    1. From the Razeedash welcome screen, select the tile of the tool where you
     want to create the `OAuth` application.
    2. Follow the instructions in the pop-up window to create the `OAuth` application.
@@ -266,10 +259,12 @@ column of your CLI output.
       by opening a mongo shell to your instance and running
       `db.meteor_accounts_loginServiceConfiguration.remove({})`.
 
-9. Install Watch Keeper in every cluster that you want to monitor. The cluster
+### Installing Watch Keeper in every cluster that you want to monitor
+
+1. Install Watch Keeper in every cluster that you want to monitor. The cluster
  where you install Watch Keeper can be a different cluster than the one where
-  you installed Razeedash.
-    1. From the Razeedash console, click **Register**.
+  you installed RazeeDash.
+    1. From the RazeeDash console, click **Register**.
     2. Click **Manage**.
     3. Copy the **Install Razee Agent** `kubectl` command.
     4. Run the command in the cluster that you want to monitor to create the
@@ -320,7 +315,7 @@ column of your CLI output.
          "razeedeploy-delta" already exists
        ````
 
-       Example output for a cluster where Razeedash is not installed:
+       Example output for a cluster where RazeeDash is not installed:
 
        ```bash
        configmap/watch-keeper-config created
@@ -345,11 +340,11 @@ column of your CLI output.
        watch-keeper                  1/1     1            1           2m5s
        ```
 
-10. From the Razeedash console, click **RazeeDash** to open the Razeedash
+2. From the RazeeDash console, click **RazeeDash** to open the RazeeDash
  details page and verify that you can see deployment information for your Watch
   Keeper pod.
 
-## Step 2: Visualize deployment information in RazeeDash
+### Visualizing deployment information in RazeeDash
 
 With Watch Keeper set up in your cluster, you can retrieve deployment
  information for other Kubernetes resources that you want to monitor. Data is
@@ -401,8 +396,8 @@ Then, your resource is scanned once every hour. In addition, Watch Keeper adds a
 
    For more info on labeling resources and namespaces, see [docs here](https://github.com/razee-io/Watch-keeper/#collecting-resources)
 
-3. Verify that your Kubernetes resource is displayed in Razeedash.
-   1. Open Razeedash. **Tip**: To find the public IP address that is assigned to
+3. Verify that your Kubernetes resource is displayed in RazeeDash.
+   1. Open RazeeDash. **Tip**: To find the public IP address that is assigned to
     your RazeeDash service, run `kubectl get service razeedash-lb -n razee`.
 
       ```bash
@@ -410,7 +405,7 @@ Then, your resource is scanned once every hour. In addition, Watch Keeper adds a
       ```
 
    2. Click **Sign in with GitHub**.
-   3. Select the GitHub organization that you connected Razeedash to. The
+   3. Select the GitHub organization that you connected RazeeDash to. The
     Razeedash console opens automatically.
    4. Verify that you can access deployment information about your Kubernetes
     resource in Razeedash.
@@ -449,10 +444,295 @@ find the Kubernetes resources of a cluster more quickly.
    3. Wait a few minutes for Razeedash to update the cluster ID and display the
     name that you chose in your configmap.
 
-## Step 3: Automatically deploy Kubernetes resources with RemoteResources
+## Automating the deployment of Kubernetes resources across clusters and environments
 
-RemoteResource and RemoteResourceS3 are razeedeploy components that you can use
-to automatically deploy Kubernetes resources that are stored in a source
+Integrate Razee into your existing CI/CD pipeline and easily control the rollout
+of Kubernetes resources across multiple clusters and cloud environments by using
+RazeeDeployables. RazeeDeployables consists of two components, the Razee channel
+and the Razee subscription.
+
+**What is a Razee channel?**</br>
+A Razee channel is a component in RazeeDash that let's you upload new versions
+of a Kubernetes resource from any source repository or your local machine
+directly to Razee by using the Razee API. The channel keeps track of the
+different versions, but the versions are not yet applied to your clusters. To
+apply the versions, you must create Razee subscriptions and specify the version
+that you want to apply.
+
+**What is a Razee subscription?**</br>
+A Razee subscription is based on a Razee channel and specifies which version of the
+Kubernetes resource that you uploaded to the channel is applied to the cluster
+based on a set of tags that are present in the cluster. To specify the tags in your
+cluster, you use the `clustersubscription` configmap that you create in your cluster
+as part of the Razee Deployables installation. For example, you might
+have a development cluster and want to apply all Kubernetes resources that you created
+for your test environment. To do that, you first push the appropriate Kubernetes
+resource version to Razee by using a Razee channel. Then, you create a
+Razee subscription that points to the channel, select the right Kubernetes resource
+version, and add the `dev` tag to your subscription. Now you just need to add the
+same tag to your `clustersubscription` configmap. Razee uses the configmap to
+connect to your Razee instance, look up the `dev` subscriptions and apply the
+version of your Kubernetes resource that the subsciption points to.
+
+**Is there a limitation what Kubernetes resources I can upload to Razee?**</br>
+You can upload any Kubernetes resource that you want to apply in your cluster to
+your Razee publication channel. This includes the custom resource definitions that
+are included in the RazeeDeploy module.
+
+**To use the RazeeDeployables module**:
+
+1. Make sure that you installed RazeeDash and added your clusters to the Razee
+inventory list.
+
+2. Install the RazeeDeployables module.
+
+   ```bash
+   https://github.com/razee-io/ClusterSubscription/releases/latest/download/resource.yaml
+   ```
+
+   Example output:
+
+   ```bash
+   deployment.apps/clustersubscription created
+   ```
+
+3. Create the RazeeDeployables configmap. The configmap holds the credentials to
+access your RazeeDash deployment and the tags that you want to monitor in your cluster.
+
+   1. Create a configuration file for your RazeeDeployables configmap.
+
+      ```bash
+      apiVersion: v1
+      kind: ConfigMap
+      metadata:
+       name: clustersubscription
+       namespace: razee
+      data:
+       RAZEE_ORG_KEY: "<razee_org_key>"
+       RAZEE_TAGS: "<tags>"
+       RAZEE_API: "<razee_api>"
+      ```
+
+      <table>
+      <thead>
+      <th colspan=2>Understanding the YAML file components</th>
+      </thead>
+      <tbody>
+      <tr>
+      <td><code>data.RAZEE_ORG_KEY/code></td>
+      <td>Enter the Razee organization key. To retrieve this value, follow these
+      steps: <ol><li>From the Razeedash console, click the Razee icon in the upper
+      left corner. The <strong>Select an org</strong> screen opens. </li>
+      <li>Find your Razee organization, and click <strong>Manage</strong>.</li>
+      <li>Copy the <strong>Api Key</strong> value.</li></ol></td>
+      </tr>
+      <tr>
+      <td><code>data.RAZEE_TAGS</code></td>
+      <td>Enter a list of tags that you want to apply to the cluster. If you want
+      to enter multiple tags, separate them with a comma. Razee uses these tags to
+      look up any active Razee subscriptions. If subscriptions are found, Razee
+      automatically applies all associated Kubernetes resources to the cluster.
+      Note that you set up Razee subscriptions in a later step of these instructions.</td>
+      </tr>
+      <tr>
+      <td><code>data.RAZEE_API</code></td>
+      <td>Enter the URL to the Razee API that you want to connect to. To retrieve
+      this value, follow these steps: <ol><li>From the Razeedash console, click
+      the Razee icon in the upper left corner. The <strong>Select an org</strong>
+      screen opens. </li><li>Find your Razee organization, and click <strong>Manage</strong>.
+      </li><li>In the <strong>Install Razee Agent</strong> field, you can find
+      the Razee API as part of the kubectl command that is displayed to you.
+      The Razee API follows a format that is similar to the following:
+      <code>https://&lt;razee_org&gt;.us-east.containers.appdomain.cloud</code>.
+       </li></ol></td>
+      </tr>
+      </tbody>
+      </table>
+   2. Create the configmap in your cluster.
+
+      ```bash
+      kubectl apply -f configmap.yaml
+      ```
+
+   3. Repeat these steps in every cluster that you want to include where you want
+  to roll out changes.
+
+4. In your preferred web browser, open the Deployables console in RazeeDash.
+
+   ```bash
+   <razeedash_url>/deployables
+   ```
+
+5. Create a publication channel.
+   1. From the **Channels** card, click **Add**.
+   2. Enter a name for your channel and click **Save**. You can choose any name
+for your channel that you want, but make sure to give it a descriptive
+name so that you can find the channel more easily afterwards.
+
+6. Upload a version of your Kubernetes resource from your source repository or
+local machine to the channel. To upload a file, you must use the Razee API. You
+can call the API directly as shown in the following example, or you can also
+include the upload as part of your existing automation. For example, you might
+have a GitHub source repository and use Travis to automatically check your files
+when you commit a change. You can extend the Travis script to push the new
+version of your resource to Razee after all checks have passed.
+
+   ```bash
+   curl \
+       --url "<razee_api_url>/api/v1/channels/<razee_channel>/version" \
+       --header "content-type: text/yaml" \
+       --header "razee-org-key: <razee_org_key>" \
+       --header "resource-name: <resource_version>" \
+       --header "x-api-key: <razee_apikey>" \
+       --header "x-user-id: <razee_userID>" \
+       --data-binary @./resource.yaml
+   ```
+
+   Example output:
+
+   ```bash
+   {"status":"success","version":{"uuid":"bc29119c-5b72-4fc8-9eee-a4dd5be9e1e3","name":"myversion","location":"s3"}}
+   ```
+
+   <table>
+   <caption>Understanding the API request</caption>
+   <thead>
+   <th colspan=2>Understanding the API request</th>
+   </thead>
+       <tbody>
+       <tr>
+       <td><code>&lt;razee_api_key&gt;</code></td>
+       <td>Enter the URL to your Razee API deployment. To retrieve this value,
+         follow these steps:
+       <ol><li>From the RazeeDash console, click the Razee icon in the upper
+       left corner. The <strong>Select an org</strong> screen opens. </li>
+       <li>Find your Razee organization, and click <strong>Manage</strong>.</li>
+       <li>Copy the <strong>Api Key</strong> value.</li></ol></td>
+       </tr>
+       <tr>
+       <td><code>&lt;razee_channel&gt;</code></td>
+       <td>Enter the name of the Razee publication channel that you
+         created earlier.</td>
+       </tr>
+       <tr>
+       <td><code>&lt;razee_org_key&gt;</code></td>
+       <td>Enter the Razee organization key. To retrieve this value, follow these
+      steps: <ol><li>From the Razeedash console, click the Razee icon in the
+      upper left corner. The <strong>Select an org</strong> screen opens. </li>
+      <li>Find your Razee organization, and click <strong>Manage</strong>.</li>
+      <li>Copy the <strong>Api Key</strong> value.</li></ol></td>
+       </tr>
+       <tr>
+       <td><code>&lt;resource_version&gt;</code></td>
+       <td>Enter a name for the version of the Kubernetes resource that you want
+      to upload from your source repository or local machine. </td>
+       </tr>
+       <tr>
+       <td><code>&lt;razee_apikey&gt;</code></td>
+       <td>Enter the API key to authenticate with Razeedash. To retrieve this
+      value, follow these steps: <ol><li>From the Razeedash console, click the
+      arrow icon in the upper right corner. Then, select <strong>Profile</strong>.
+      </li><li>Copy the <strong>API key</strong> value. If no API key exists,
+      click <strong>Generate</strong> to generate one.</li></ol></td>
+       </tr>
+       <tr>
+       <td><code>&lt;razee_userID&gt;</code></td>
+       <td>Enter your Razee user ID. To retrieve this value, follow these steps:
+      <ol><li>From the Razeedash console, click the arrow icon in the upper
+      right corner. Then, select <strong>Profile</strong>. </li>
+      <li>Copy the <strong>User ID</strong> value. </li></ol></td>
+       </tr>
+       <tr>
+       <td><code>resource.yaml</code></td>
+       <td>Enter the full path to the Kubernetes resource YAML file that you want
+       to upload to Razee. Make sure to include the <code>@</code> sign before the
+       URL. You can upload any Kubernetes resource YAML file to Razee, but make
+       sure that the YAML file has the correct format to avoid errors later when
+       the file is applied to your Kubernetes cluster by using the Razee subscription.</td>
+       </tr>
+       </tbody>
+       </table>
+7. After your initial version of your Kubernetes resource is uploaded to Razee,
+create a Razee subscription to apply the version in your cluster based on the tags
+that you defined in your RazeeDeployables configmap.
+   1. From the RazeeDeployables console, in the **Subscriptions** card, click **Add**.
+   2. Enter a name for your subscription. You can enter any name, but make sure
+    to enter a descriptive name so that you can find the subscription more
+    easily afterwards.
+   3. Enter the same tag that you specified in the RazeeDeployables configmap that
+   you created earlier.
+   4. Select the publication channel that you created earlier.
+   5. Select the version of the Kubernetes resource that you uploaded to Razee earlier.
+   6. Click **Save** to save your changes. After you save your subscription,
+   Razee automatically pulls the version of the Kubernetes resource that you
+   uploaded to Razee and applies the file in your cluster.
+8. Verify that the Kubernetes resource was applied in your cluster.
+   **Tip**: If you find that your resource was not applied in your cluster, verify
+  that your YAML file has the correct format. Then, check the logs of the
+  `clustersubscription-*` and `remoteresource-controller-*` pods in the `razee` namespace.
+
+## Templatizing, organizing, and controlling the deployment of your Kubernetes resources
+
+With RazeeDeploy, you can use custom resource definitions in Razee to templatize
+and organize your Kubernetes resources so that you can control and automate the
+deployment of these resources to your cluster based on feature flags that you set.
+
+**Note**: You can use the RazeeDeploy components independently from the
+RazeeDash or RazeeDeployables components. However, if you want to visualize the
+deployment of your Kubernetes resources, you must set up RazeeDash to create a
+cluster inventory list.
+
+1. Install RazeeDeploy in your cluster. RazeeDeploy automatically creates the
+Kubernetes `CustomResourceDefinitions` (CRD) and controllers for each
+RazeeDeploy component, the `razee` namespace, service account, and RBAC roles
+and role bindings in your cluster.
+
+   ```bash
+   kubectl apply -f https://github.com/razee-io/RazeeDeploy-delta/releases/latest/download/resource.yaml
+   ```
+
+   Example output:
+
+   ```bash
+   namespace/razee created
+   serviceaccount/razeedeploy-sa created
+   clusterrole.rbac.authorization.k8s.io/razeedeploy-admin-cr created
+   clusterrolebinding.rbac.authorization.k8s.io/razeedeploy-rb created
+   configmap/razeedeploy-delta-resource-uris created
+   deployment.apps/razeedeploy-delta created
+   ```
+
+2. Verify that the RazeeDeploy components are deployed successfully. You must
+see one pod per component and each pod must be in a `Running` state before you
+proceed with the next step.
+
+   ```bash
+   kubectl get pods -n razee
+   ```
+
+   Example output:
+
+   ```bash
+   NAME                                           READY   STATUS    RESTARTS   AGE
+   featureflagsetld-controller-8d86b95bf-lrpln    1/1     Running   0          76s
+   managedset-controller-74876947db-bhrjt         1/1     Running   0          75s
+   mustachetemplate-controller-674fdd9498-ntlgs   1/1     Running   0          74s
+   razeedeploy-delta-6d7859b7cc-rd57f             1/1     Running   0          104s
+   remoteresource-controller-756bdbf544-t87sz     1/1     Running   0          72s
+   remoteresources3-controller-59b5c454bd-r2pr9   1/1     Running   0          71s
+   ```
+
+3. Choose how to templatize, organize, and control the deployment of your
+Kubernetes resources with the RazeeDeploy custom resource definitions.
+   - Automatically deploying Kubernetes resources from a source repository with RemoteResources
+   - Adding version control or replacing YAML file variables with MustacheTemplates
+   - Controlling deployments with FeatureFlagSetsLD
+   - Bundling Kubernetes resourcs with ManagedSets
+
+### Automatically deploying Kubernetes resources from a source repository with RemoteResources
+
+RemoteResource and RemoteResourceS3 are RazeeDeploy components that you can use
+to automatically deploy single Kubernetes resources that are stored in a source
 repository. Simply define the source repository in your remote resource and
 create the remote resource in your cluster. The remote resource controller
 automatically connects to your source repository, downloads the Kubernetes
@@ -598,7 +878,7 @@ your resource. Then, verify that the change is rolled out successfully.
 7. Optional: To remove a Kubernetes resource, you can either remove the source
 repository's URL from the remote resource, or remove the remote resource entirely.
 
-## Step 4: Add version control or replace YAML file variables with MustacheTemplates
+### Adding version control or replacing YAML file variables with MustacheTemplates
 
 When you develop an app, you must manage multiple versions of an app. For
 example, you might have an app that is considered stable and that runs in your
@@ -788,7 +1068,7 @@ the `spec.templates` section are removed at the same time. To keep the
 Kubernetes resources, add the `deploy.razee.io/Reconcile: false` label to all
 your YAML files.
 
-## Step 5: Control deployments with FeatureFlagSetsLD
+### Controlling deployments with FeatureFlagSetsLD
 
 Connect a feature flagging service to your cluster so that you can pull
 environment variables and version control information into your mustache
@@ -974,7 +1254,7 @@ the `spec.templates` section are removed at the same time. To keep the
 Kubernetes resources, add the `deploy.razee.io/Reconcile: false` label to all
 your YAML files.
 
-## Step 6: Organize resources in a ManagedSet
+### Bundling Kubernetes resources in a ManagedSet
 
 Use ManagedSets to group all the Kubernetes resources that you want to deploy or
 remove at the same time in one list. You can include all Razee deployment
