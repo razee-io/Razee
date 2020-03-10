@@ -126,12 +126,12 @@ To deploy Razee in your cluster, your cluster must meet the following requiremen
 
 ### Installing RazeeDash
 
-1. Install the RazeeDash components in your cluster. To store data that is sent to the RazeeDash API, you must set up a MongoDB instance. You can choose to set up RazeeDash and a single MongoDB instance by using the provided `resource.yaml` file or to set up RazeeDash with an existing MongoDB instance that runs in your cluster. **Note**: If you already have a running instance of RazeeDash in one of your clusters, and instead want to just add another cluster to your inventory list, you can skip this step and continue with installing the Watchkeeper component in your cluster.
+1. Install the RazeeDash components in your cluster. To store data that is sent to the RazeeDash API, you must set up a MongoDB instance. You can choose to set up RazeeDash and a single MongoDB instance by using the provided `razeedash-all-in-one.yaml` file or to set up RazeeDash with an existing MongoDB instance that runs in your cluster. **Note**: If you already have a running instance of RazeeDash in one of your clusters, and instead want to just add another cluster to your inventory list, you can skip this step and continue with installing the Watchkeeper component in your cluster.
 
     - **To install RazeeDash and a single MongoDB instance**:
 
         ```bash
-        kubectl apply -f https://github.com/razee-io/Razee/releases/latest/download/resource.yaml
+        kubectl apply -f https://github.com/razee-io/Razee/releases/latest/download/razeedash-all-in-one.yaml
         ```
 
         Example output:
@@ -161,7 +161,7 @@ To deploy Razee in your cluster, your cluster must meet the following requiremen
         kubectl apply -f https://github.com/razee-io/Razee/releases/latest/download/razeedash.yaml
         ```
 
-2. Wait for the `razeedash-api` deployment to complete. If you chose to create RazeeDash by using the provided `resource.yaml` file in the previous step, an instance of MongoDB is created in your cluster and connected to the RazeeDash API instance. The setup of MongoDB takes a few of minutes to complete and might lead to intermittent `MongoNetworkError` errors in your RazeeDash API deployment. When MongoDB is fully set up, Kubernetes automatically finishes the setup of your RazeeDash API instance.
+2. Wait for the `razeedash-api` deployment to complete. If you chose to create RazeeDash by using the provided `razeedash-all-in-one.yaml` file in the previous step, an instance of MongoDB is created in your cluster and connected to the RazeeDash API instance. The setup of MongoDB takes a few of minutes to complete and might lead to intermittent `MongoNetworkError` errors in your RazeeDash API deployment. When MongoDB is fully set up, Kubernetes automatically finishes the setup of your RazeeDash API instance.
 
     <!--Markdownlint-disable MD013-->
     ```bash
