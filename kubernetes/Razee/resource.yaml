@@ -8,6 +8,10 @@ metadata:
     razee.io/commit-sha: "{{TRAVIS_COMMIT}}"
 items:
 
+- kind: Namespace
+  apiVersion: v1
+  metadata:
+    name: razee
 # MongoDB Service resources
 - kind: PersistentVolume
   apiVersion: v1
