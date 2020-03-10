@@ -7,6 +7,10 @@ metadata:
     razee.io/git-repo: "{{{GIT_REMOTE}}}"
     razee.io/commit-sha: "{{TRAVIS_COMMIT}}"
 items:
+- kind: Namespace
+  apiVersion: v1
+  metadata:
+    name: razee
 
 # MongoDB Service resources
 - kind: PersistentVolume
@@ -108,7 +112,8 @@ items:
           url: https://github.com/razee-io/Razeedash-api/releases/latest/download/resource.yaml
       - options:
           url: https://github.com/razee-io/Razeedash/releases/latest/download/resource.yaml
-#ALB Resources
+
+# Service Resources
 - apiVersion: v1
   kind: Service
   metadata:
