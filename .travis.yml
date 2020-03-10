@@ -5,14 +5,14 @@ node_js:
 
 script:
   - npm run lint
-  - ./build/process-template.sh kubernetes/Razee/resource.yaml > /tmp/resource.yaml
+  - ./build/process-template.sh kubernetes/Razee/razeedash-all-in-one.yaml > /tmp/razeedash-all-in-one.yaml
   - ./build/process-template.sh kubernetes/Razee/razeedash.yaml > /tmp/razeedash.yaml
 
 deploy:
   # Deploy alpha builds
   - provider: releases
     file: 
-      - /tmp/resource.yaml
+      - /tmp/razeedash-all-in-one.yaml
       - /tmp/razeedash.yaml
     skip_cleanup: true
     draft: true
@@ -25,7 +25,7 @@ deploy:
   # Deploy released builds
   - provider: releases
     file: 
-      - /tmp/resource.yaml
+      - /tmp/razeedash-all-in-one.yaml
       - /tmp/razeedash.yaml
     skip_cleanup: true
     api_key:
