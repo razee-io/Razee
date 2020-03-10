@@ -24,7 +24,7 @@ See the following links to get started with Razee:
 
 ## Key features
 
-Review the key features of Razee and how you can leverage them to manage Kubernetes resources deployment for your cluster.
+Review the key features of Razee and how you can leverage them to manage Kubernetes resources deployment for your clusters.
 
 1. **Cluster inventory management**: With RazeeDash and Watchkeeper, you can add
 your clusters to the Razee inventory list and start monitoring the deployment
