@@ -15,9 +15,9 @@ deploy:
       - /tmp/razeedash-all-in-one.yaml
       - /tmp/razeedash.yaml
     skip_cleanup: true
-    draft: true
-    api_key:
-      secure: "${GITHUB_TOKEN}"
+    prerelease: true
+    api_key: "${GITHUB_TOKEN}"
+    name: "${TRAVIS_TAG}"
     on:
       tags: true
       condition: ${TRAVIS_TAG} =~ ^[0-9]+\.[0-9]+\.[0-9]+_[0-9]{3}$
@@ -28,8 +28,8 @@ deploy:
       - /tmp/razeedash-all-in-one.yaml
       - /tmp/razeedash.yaml
     skip_cleanup: true
-    api_key:
-      secure: "${GITHUB_TOKEN}"
+    api_key: "${GITHUB_TOKEN}"
+    name: "${TRAVIS_TAG}"
     on:
       tags: true
       condition: ${TRAVIS_TAG} =~ ^[0-9]+\.[0-9]+\.[0-9]+$
