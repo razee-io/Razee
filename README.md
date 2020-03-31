@@ -130,9 +130,9 @@ To deploy Razee in your cluster, your cluster must meet the following requiremen
 
     ```bash
     kubectl apply -f https://github.com/razee-io/Razee/releases/latest/download/razeedeploy.yaml
-
     ```
-    Example output: 
+
+    Example output:
 
     ```bash
     namespace/razee created
