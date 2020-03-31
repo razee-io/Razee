@@ -126,7 +126,27 @@ To deploy Razee in your cluster, your cluster must meet the following requiremen
 
 ### Installing RazeeDash
 
-1. Install the RazeeDash components in your cluster. To store data that is sent to the RazeeDash API, you must set up a MongoDB instance. You can choose to set up RazeeDash and a single MongoDB instance by using the provided `razeedash-all-in-one.yaml` file or to set up RazeeDash with an existing MongoDB instance that runs in your cluster. **Note**: If you already have a running instance of RazeeDash in one of your clusters, and instead want to just add another cluster to your inventory list, you can skip this step and continue with installing the Watchkeeper component in your cluster.
+1. Frist install [razeedeploy-delta](https://github.com/razee-io/razeedeploy-delta) in your custer by running:
+
+    ```bash
+    kubectl apply -f https://github.com/razee-io/Razee/releases/latest/download/razeedeploy.yaml
+
+    ```
+    Example output: 
+
+    ```bash
+    namespace/razee created
+    serviceaccount/razeedeploy-sa created
+    clusterrole.rbac.authorization.k8s.io/razeedeploy-admin-cr configured
+    clusterrolebinding.rbac.authorization.k8s.io/razeedeploy-rb configured
+    job.batch/razeedeploy-job created
+
+    kubectl get deploy -n razee
+    NAME                        READY   UP-TO-DATE   AVAILABLE   AGE
+    remoteresource-controller   1/1     1            1           56s
+    ```
+
+2. Install the RazeeDash components in your cluster. To store data that is sent to the RazeeDash API, you must set up a MongoDB instance. You can choose to set up RazeeDash and a single MongoDB instance by using the provided `razeedash-all-in-one.yaml` file or to set up RazeeDash with an existing MongoDB instance that runs in your cluster. **Note**: If you already have a running instance of RazeeDash in one of your clusters, and instead want to just add another cluster to your inventory list, you can skip this step and continue with installing the Watchkeeper component in your cluster.
 
     - **To install RazeeDash and a single MongoDB instance**:
 
@@ -161,7 +181,7 @@ To deploy Razee in your cluster, your cluster must meet the following requiremen
         kubectl apply -f https://github.com/razee-io/Razee/releases/latest/download/razeedash.yaml
         ```
 
-2. Wait for the `razeedash-api` deployment to complete. If you chose to create RazeeDash by using the provided `razeedash-all-in-one.yaml` file in the previous step, an instance of MongoDB is created in your cluster and connected to the RazeeDash API instance. The setup of MongoDB takes a few of minutes to complete and might lead to intermittent `MongoNetworkError` errors in your RazeeDash API deployment. When MongoDB is fully set up, Kubernetes automatically finishes the setup of your RazeeDash API instance.
+3. Wait for the `razeedash-api` deployment to complete. If you chose to create RazeeDash by using the provided `razeedash-all-in-one.yaml` file in the previous step, an instance of MongoDB is created in your cluster and connected to the RazeeDash API instance. The setup of MongoDB takes a few of minutes to complete and might lead to intermittent `MongoNetworkError` errors in your RazeeDash API deployment. When MongoDB is fully set up, Kubernetes automatically finishes the setup of your RazeeDash API instance.
 
     <!--Markdownlint-disable MD013-->
     ```bash
@@ -201,7 +221,7 @@ To deploy Razee in your cluster, your cluster must meet the following requiremen
     {"name":"razeedash-api","hostname":"razeedash-api-55fd67ddb9-cnbf4","pid":16,"level":30,"msg":"razeedash-api listening on port 3333","time":"2019-05-22T03:15:14.257Z","v":0}
     ```
 
-3. Retrieve the external IP address of your `razeedash-lb` and `razeedash-api-lb` load balancer services that are automatically created during the RazeeDash API setup. `razeedash-lb` serves as the public endpoint for your RazeeDash instance, and `razeedash-api-lb` serves as the public endpoint for your RazeeDash API instance. By using the public IP addresses that were assigned, you can build the public URLs that you use to access the RazeeDash and the RazeeDash API components. To finish the setup of RazeeDash, the two URLs must be stored in the RazeeDash config map.
+4. Retrieve the external IP address of your `razeedash-lb` and `razeedash-api-lb` load balancer services that are automatically created during the RazeeDash API setup. `razeedash-lb` serves as the public endpoint for your RazeeDash instance, and `razeedash-api-lb` serves as the public endpoint for your RazeeDash API instance. By using the public IP addresses that were assigned, you can build the public URLs that you use to access the RazeeDash and the RazeeDash API components. To finish the setup of RazeeDash, the two URLs must be stored in the RazeeDash config map.
    Use the following Bash commands to retrieve the public IP addresses, build the public URLs, and store the URLs in the RazeeDash config map. You can also execute the Bash script [`bin/kc_create_razeedash_config.sh`](https://github.com/razee-io/Kube-cloud-scripts/blob/master/bin/kc_create_razeedash_config_map.sh). Note that you must include the trailing `/` at the end of the `root_url` and `razeedash_api_url` in your Razeedash config map.
 
    ```bash
@@ -218,7 +238,7 @@ To deploy Razee in your cluster, your cluster must meet the following requiremen
    ```
     <!--Markdownlint-enable MD013-->
 
-4. Verify that all Razee components are deployed and show `1/1` in the **READY**
+5. Verify that all Razee components are deployed and show `1/1` in the **READY**
 column of your CLI output.
 
    ```bash
@@ -240,13 +260,13 @@ column of your CLI output.
    remoteresources3-controller   1/1     1            1           53m
    ```
 
-5. Open the RazeeDash welcome screen.
+6. Open the RazeeDash welcome screen.
 
    ```bash
    open http://"${RAZEEDASH_LB}":8080
    ```
 
-6. Create an `OAuth` application for Razeedash in GitHub, GitHub Enterprise, or Bitbucket.
+7. Create an `OAuth` application for Razeedash in GitHub, GitHub Enterprise, or Bitbucket.
    1. From the Razeedash welcome screen, select the tile of the tool where you
     want to create the `OAuth` application.
    2. Follow the instructions in the pop-up window to create the `OAuth` application.

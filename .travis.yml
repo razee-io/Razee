@@ -7,6 +7,7 @@ script:
   - npm run lint
   - ./build/process-template.sh kubernetes/Razee/razeedash-all-in-one.yaml > /tmp/razeedash-all-in-one.yaml
   - ./build/process-template.sh kubernetes/Razee/razeedash.yaml > /tmp/razeedash.yaml
+  - ./build/process-template.sh kubernetes/Razee/razeedeploy.yaml > /tmp/razeedeploy.yaml
 
 deploy:
   # Deploy alpha builds
@@ -14,6 +15,7 @@ deploy:
     file: 
       - /tmp/razeedash-all-in-one.yaml
       - /tmp/razeedash.yaml
+      - /tmp/razeedeploy.yaml
     skip_cleanup: true
     prerelease: true
     api_key: "${GITHUB_TOKEN}"
@@ -27,6 +29,7 @@ deploy:
     file: 
       - /tmp/razeedash-all-in-one.yaml
       - /tmp/razeedash.yaml
+      - /tmp/razeedeploy.yaml
     skip_cleanup: true
     api_key: "${GITHUB_TOKEN}"
     name: "${TRAVIS_TAG}"
