@@ -9,7 +9,6 @@ metadata:
   name: razeedeploy-sa
   namespace: razeedeploy
 ---
-
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
