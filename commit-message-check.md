@@ -30,6 +30,7 @@ amend your commit message from the command line to conform to [Razee's commit me
 (This description will be used if your pull request has exactly one commit.)
 
     ```bash
+    git pull origin
     git commit --amend
     git push --force
     ```
