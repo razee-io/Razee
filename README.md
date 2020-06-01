@@ -545,7 +545,7 @@ access your RazeeDash deployment and the tags that you want to monitor in your c
       </thead>
       <tbody>
       <tr>
-      <td><code>data.RAZEE_ORG_KEY></td>
+      <td><code>data.RAZEE_ORG_KEY></code></td>
       <td>Enter the Razee organization key. To retrieve this value, follow these
       steps: <ol><li>From the Razeedash console, click the Razee icon in the upper
       left corner. The <strong>Select an org</strong> screen opens. </li>
