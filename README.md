@@ -516,10 +516,10 @@ inventory list.
    deployment.apps/clustersubscription created
    ```
 
-3. Create the RazeeDeployables configmap. The configmap holds the credentials to
+3. Create the RazeeDeployables configmap and secret. These hold the credentials to
 access your RazeeDash deployment and the tags that you want to monitor in your cluster.
 
-   1. Create a configuration file for your RazeeDeployables configmap.
+   1. Create a configmap and secret for RazeeDeployables
 
       ```bash
       apiVersion: v1
@@ -528,9 +528,15 @@ access your RazeeDash deployment and the tags that you want to monitor in your c
        name: clustersubscription
        namespace: razee
       data:
-       RAZEE_ORG_KEY: "<razee_org_key>"
        RAZEE_TAGS: "<tags>"
        RAZEE_API: "<razee_api>"
+       ---
+      apiVersion: v1
+      kind: Secret
+      metadata:
+        name: clustersubscription
+      data:
+       RAZEE_ORG_KEY: "<razee_org_key>"
       ```
 
       <table>
@@ -539,7 +545,7 @@ access your RazeeDash deployment and the tags that you want to monitor in your c
       </thead>
       <tbody>
       <tr>
-      <td><code>data.RAZEE_ORG_KEY/code></td>
+      <td><code>data.RAZEE_ORG_KEY</code></td>
       <td>Enter the Razee organization key. To retrieve this value, follow these
       steps: <ol><li>From the Razeedash console, click the Razee icon in the upper
       left corner. The <strong>Select an org</strong> screen opens. </li>
@@ -568,10 +574,11 @@ access your RazeeDash deployment and the tags that you want to monitor in your c
       </tr>
       </tbody>
       </table>
-   2. Create the configmap in your cluster.
+   2. Create the configmap and secret in your cluster.
 
       ```bash
       kubectl apply -f configmap.yaml
+      kubectl apply -f secret.yaml
       ```
 
    3. Repeat these steps in every cluster that you want to include where you want
