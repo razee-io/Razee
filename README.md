@@ -519,7 +519,7 @@ inventory list.
 3. Create the RazeeDeployables configmap and secret. These hold the credentials to
 access your RazeeDash deployment and the tags that you want to monitor in your cluster.
 
-   1. Create a configuration file for your RazeeDeployables configmap.
+   1. Create a configmap and secret for RazeeDeployables
 
       ```bash
       apiVersion: v1
@@ -574,7 +574,7 @@ access your RazeeDash deployment and the tags that you want to monitor in your c
       </tr>
       </tbody>
       </table>
-   2. Create the configmap and cluster in your cluster.
+   2. Create the configmap and secret in your cluster.
 
       ```bash
       kubectl apply -f configmap.yaml
