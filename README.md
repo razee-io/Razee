@@ -119,7 +119,6 @@ Razee consists of three modules, RazeeDash, RazeeDeployables, and RazeeDeploy, t
 To deploy Razee in your cluster, your cluster must meet the following requirements:
 
 - Your cluster must run Kubernetes version 1.11 or later.
-- Your cluster must have at least two worker nodes.
 - Your cluster must be set up with public network access.
 
 ## Creating a cluster inventory and visualizing deployment information with RazeeDash
@@ -209,16 +208,20 @@ To deploy Razee in your cluster, your cluster must meet the following requiremen
     Example output if RazeeDash API is fully set up:
 
     ```bash
-    > razeedash-api@0.0.1 start /usr/src
-    > node app/index.js
-
-    {"name":"/","parseUA":false,"excludes":["req-headers","res-headers","referer","url","body","short-body"],"hostname":"razeedash-api-55fd67ddb9-cnbf4","pid":16,"level":30,"msg":"Created new collection deployments index deployments","time":"2019-05-22T03:15:11.526Z","v":0}
-    {"name":"/","parseUA":false,"excludes":["req-headers","res-headers","referer","url","body","short-body"],"hostname":"razeedash-api-55fd67ddb9-cnbf4","pid":16,"level":30,"msg":"Created new collection resources index resources","time":"2019-05-22T03:15:11.528Z","v":0}
-    {"name":"/","parseUA":false,"excludes":["req-headers","res-headers","referer","url","body","short-body"],"hostname":"razeedash-api-55fd67ddb9-cnbf4", "pid":16,"level":30,"msg":"Created new collection clusters index clusters","time":"2019-05-22T03:15:12.172Z","v":0}
-    {"name":"/","parseUA":false,"excludes":["req-headers","res-headers","referer","url","body","short-body"],"hostname":"razeedash-api-55fd67ddb9-cnbf4","pid":16,"level":30,"msg":"Created new collection orgs index orgs","time":"2019-05-22T03:15:12.172Z","v":0}
-    {"name":"/","parseUA":false,"excludes":["req-headers","res-headers","referer","url","body","short-body"],"hostname":"razeedash-api-55fd67ddb9-cnbf4","pid":16,"level":30,"msg":"Created new collection resourceStats index resourceStats","time":"2019-05-22T03:15:12.173Z","v":0}
-    {"name":"/","parseUA":false,"excludes":["req-headers","res-headers","referer","url","body","short-body"],"hostname":"razeedash-api-55fd67ddb9-cnbf4","pid":16,"level":30,"msg":"Created new collection messages index messages","time":"2019-05-22T03:15:14.253Z","v":0}
-    {"name":"razeedash-api","hostname":"razeedash-api-55fd67ddb9-cnbf4","pid":16,"level":30,"msg":"razeedash-api listening on port 3333","time":"2019-05-22T03:15:14.257Z","v":0}
+     > razeedash-api@0.6.3 start /usr/src
+     > node app/index.js
+      {"name":"apollo/subscription","parseUA":false,"excludes":["referer","url","body","short-body"],"hostname":"razeedash-api-7bd66669b7-jj2vj","pid":17,"level":30,"msg":"Apollo streaming servic e is configured on redisUrl: redis://redis-service:6379/0","time":"2020-06-03T21:57:16.021Z","v":0}
+      {"name":"apollo/subscription","parseUA":false,"excludes":["referer","url","body","short-body"],"hostname":"razeedash-api-7bd66669b7-jj2vj","pid":17,"level":30,"msg":"Apollo streaming is ena bled on redis endpoint redis-service:6379","time":"2020-06-03T21:57:17.062Z","v":0}
+      {"name":"/","parseUA":false,"excludes":["referer","url","body","short-body"],"hostname":"razeedash-api-7bd66669b7-jj2vj","pid":17,"level":30,"msg":"Created new collection users index users" ,"time":"2020-06-03T21:57:17.222Z","v":0}
+      {"name":"/","parseUA":false,"excludes":["referer","url","body","short-body"],"hostname":"razeedash-api-7bd66669b7-jj2vj","pid":17,"level":30,"msg":"Created new View clusterStatsView","time" :"2020-06-03T21:57:17.239Z","v":0}
+      {"name":"/","parseUA":false,"excludes":["referer","url","body","short-body"],"hostname":"razeedash-api-7bd66669b7-jj2vj","pid":17,"level":30,"msg":"Created new View resourceStatsView","time ":"2020-06-03T21:57:17.241Z","v":0}
+      {"name":"apollo/models","parseUA":false,"excludes":["referer","url","body","short-body"],"hostname":"razeedash-api-7bd66669b7-jj2vj","pid":17,"level":30,"msg":"SetupDistributedCollections r eceived modelName=resources for DB mongodb://mongo:27017/razeedash","time":"2020-06-03T21:57:17.284Z","v":0}
+      {"name":"apollo/models","parseUA":false,"excludes":["referer","url","body","short-body"],"hostname":"razeedash-api-7bd66669b7-jj2vj","pid":17,"level":30,"msg":"SetupDistributedCollections r eceived modelName=orgs for DB mongodb://mongo:27017/razeedash","time":"2020-06-03T21:57:17.295Z","v":0}
+      {"name":"apollo/models","parseUA":false,"excludes":["referer","url","body","short-body"],"hostname":"razeedash-api-7bd66669b7-jj2vj","pid":17,"level":30,"msg":"SetupDistributedCollections:c lusters - received modelName=clusters for DB mongodb://mongo:27017/razeedash","time":"2020-06-03T21:57:17.297Z","v":0}
+      {"name":"apollo","parseUA":false,"excludes":["referer","url","short-body","user-agent","req","res"],"hostname":"razeedash-api-7bd66669b7-jj2vj","pid":17,"level":30,"msg":"Initialize apollo application for default auth","time":"2020-06-03T21:57:17.298Z","v":0}
+      {"name":"apollo","parseUA":false,"excludes":["referer","url","short-body","user-agent","req","res"],"hostname":"razeedash-api-7bd66669b7-jj2vj","pid":17,"level":30,"msg":"[] Apollo server c ustom plugin are loaded.","time":"2020-06-03T21:57:17.299Z","v":0}
+      {"name":"razeedash-api","hostname":"razeedash-api-7bd66669b7-jj2vj","pid":17,"level":30,"msg":"🏄 razeedash-api listening on port 3333/api","time":"2020-06-03T21:57:17.723Z","v":0}
+      {"name":"apollo","parseUA":false,"excludes":["referer","url","short-body","user-agent","req","res"],"hostname":"razeedash-api-7bd66669b7-jj2vj","pid":17,"level":30,"msg":"🏄 Apollo server listening on http://[::]:3333/graphql","time":"2020-06-03T21:57:17.734Z","v":0}
     ```
 
 4. Retrieve the external IP address of your `razeedash-lb` and `razeedash-api-lb` load balancer services that are automatically created during the RazeeDash API setup. `razeedash-lb` serves as the public endpoint for your RazeeDash instance, and `razeedash-api-lb` serves as the public endpoint for your RazeeDash API instance. By using the public IP addresses that were assigned, you can build the public URLs that you use to access the RazeeDash and the RazeeDash API components. To finish the setup of RazeeDash, the two URLs must be stored in the RazeeDash config map.
@@ -483,15 +486,15 @@ that you want to apply.
 A Razee subscription is based on a Razee channel and specifies which version of the
 Kubernetes resource that you uploaded to the channel is applied to the cluster
 based on a set of tags that are present in the cluster. To specify the tags in your
-cluster, you use the `clustersubscription` configmap that you create in your cluster
-as part of the Razee Deployables installation. For example, you might
+cluster, you use the `clustersubscription` configmap and secret that you create in
+your cluster as part of the Razee Deployables installation. For example, you might
 have a development cluster and want to apply all Kubernetes resources that you created
 for your test environment. To do that, you first push the appropriate Kubernetes
 resource version to Razee by using a Razee channel. Then, you create a
 Razee subscription that points to the channel, select the right Kubernetes resource
 version, and add the `dev` tag to your subscription. Now you just need to add the
-same tag to your `clustersubscription` configmap. Razee uses the configmap to
-connect to your Razee instance, look up the `dev` subscriptions and apply the
+same tag to your `clustersubscription` configmap. Razee uses the configmap and secret
+to connect to your Razee instance, look up the `dev` subscriptions and apply the
 version of your Kubernetes resource that the subsciption points to.
 
 **Is there a limitation what Kubernetes resources I can upload to Razee?**</br>
@@ -604,21 +607,38 @@ have a GitHub source repository and use Travis to automatically check your files
 when you commit a change. You can extend the Travis script to push the new
 version of your resource to Razee after all checks have passed.
 
-   ```bash
-   curl \
-       --url "<razee_api_url>/api/v1/channels/<razee_channel>/version" \
-       --header "content-type: text/yaml" \
-       --header "razee-org-key: <razee_org_key>" \
-       --header "resource-name: <resource_version>" \
-       --header "x-api-key: <razee_apikey>" \
-       --header "x-user-id: <razee_userID>" \
-       --data-binary @./resource.yaml
-   ```
+```bash
+
+   curl
+       --url http://localhost:3333/graphql \
+       --header 'content-type: multipart/form-data' \
+       --header 'x-api-key: <razee_apikey>' \
+       --form 'operations={
+                  "query": "mutation addChannelVersion($org_id:String!,
+                  $channel_uuid:String!, $name:String!, $type:String!,
+                              $file:Upload!, $description:String) {\n  
+            addChannelVersion(org_id:$org_id,channel_uuid:$channel_uuid,
+            name:$name, type:$type, file:$file, description:$description){\n
+                                      success\n    version_uuid\n  }\n}",
+            "variables": {
+                "org_id": "<org_id>",
+                "channel_uuid": "<channel_uuid>",
+                "name": "<resource_version>",
+                "type": "application/yaml",
+                "file": null,
+                "description": null
+            },
+            "operationName": "addChannelVersion"
+            }' \
+      --form 'map={"localfile":["variables.file"]}' \
+      --form localfile=@resource.yaml
+
+  ```
 
    Example output:
 
    ```bash
-   {"status":"success","version":{"uuid":"bc29119c-5b72-4fc8-9eee-a4dd5be9e1e3","name":"myversion","location":"s3"}}
+   {"data":{"addChannelVersion":{"success":true,"version_uuid":"203ced14-2248-438f-81ea-e5bce547e6e1"}}}
    ```
 
    <table>
@@ -628,31 +648,9 @@ version of your resource to Razee after all checks have passed.
    </thead>
        <tbody>
        <tr>
-       <td><code>&lt;razee_api_key&gt;</code></td>
-       <td>Enter the URL to your Razee API deployment. To retrieve this value,
-         follow these steps:
-       <ol><li>From the RazeeDash console, click the Razee icon in the upper
-       left corner. The <strong>Select an org</strong> screen opens. </li>
-       <li>Find your Razee organization, and click <strong>Manage</strong>.</li>
-       <li>Copy the <strong>Api Key</strong> value.</li></ol></td>
-       </tr>
-       <tr>
-       <td><code>&lt;razee_channel&gt;</code></td>
-       <td>Enter the name of the Razee publication channel that you
-         created earlier.</td>
-       </tr>
-       <tr>
-       <td><code>&lt;razee_org_key&gt;</code></td>
-       <td>Enter the Razee organization key. To retrieve this value, follow these
-      steps: <ol><li>From the Razeedash console, click the Razee icon in the
-      upper left corner. The <strong>Select an org</strong> screen opens. </li>
-      <li>Find your Razee organization, and click <strong>Manage</strong>.</li>
-      <li>Copy the <strong>Api Key</strong> value.</li></ol></td>
-       </tr>
-       <tr>
-       <td><code>&lt;resource_version&gt;</code></td>
-       <td>Enter a name for the version of the Kubernetes resource that you want
-      to upload from your source repository or local machine. </td>
+       <td><code>&lt;org_id&gt;</code></td>
+       <td>You can retrieve this value by clicking on the help icon on the
+       Deployables page.</td>
        </tr>
        <tr>
        <td><code>&lt;razee_apikey&gt;</code></td>
@@ -663,13 +661,13 @@ version of your resource to Razee after all checks have passed.
       click <strong>Generate</strong> to generate one.</li></ol></td>
        </tr>
        <tr>
-       <td><code>&lt;razee_userID&gt;</code></td>
-       <td>Enter your Razee user ID. To retrieve this value, follow these steps:
-      <ol><li>From the Razeedash console, click the arrow icon in the upper
-      right corner. Then, select <strong>Profile</strong>. </li>
-      <li>Copy the <strong>User ID</strong> value. </li></ol></td>
+       <td><code>&lt;channel_uuid&gt;</code></td>
+       <td>Enter the id of the channel that you created earlier.</td>
        </tr>
-       <tr>
+       <td><code>&lt;resource_version&gt;</code></td>
+       <td>Enter a name for the version of the Kubernetes resource that you want
+      to upload from your source repository or local machine. </td>
+       </tr>
        <td><code>resource.yaml</code></td>
        <td>Enter the full path to the Kubernetes resource YAML file that you want
        to upload to Razee. Make sure to include the <code>@</code> sign before the
