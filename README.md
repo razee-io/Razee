@@ -280,7 +280,11 @@ column of your CLI output.
 
       If you need to reset any of the `OAuth` credentials then you can start over
       by opening a mongo shell to your instance and running
-      `db.meteor_accounts_loginServiceConfiguration.remove({})`.
+
+      ```bash
+      > use razeedash
+      > db.meteor_accounts_loginServiceConfiguration.remove({})
+      ```
 
 ### Installing Watch Keeper in every cluster that you want to monitor
 
