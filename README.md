@@ -550,8 +550,7 @@ version of your resource to Razee after all checks have passed.
 ```
 <!-- markdownlint-enable MD013 -->
 
-    Example output:
-
+Example output:
 ```bash
     {"data":{"addChannelVersion":{"success":true,"versionUuid":"203ced14-2248-438f-81ea-e5bce547e6e1"}}}
 ```
