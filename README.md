@@ -526,7 +526,7 @@ and use Travis to automatically check in your files
 when you commit a change. You can extend the Travis script to push the new
 version of your resource to Razee after all checks have passed.
 <!-- markdownlint-disable MD013 -->
-    ```bash
+```bash
 
     curl --url http://localhost:3333/graphql \
         --header 'content-type: multipart/form-data' \
@@ -547,50 +547,53 @@ version of your resource to Razee after all checks have passed.
         --form 'map={"localfile":["variables.file"]}' \
         --form localfile=@resource.yaml
 
-    ```
+```
 <!-- markdownlint-enable MD013 -->
 
     Example output:
 
-    ```bash
+```bash
     {"data":{"addChannelVersion":{"success":true,"versionUuid":"203ced14-2248-438f-81ea-e5bce547e6e1"}}}
-    ```
+```
 
-    <table>
-    <caption>Understanding the API request</caption>
-    <thead>
+<table>
+<caption>Understanding the API request</caption>
+<thead>
     <th colspan=2>Understanding the API request</th>
-    </thead>
-        <tbody>
-        <tr>
+</thead>
+    <tbody>
+    <tr>
         <td><code>&lt;orgId&gt;</code></td>
         <td>You can retrieve this value from the details page of a Channel.</td>
-        </tr>
-        <tr>
+    </tr>
+    <tr>
         <td><code>&lt;razee_apikey&gt;</code></td>
         <td>Enter the API key to authenticate with RazeeDash. To retrieve this
         value, follow these steps: <ol><li>From the RazeeDash console, click the
         arrow icon in the upper right corner. Then, select <strong>Profile</strong>.
         </li><li>Copy the <strong>API key</strong> value. If no API key exists,
-        click <strong>Generate</strong> to generate one.</li></ol></td>
-        </tr>
-        <tr>
+        click <strong>Generate</strong> to generate one.</li></ol>
+        </td>
+    </tr>
+    <tr>
         <td><code>&lt;channelUuuid&gt;</code></td>
         <td>Enter the id of the channel that you created earlier.</td>
-        </tr>
+    </tr>
+    <tr>
         <td><code>&lt;name&gt;</code></td>
         <td>Enter a name for the version of the Kubernetes resource that you want
         to upload from your source repository or local machine. ex: 0.0.1 </td>
-        </tr>
+    </tr>
+    <tr>
         <td><code>resource.yaml</code></td>
         <td>Enter the full path to the Kubernetes resource YAML file that you want
         to upload to Razee. Make sure to include the <code>@</code> sign before the
         URL. You can upload any Kubernetes resource YAML file to Razee, but make
         sure that the YAML file has the correct format to avoid errors later when
         the file is applied to your Kubernetes cluster by using the Razee subscription.</td>
-        </tr>
-        </tbody>
-        </table>
+    </tr>
+    </tbody>
+</table>
 
 <!-- markdownlint-disable MD029 -->
 6. After the initial version of your Kubernetes resource is uploaded to Razee,
