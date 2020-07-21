@@ -525,21 +525,14 @@ following example. For example, you might have a GitHub source repository
 and use Travis to automatically check in your files
 when you commit a change. You can extend the Travis script to push the new
 version of your resource to Razee after all checks have passed.
-
+<!-- markdownlint-disable MD013 -->
     ```bash
 
-    curl
-        --url http://localhost:3333/graphql \
+    curl --url http://localhost:3333/graphql \
         --header 'content-type: multipart/form-data' \
         --header 'x-api-key: <razee_apikey>' \
         --form 'operations={
-                    "query": "mutation addChannelVersion($orgId:String!,
-                    $channelUuid:String!, $name:String!, $type:String!,
-                    $content:String, $file:Upload, $description:String) {\n
-                addChannelVersion(orgId:$orgId,channelUuid:$channelUuid,
-                name:$name, type:$type, content:$content, file:$file,
-                description:$description){\n
-                                        success\n    version_uuid\n  }\n}",
+                "query": "mutation addChannelVersion($orgId:String!, $channelUuid:String!, $name:String!, $type:String!, $content:String, $file:Upload, $description:String) {\n addChannelVersion(orgId:$orgId,channelUuid:$channelUuid, name:$name, type:$type, content:$content, file:$file, description:$description){\n success\n    versionUuid\n  }\n}",
                 "variables": {
                     "orgId": "<org_id>",
                     "channelUuid": "<channel_uuid>",
@@ -555,11 +548,12 @@ version of your resource to Razee after all checks have passed.
         --form localfile=@resource.yaml
 
     ```
+<!-- markdownlint-enable MD013 -->
 
     Example output:
 
     ```bash
-    {"data":{"addChannelVersion":{"success":true,"version_uuid":"203ced14-2248-438f-81ea-e5bce547e6e1"}}}
+    {"data":{"addChannelVersion":{"success":true,"versionUuid":"203ced14-2248-438f-81ea-e5bce547e6e1"}}}
     ```
 
     <table>
@@ -569,7 +563,7 @@ version of your resource to Razee after all checks have passed.
     </thead>
         <tbody>
         <tr>
-        <td><code>&lt;org_id&gt;</code></td>
+        <td><code>&lt;orgId&gt;</code></td>
         <td>You can retrieve this value from the details page of a Channel.</td>
         </tr>
         <tr>
@@ -584,7 +578,7 @@ version of your resource to Razee after all checks have passed.
         <td><code>&lt;channelUuuid&gt;</code></td>
         <td>Enter the id of the channel that you created earlier.</td>
         </tr>
-        <td><code>&lt;resource_version&gt;</code></td>
+        <td><code>&lt;name&gt;</code></td>
         <td>Enter a name for the version of the Kubernetes resource that you want
         to upload from your source repository or local machine. ex: 0.0.1 </td>
         </tr>
@@ -598,6 +592,7 @@ version of your resource to Razee after all checks have passed.
         </tbody>
         </table>
 
+<!-- markdownlint-disable MD029 -->
 6. After the initial version of your Kubernetes resource is uploaded to Razee,
 create a Razee subscription to apply the version in your cluster.
    1. From the **Channels** tab, click a channel name to go to the details page of
@@ -613,6 +608,7 @@ that channel.
   that your YAML file has the correct format. Then, check the logs of the
   `clustersubscription-*` and `remoteresource-controller-*` pods in the
   `razeedeploy` namespace.
+<!-- markdownlint-enable MD029 -->
 
 ## Templatizing, organizing, and controlling the deployment of your Kubernetes resources
 
