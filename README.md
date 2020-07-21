@@ -479,7 +479,7 @@ RazeeDeployables. RazeeDeployables consists of three components, Channels,
 Subscriptions and Cluster Groups.
 
 **What is a Razee channel?**</br>
-A channel is a component in RazeeDash that let's you upload new versions
+A channel is a component in RazeeDash that lets you upload new versions
 of a Kubernetes resource from any source repository or your local machine
 directly to Razee by using the Razee API. The channel keeps track of the
 different versions, but the versions are not yet applied to your clusters. To
