@@ -534,9 +534,9 @@ version of your resource to Razee after all checks have passed.
         --form 'operations={
                 "query": "mutation addChannelVersion($orgId:String!, $channelUuid:String!, $name:String!, $type:String!, $content:String, $file:Upload, $description:String) {\n addChannelVersion(orgId:$orgId,channelUuid:$channelUuid, name:$name, type:$type, content:$content, file:$file, description:$description){\n success\n    versionUuid\n  }\n}",
                 "variables": {
-                    "orgId": "<org_id>",
-                    "channelUuid": "<channel_uuid>",
-                    "name": "<resource_version>",
+                    "orgId": "'$ORG_ID'",
+                    "channelUuid": "'$CHANNEL_UUID'",
+                    "name": "'$VERSION'",
                     "type": "application/yaml",
                     "file": null,
                     "content": null,
