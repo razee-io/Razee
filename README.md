@@ -530,7 +530,7 @@ version of your resource to Razee after all checks have passed.
 
     curl --url http://localhost:3333/graphql \
         --header 'content-type: multipart/form-data' \
-        --header 'x-api-key: <razee_apikey>' \
+        --header "x-api-key: ${X_API_KEY}" \
         --form 'operations={
                 "query": "mutation addChannelVersion($orgId:String!, $channelUuid:String!, $name:String!, $type:String!, $content:String, $file:Upload, $description:String) {\n addChannelVersion(orgId:$orgId,channelUuid:$channelUuid, name:$name, type:$type, content:$content, file:$file, description:$description){\n success\n    versionUuid\n  }\n}",
                 "variables": {
@@ -563,11 +563,11 @@ Example output:
 </thead>
     <tbody>
     <tr>
-        <td><code>&lt;orgId&gt;</code></td>
+        <td><code>&ltORG_ID&gt</code></td>
         <td>You can retrieve this value from the details page of a Channel.</td>
     </tr>
     <tr>
-        <td><code>&lt;razee_apikey&gt;</code></td>
+        <td><code>&ltX-API_KEY&gt</code></td>
         <td>Enter the API key to authenticate with RazeeDash. To retrieve this
         value, follow these steps: <ol><li>From the RazeeDash console, click the
         arrow icon in the upper right corner. Then, select <strong>Profile</strong>.
@@ -576,11 +576,11 @@ Example output:
         </td>
     </tr>
     <tr>
-        <td><code>&lt;channelUuuid&gt;</code></td>
+        <td><code>&lt;CHANNEL_UUID&gt;</code></td>
         <td>Enter the id of the channel that you created earlier.</td>
     </tr>
     <tr>
-        <td><code>&lt;name&gt;</code></td>
+        <td><code>&lt;VERSION&gt;</code></td>
         <td>Enter a name for the version of the Kubernetes resource that you want
         to upload from your source repository or local machine. ex: 0.0.1 </td>
     </tr>
