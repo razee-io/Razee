@@ -125,7 +125,7 @@ To deploy Razee in your cluster, your cluster must meet the following requiremen
 
 ### Installing RazeeDash
 
-1. Frist install [razeedeploy-delta](https://github.com/razee-io/razeedeploy-delta) in your custer by running:
+1. First install [razeedeploy-delta](https://github.com/razee-io/razeedeploy-delta) in your custer by running:
 
     ```bash
     kubectl apply -f https://github.com/razee-io/Razee/releases/latest/download/razeedeploy.yaml
