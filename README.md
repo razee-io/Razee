@@ -504,7 +504,7 @@ are included in the RazeeDeploy module.
 
 **To use the RazeeDeployables module**:
 
-1. Follow the instrucitons at [ClusterSubscription](https://github.com/razee-io/ClusterSubscription)
+1. Follow the instructions at [ClusterSubscription](https://github.com/razee-io/ClusterSubscription)
 to get the ClusterSubscription agent installed on your clusters.
 
 2. In your preferred web browser, open the Deployables page in RazeeDash.
