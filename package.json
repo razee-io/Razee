@@ -17,21 +17,5 @@
     "mustache": "^3.0.1",
     "npm-run-all": "^4.1.5",
     "yaml-lint": "^1.2.4"
-    "standard-version": "^9.0.0",
-    "@commitlint/cli": "^11.0.0",
-    "@commitlint/config-conventional": "^11.0.0",
-    "commitlint": "^11.0.0",
-    "husky": "^4.3.6"
-  },
-  "husky": {
-    "hooks": {
-      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
-      "pre-commit": "npm run lint"
-    }
-  },
-  "standard-version": {
-    "skip": {
-      "tag": true
-    }
   }
 }
