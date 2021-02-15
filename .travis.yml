@@ -3,6 +3,9 @@ language: node_js
 node_js:
   - "11"
 
+before_install:
+  - echo "$DOCKERHUB_TOKEN" | docker login -u "icdevops" --password-stdin
+  
 script:
   - npm run lint
   - ./build/process-template.sh kubernetes/Razee/razeedash-all-in-one.yaml > /tmp/razeedash-all-in-one.yaml
