@@ -171,7 +171,7 @@ To deploy Razee in your cluster, your cluster must meet the following requiremen
         Create the razeedash secret for the mongo_url.  Substitute in the command below
         with the actual username and password along with 3 host instances for mongo-0,
         mongo-1 and mongo-3 along with the correct ports.  Make sure the end of the
-        mongo URL has `/razeedash?ssh=true`.
+        mongo URL has `/razeedash?ssl=true`.
 
         Example :
 
