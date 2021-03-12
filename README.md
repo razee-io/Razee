@@ -669,7 +669,7 @@ Kubernetes resources with the RazeeDeploy custom resource definitions.
    - Automatically deploying Kubernetes resources from a source repository with RemoteResources
    - Adding version control or replacing YAML file variables with MustacheTemplates
    - Controlling deployments with FeatureFlagSetsLD
-   - Bundling Kubernetes resourcs with ManagedSets
+   - Bundling Kubernetes resources with ManagedSets
 
 ### Automatically deploying Kubernetes resources from a source repository with RemoteResources
 
