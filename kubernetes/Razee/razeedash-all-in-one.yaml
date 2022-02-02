@@ -98,7 +98,7 @@ items:
     mongo_url: bW9uZ29kYjovL21vbmdvOjI3MDE3L3JhemVlZGFzaA==
 
 # Razeedash resources
-- apiVersion: "deploy.razee.io/v1alpha1"
+- apiVersion: "deploy.razee.io/v1alpha2"
   kind: RemoteResource
   metadata:
     name: razeedash
