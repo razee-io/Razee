@@ -1,5 +1,22 @@
 ![Razee logo](images/razee_icon.png)
 
+> **⚠️ DEPRECATION NOTICE**
+>
+> This project is deprecated and is no longer actively maintained.
+> The razee.io components are no longer being developed or supported.
+>
+> ## Alternatives
+>
+> **For IBM Cloud users:**
+>
+> - [IBM Cloud Continuous Delivery](https://www.ibm.com/products/continuous-delivery)
+>
+> **For open source users:**
+>
+> - [Argo CD](https://argo-cd.readthedocs.io/en/stable/)
+> - [Flux CD](https://fluxcd.io/)
+> - [Tekton](https://tekton.dev/)
+
 [Razee](http://www.razee.io/) is an open-source project that was developed by IBM to automate and manage the deployment of Kubernetes resources across clusters, environments, and cloud providers, and to visualize deployment information for your resources so that you can monitor the rollout process and find deployment issues more quickly.
 
 See the following links to get started with Razee:
